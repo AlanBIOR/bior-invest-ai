@@ -1,26 +1,25 @@
 # 🚀 BIOR Invest AI - Smart Portfolio Advisor
 
 ### 📝 Descripción
-Plataforma inteligente de gestión de inversiones construida desde cero con **Django**. El proyecto permite a los usuarios no solo visualizar sus activos en diferentes categorías (Renta Variable, Inmuebles, etc.), sino también interactuar con una **IA** para personalizar su estrategia de inversión y resolver dudas financieras en tiempo real.
+Plataforma inteligente de gestión de inversiones desarrollada con **Django** y orquestada mediante **Agentes de IA**. BIOR Invest AI permite a los usuarios centralizar y visualizar sus activos (Renta Variable, Inmuebles, etc.) mientras interactúan con un ecosistema **Self-hosted** diseñado para ofrecer asesoría financiera personalizada y privada en tiempo real.
 
 ### 🌟 Funcionalidades Destacadas
-- **Estrategia Personalizada:** Selector dinámico de activos para filtrar y enfocar la inversión en categorías específicas.
-- **AI Chatbot:** Asistente financiero integrado que analiza los datos del portafolio del usuario mediante **Claude (OpenClaw)**.
-- **Automatización de Datos:** Flujos de trabajo con **n8n** para el procesamiento de lenguaje natural y consultas financieras.
-- **Interfaz de Voz y Texto (WhatsApp):** Consulta y actualización del portafolio mediante mensajes de texto o **notas de voz**, procesadas con Whisper e IA para entender comandos naturales.
-- **Alertas Inteligentes:** Notificaciones proactivas vía Email y WhatsApp con resúmenes de rendimiento personalizados.
-- **Alertas Inteligentes:** Notificaciones vía Email y WhatsApp con resúmenes de rendimiento generados por IA.
+- **Agentes de IA Financieros:** Sistema basado en agentes que utiliza **Claude (OpenClaw)** para analizar el portafolio del usuario, ejecutar consultas complejas y proponer estrategias de inversión contextuales.
+- **Interfaz Híbrida WhatsApp (Voice & Text):** Sistema inteligente que permite la gestión del portafolio mediante mensajes de texto o **notas de voz**. Los audios son procesados localmente con **Faster-Whisper** en Docker, permitiendo que el Agente de IA interprete y ejecute comandos financieros complejos (NLP) con total privacidad, sin que la información salga de la infraestructura privada.
+- **Orquestación con n8n:** Flujos de trabajo automatizados para la ingesta de datos, procesamiento de lenguaje natural (NLP) y sincronización entre la interfaz de mensajería y el backend.
+- **Estrategia Dinámica:** Selector inteligente de activos que permite filtrar y enfocar la inversión en categorías específicas según el perfil de riesgo detectado por la IA.
+- **Notificaciones Inteligentes:** Alertas proactivas vía Email y WhatsApp con resúmenes de rendimiento generados por IA, informando movimientos clave del mercado y del portafolio.
 
 ### 🛠️ Stack Tecnológico
-- **Backend:** `Django (Python)`
-- **Base de Datos:** `PostgreSQL`
+- **Backend:** `Django (Python)` & `PostgreSQL`
+- **IA/ML:** `Faster-Whisper` (Self-hosted), `Claude (OpenClaw)` & `LangChain`
 - **Automatización:** `n8n` (Self-hosted)
 - **Infraestructura:** `Docker` & `Dokploy`
 - **Cloud:** `CubePath`
 
 ### 🔗 Enlaces
 - **Repositorio:** [github.com/AlanBIOR/bior-invest-ai](https://github.com/AlanBIOR/bior-invest-ai)
-- **Demo:** 🚧 *En desarrollo - Desplegando en CubePath*
+- **Demo:** 🚧 *En desarrollo - Desplegado en infraestructura propia sobre CubePath*
 
 ---
-Hecho por **BIOR** para la Hackatón CubePath 2026.
+Proyecto desarrollado por **BIOR** para la **Hackatón CubePath 2026**.
