@@ -1,0 +1,177 @@
+@use "sass:color";
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, $primary-color 0%, color.adjust($primary-color, $lightness: -10%) 100%);
+    padding: 20px;
+
+    .auth-container {
+        width: 100%;
+        max-width: 480px; // Un poco más ancho para que respire
+    }
+
+    .auth-card {
+        background: $white;
+        padding: 40px 30px;
+        border-radius: 20px;
+        box-shadow: $shadow-lg;
+        text-align: center;
+
+        h2 {
+            color: $primary-color;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            font-weight: 800;
+        }
+
+        p {
+            color: $text-muted;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem; // Espaciado vertical entre campos
+
+        .input-group {
+            display: flex;
+            flex-direction: column; // Los pone en columna (Label arriba, Input abajo)
+            text-align: left;
+            gap: 6px;
+
+            label {
+                font-weight: 600;
+                color: $text-color;
+                font-size: 0.9rem;
+                padding-left: 4px;
+            }
+
+            input {
+                width: 100%;
+                padding: 14px 16px;
+                border: 2px solid #edf2f7;
+                border-radius: 12px; // Bordes más redondeados y modernos
+                font-family: $roboto-font;
+                font-size: 1rem;
+                transition: all 0.3s ease;
+                background-color: #f8fafc;
+
+                &::placeholder {
+                    color: #a0aec0;
+                }
+            }
+        }
+
+        .btn-auth {
+            width: 100%;
+            padding: 16px;
+            background-color: $accent-color;
+            color: $primary-color;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+
+            &:hover {
+                background-color: color.adjust($accent-color, $lightness: -5%);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba($accent-color, 0.4);
+            }
+        }
+    }
+
+    .auth-footer {
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid #f1f5f9;
+
+        a {
+            color: $primary-color;
+            text-decoration: none;
+            font-weight: 700;
+            
+            &:hover {
+                text-decoration: underline;
+                color: color.adjust($primary-color, $lightness: 10%);
+            }
+        }
+    }
+}
+
+// --- RESPONSIVE ---
+@media (max-width: 480px) {
+    .auth-card {
+        padding: 30px 20px;
+        
+        h2 { font-size: 1.5rem; }
+    }
+}
+
+// Agrega esto al final de tu archivo _auth.scss actual o actualiza los bloques correspondientes
+
+.auth-page {
+    // ... (lo que ya teníamos del fondo y centrado)
+
+    .auth-card {
+        // Aseguramos consistencia en el espaciado
+        display: flex;
+        flex-direction: column;
+        
+        h2 {
+            margin-bottom: 10px;
+            color: $primary-color;
+        }
+    }
+
+    form {
+        // Forzamos que todos los elementos internos sigan el flujo vertical
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem; // Espacio entre input-groups
+
+        .input-group {
+            // Ya definido como columna en el paso anterior
+        }
+
+        // Estilizamos el botón para que sea consistente con el de registro
+        .btn-auth {
+            margin-top: 10px;
+            // Hereda el diseño de botón que hicimos para registro
+        }
+    }
+
+    // Estilos para los links de "Volver" o "Registrarse"
+    .auth-footer {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba($text-muted, 0.1);
+        
+        p {
+            margin-bottom: 0.5rem;
+            color: $text-muted;
+        }
+
+        a {
+            color: $primary-color;
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s ease;
+
+            &:hover {
+                color: $accent-color;
+            }
+        }
+    }
+}

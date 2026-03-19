@@ -1,0 +1,36 @@
+// Estilos para las tarjetas del grid
+.investment-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%; // Asegura que todas las tarjetas midan lo mismo
+
+    // Empuja el contenedor de acciones hacia el fondo si la tarjeta es muy alta
+    .card-actions {
+        margin-top: auto; 
+        padding-top: 1.5rem;
+        border-top: 1px solid #f1f5f9; // Una línea sutil para separar la descripción del botón
+        text-align: right; // Queda muy bien en móvil y PC
+    }
+
+    .btn-text-link {
+        display: inline-block;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #1a2a6c; // Tu $primary-color
+        text-decoration: none;
+        transition: all 0.3s ease;
+
+        .arrow {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        &:hover {
+            color: #3498db; // Un azul más claro al pasar el mouse en PC
+            
+            .arrow {
+                transform: translateX(5px); // Animación de la flecha
+            }
+        }
+    }
+}

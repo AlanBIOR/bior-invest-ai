@@ -1,0 +1,34 @@
+<nav class="main-nav">
+    <ul>
+        <li><a href="/">Dashboard</a></li>
+        
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle">
+                Activos de Inversión
+                <svg class="caret" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="/detalle/renta_variable/">Renta Variable</a></li>
+                <li><a href="/detalle/inmuebles/">Inmuebles</a></li>
+                <li><a href="/detalle/private_equity/">Private Equity</a></li>
+                <li><a href="/detalle/inversiones_alternativas/">Alternativas</a></li>
+                <li><a href="/detalle/efectivo/">Efectivo</a></li>
+                <li><a href="/detalle/renta_fija/">Renta Fija</a></li>
+            </ul>
+        </li>
+
+        {% if user.is_authenticated %}
+            <li><a href="/portafolio/">Mi Portafolio</a></li>
+            <li><a href="/configuracion/">Configuración</a></li>
+            <li>
+                <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-link" style="background:none; border:none; cursor:pointer;">Cerrar Sesión</button>
+                </form>
+            </li>
+        {% else %}
+            <li><a href="/login/">Iniciar Sesión</a></li>
+            <li><a href="/registro/">Crear Cuenta</a></li>
+        {% endif %}
+    </ul>
+</nav>

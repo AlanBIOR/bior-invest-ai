@@ -1,0 +1,36 @@
+@use "sass:color"; // 1. Agregamos el módulo oficial de color de Sass
+@use "../abstracts/variables" as *;
+
+.actions-container {
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px 0;
+    padding: 0 10px;
+}
+
+.btn-pdf {
+    background: $primary-color;
+    color: $white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    box-shadow: $shadow-sm;
+
+    &:hover {
+        // 2. Reemplazamos darken() por color.adjust()
+        background: color.adjust($primary-color, $lightness: -10%); 
+        transform: translateY(-2px);
+        box-shadow: $shadow-md;
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+}

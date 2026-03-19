@@ -1,0 +1,116 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+@use "sass:color";
+
+.config-grid--conf {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 900px;
+}
+
+.config-card--conf {
+    background: $white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    width: 100%;
+
+    @include tablet { padding: 40px; }
+
+    .card-header--conf {
+        margin-bottom: 30px;
+        border-bottom: 1px solid rgba($text-muted, 0.2);
+        padding-bottom: 15px;
+
+        h3 { margin: 0 0 8px 0; color: $primary-color; font-size: 1.3rem; font-weight: 700; }
+        p { margin: 0; color: $text-muted; font-size: 0.95rem; }
+    }
+
+    .config-form--conf {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+
+        .form-group--conf {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            label { font-weight: 700; font-size: 1rem; color: $primary-color; text-align: left; }
+            input {
+                width: 100%;
+                padding: 15px;
+                border: 1px solid #cbd5e1;
+                border-radius: 10px;
+                background-color: #f8fafc;
+                transition: all 0.3s ease;
+
+                &:focus {
+                    outline: none;
+                    border-color: $primary-color;
+                    box-shadow: 0 0 0 4px rgba($primary-color, 0.1);
+                    background-color: $white;
+                }
+            }
+        }
+
+        .btn-primary--conf {
+            width: 100%;
+            background-color: $primary-color;
+            color: $white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            @include tablet { width: auto; align-self: flex-start; }
+
+            &:hover {
+                background-color: color.adjust($primary-color, $lightness: -10%);
+                transform: translateY(-2px);
+            }
+        }
+    }
+}
+
+.danger-zone--conf {
+    border: 2px solid rgba(#ef4444, 0.2);
+    background-color: rgba(#ef4444, 0.01);
+
+    .danger-actions--conf {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        @include tablet { flex-direction: row; }
+
+        .btn-danger--conf {
+            width: 100%;
+            padding: 14px 25px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+
+            @include tablet { width: auto; }
+
+            &.outline--conf {
+                background-color: transparent;
+                color: #ef4444;
+                border: 2px solid #ef4444;
+                &:hover { background: #ef4444; color: $white; }
+            }
+
+            &:not(.outline--conf) {
+                background: #ef4444;
+                color: $white;
+                &:hover { background: color.adjust(#ef4444, $lightness: -10%); }
+            }
+        }
+    }
+}

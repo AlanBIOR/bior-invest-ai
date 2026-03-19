@@ -1,0 +1,13 @@
+/* Transición suave para todos los elementos ocultables */
+.maskable {
+    transition: filter 0.3s ease;
+}
+
+/* El filtro que borra la información cuando la clase está en el body */
+body.is-masked {
+    .maskable {
+        filter: blur(8px);
+        user-select: none; /* Evita que seleccionen y copien el texto oculto */
+        pointer-events: none; /* Evita que le den clic a cosas ocultas por accidente */
+    }
+}

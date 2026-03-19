@@ -1,0 +1,28 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+@use "animations" as *;
+@use "reset" as *;
+@use "typography" as *;
+
+body {
+    background-color: $bg-color;
+    color: $text-color;
+    margin: 0;
+    display: flex;
+    flex-direction: column; // Siempre en columna: Header arriba, Main abajo
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px; // Centrar el contenido en pantallas grandes
+    margin: 0 auto; // Centrar el contenido
+    box-sizing: border-box;
+
+    @include breakpoint(tablet) {
+        padding: 40px;
+    }
+}

@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>{% block title %}BIOR Invest{% endblock %}</title>
+
+    <link rel="icon" type="image/png" href="{% static 'assets/img/favicon-96x96.png' %}" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="{% static 'assets/img/favicon.svg' %}">
+    <link rel="shortcut icon" href="{% static 'assets/img/favicon.ico' %}">
+    
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="{% if user.is_authenticated %}logged-in{% else %}guest{% endif %}">
+    
+    <header class="main-header">
+        <div class="header-wrapper">
+            <div class="logo">
+                <a href="/" style="text-decoration: none; color: inherit;">
+                    <h2>BIOR Invest</h2>
+                </a>
+            </div>
+
+            {% include 'layout/_navbar.html' %}
+
+            <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    {% include 'layout/_footer.html' %}
+
+    <script src="{% static 'assets/js/main.js' %}" type="module"></script>
+    
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

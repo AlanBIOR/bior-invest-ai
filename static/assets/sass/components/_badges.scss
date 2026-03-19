@@ -1,0 +1,15 @@
+// Importamos las variables para que el loop funcione
+@use '../abstracts/variables' as *;
+
+@each $name, $color in $categories {
+    .badge-#{$name} {
+        background-color: rgba($color, 0.1); 
+        color: $color;
+        border: 1px solid rgba($color, 0.2);
+        padding: 0.25rem 0.75rem;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        display: inline-block;
+    }
+}

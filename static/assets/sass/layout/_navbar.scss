@@ -1,0 +1,222 @@
+@use "sass:color";
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+// --- NAVEGACIÓN ---
+.main-nav {
+    // Estilos Base (Móvil)
+    position: absolute;
+    top: 100%; 
+    left: 0;
+    width: 100%;
+    background-color: color.adjust($primary-color, $lightness: -5%);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+
+    ul {
+        list-style: none;
+        padding: 10px 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+
+        li {
+            position: relative;
+
+            a {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 15px 25px;
+                color: rgba($white, 0.7);
+                text-decoration: none;
+                font-weight: 600;
+                font-size: 0.95rem;
+                transition: all 0.3s ease;
+
+                &:hover, &.active {
+                    color: $white;
+                    background-color: rgba($white, 0.1);
+                    padding-left: 35px;
+                }
+
+                &.active {
+                    border-left: 4px solid $accent-color;
+                    color: $accent-color;
+                    .caret { color: $accent-color; }
+                }
+
+                .caret {
+                    transition: transform 0.3s ease;
+                    opacity: 0.7;
+                }
+            }
+
+            // Estilo específico para logout (Móvil)
+            .logout-link {
+                color: #ff7675 !important;
+                display: flex; // Asegura que se comporte como bloque flex
+                &:hover {
+                    background-color: rgba(#ff7675, 0.1) !important;
+                    padding-left: 35px;
+                }
+            }
+
+            // CORRECCIÓN: Usamos ^= (comienza con) o *= para rutas amigables
+            &:has(a[href*="registro"]) {
+                background-color: rgba($accent-color, 0.1);
+                a { color: $accent-color; }
+            }
+        }
+        
+        .dropdown {
+            .dropdown-menu {
+                display: none;
+                background-color: color.adjust($primary-color, $lightness: -10%);
+                padding: 0;
+                
+                a {
+                    padding: 12px 25px 12px 45px;
+                    font-size: 0.85rem;
+                    font-weight: 500;
+                    border-left: none;
+
+                    &:hover, &.active {
+                        padding-left: 50px;
+                        color: $accent-color;
+                        background-color: rgba($white, 0.05);
+                    }
+                }
+            }
+
+            &:hover {
+                .dropdown-menu { display: block; }
+                .caret { transform: rotate(180deg); }
+            }
+        }
+    }
+
+    &.open {
+        max-height: 1000px;
+    }
+
+    // --- ESTILOS ESCRITORIO ---
+    @media (min-width: $bp-tablet) {
+        position: static;
+        max-height: none;
+        background-color: transparent;
+        box-shadow: none;
+        width: auto;
+        overflow: visible;
+
+        ul {
+            flex-direction: row;
+            gap: 8px;
+            padding: 0;
+            align-items: center;
+
+            li {
+                a {
+                    padding: 8px 16px;
+                    border-radius: 8px;
+                    color: rgba($white, 0.8);
+                    border-left: none;
+                    justify-content: flex-start;
+                    gap: 8px;
+
+                    &:hover, &.active {
+                        color: $white;
+                        background-color: rgba($white, 0.15);
+                        padding-left: 16px;
+                    }
+
+                    &.active {
+                        background-color: rgba($white, 0.2);
+                        color: $accent-color;
+                    }
+                }
+
+                // Estilo botón "Cerrar Sesión" (Escritorio)
+                .logout-link {
+                    color: #ff7675;
+                    border: 1px solid rgba(#ff7675, 0.3);
+                    display: inline-flex; // Evita que se estire
+                    &:hover {
+                        background-color: #ff7675;
+                        color: $white;
+                        border-color: #ff7675;
+                        padding-left: 16px; // Mantiene el padding uniforme
+                    }
+                }
+
+                // CORRECCIÓN: "Crear Cuenta" ahora busca "registro"
+                &:has(a[href*="registro"]) {
+                    background-color: transparent;
+                    a {
+                        background-color: $accent-color;
+                        color: $primary-color;
+                        &:hover {
+                            background-color: color.adjust($accent-color, $lightness: -10%);
+                            transform: translateY(-1px);
+                            padding-left: 16px;
+                        }
+                    }
+                }
+
+                // CORRECCIÓN: "Iniciar Sesión" ahora busca "login"
+                &:has(a[href*="login"]) {
+                    a {
+                        border: 1px solid rgba($white, 0.3);
+                        &:hover {
+                            border-color: $white;
+                            background-color: rgba($white, 0.1);
+                        }
+                    }
+                }
+            }
+
+            .dropdown {
+                .dropdown-menu {
+                    display: block;
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                    background-color: color.adjust($primary-color, $lightness: 5%);
+                    min-width: 240px;
+                    padding: 10px 0;
+                    border-radius: 8px;
+                    box-shadow: $shadow-lg;
+                    
+                    opacity: 0;
+                    visibility: hidden;
+                    transform: translateY(10px);
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    z-index: 1000;
+
+                    a {
+                        padding: 12px 20px;
+                        border-radius: 0;
+                        white-space: nowrap;
+                        
+                        &:hover, &.active {
+                            background-color: rgba($white, 0.1);
+                            padding-left: 20px;
+                            color: $accent-color;
+                        }
+                    }
+                }
+
+                &:hover {
+                    .dropdown-menu {
+                        opacity: 1;
+                        visibility: visible;
+                        transform: translateY(0);
+                    }
+                }
+            }
+        }
+    }
+}

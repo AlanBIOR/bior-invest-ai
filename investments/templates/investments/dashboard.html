@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard Principal | BIOR Invest{% endblock %}
+
+{% block content %}
+<header class="dashboard-header">
+    <div class="header-text">
+        <h1>Estrategia de Inversión Sugerida</h1>
+        <p>Una proyección de cómo crecerá tu dinero usando el poder del interés compuesto.</p>
+        
+        <small class="inflation-note">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            <span>
+                <strong>Consejo para el futuro:</strong> Las cosas suben de precio cada año debido a la inflación. Para que tu dinero te alcance para lo mismo en el futuro, te sugerimos aumentar tu ahorro un 5% cada año.
+            </span>
+        </small>
+    </div>
+    
+    <div class="calculator-grid">
+        <div class="card card--accent">
+            <div class="card-info">
+                <h3>Capital Inicial</h3>
+                <p class="explanation">Dinero que invertirás hoy mismo de forma total.</p>
+            </div>
+            <div class="input-group">
+                <span>$</span>
+                <input type="number" id="montoTotal" value="10000" placeholder="Ej: 100000">
+                <span>MXN</span>
+            </div>
+        </div>
+
+        <div class="card card--accent">
+            <div class="card-info">
+                <h3>Aportación Mensual</h3>
+                <p class="explanation">Ahorro extra que sumarás a tu inversión cada mes.</p>
+            </div>
+            <div class="input-group">
+                <span>$</span>
+                <input type="number" id="montoAportacion" value="500" placeholder="Ej: 5000">
+                <span>MXN</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="card projection-card">
+        <div class="card-info">
+            <h3>Proyección de Crecimiento de Cartera</h3>
+            <p class="explanation">
+                Este cálculo distribuye tu <strong>Aportación Mensual</strong> proporcionalmente según tus porcentajes de inversión. 
+            </p>
+        </div>
+        <div id="proyeccion-resultados" class="proyeccion-container">
+            </div>
+    </div>
+</header>
+
+<section class="investment-grid">
+    {% for inv in inversiones %}
+        <div class="card investment-card" data-category="{{ inv.get_category_display }}">
+            <div class="card-header">
+                <div class="card-content">
+                    <h3>{{ inv.get_category_display }}</h3>
+                    <p class="porcentaje-display">--%</p>
+                    
+                    <p class="monto-calculado-container">
+                        $ <span class="monto-calculado">{{ inv.amount }}</span>
+                    </p>
+                    
+                    <small>{{ inv.description }}</small>
+                </div>
+
+                <a href="/detalle/{{ inv.category|lower }}/" class="btn-text-cta">
+                    Saber más <span class="arrow">→</span>
+                </a>
+            </div>
+        </div>
+    {% empty %}
+        <div class="card">
+            <p>No hay inversiones. Agrega algunas en el <a href="/admin/">Admin</a>.</p>
+        </div>
+    {% endfor %}
+</section>
+
+<div class="card chart-container">
+    <h2>Distribución Estratégica</h2>
+    <div class="chart-wrapper">
+        <canvas id="graficoInversiones"></canvas>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script id="inversiones-data" type="application/json">
+        {{ datos_js|safe }}
+    </script>
+    <script>
+        window.BIOR_CONFIG = {
+            isLoggedIn: {{ user.is_authenticated|yesno:"true,false" }}
+        };
+    </script>
+{% endblock %}

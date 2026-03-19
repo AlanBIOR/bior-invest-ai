@@ -1,0 +1,67 @@
+/* ==========================================================================
+   HERO: RENTA VARIABLE
+   ========================================================================== */
+
+// Variables locales de color para esta sección
+$rv-color: #2563eb;       // Azul vibrante bursátil
+$rv-bg-light: #eff6ff;    // Fondo azul ultra claro
+$rv-text-dark: #1e293b;
+$rv-text-muted: #475569;
+
+.detalle-hero--renta-variable {
+    // Si tu clase .card ya tiene padding, esto se sumará armoniosamente
+    padding: 30px;
+    border-top: 4px solid $rv-color; // Acento superior para distinguirlo de otras vistas
+
+    .header-with-icon--renta-variable {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .svg-icon--renta-variable {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 52px;
+        height: 52px;
+        background-color: $rv-bg-light;
+        color: $rv-color;
+        border-radius: 12px;
+        flex-shrink: 0;
+
+        svg {
+            width: 28px;
+            height: 28px;
+        }
+    }
+
+    .detalle-title--renta-variable {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: $rv-text-dark;
+        margin: 0;
+    }
+
+    .detalle-description--renta-variable {
+        font-size: 0.95rem;
+        color: $rv-text-muted;
+        line-height: 1.6;
+        margin-bottom: 12px;
+
+        &:last-of-type {
+            margin-bottom: 25px; // Mayor separación antes de las tarjetas inferiores
+        }
+    }
+
+    // Cuadrícula de métricas (Riesgo y Horizonte)
+    .metrics-hero-grid--renta-variable {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+        border-top: 1px solid #e2e8f0;
+        padding-top: 25px;
+    }
+}

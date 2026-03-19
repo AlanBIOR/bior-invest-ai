@@ -1,0 +1,46 @@
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>BIOR Invest</h3>
+                <p>Tu plataforma inteligente para el monitoreo y gestión de activos financieros en tiempo real con IA.</p>
+            </div>
+
+            <div class="footer-links">
+                <h4>Explorar</h4>
+                <ul>
+                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                    <li><a href="/detalle/renta_variable/">Activos de Inversión</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'portafolio' %}">Mi Portafolio</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="{% url 'terminos' %}">Términos y Condiciones</a></li>
+                    <li><a href="{% url 'privacidad' %}">Aviso de Privacidad</a></li>
+                    <li><a href="{% url 'disclaimer' %}">Descargo de Responsabilidad</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-disclaimer">
+            <p><strong>Aviso de Riesgo:</strong> BIOR Invest es una herramienta tecnológica de información. No proporciona asesoría financiera. Toda inversión conlleva riesgo de pérdida de capital.</p>
+            <p><strong>Plataformas de Terceros:</strong> Las menciones a GBM+, Nu o Cetesdirecto son educativas. No tenemos afiliación comercial con ellas.</p>
+        </div>
+
+        <hr class="footer-divider">
+
+        <div class="footer-bottom">
+            <div class="copy">
+                © 2026 <strong>BIOR Invest</strong>. Todos los derechos reservados.
+            </div>
+            <div class="developer-credit">
+                Desarrollado por <a href="https://bior-studio.com" target="_blank" rel="noopener noreferrer">BIOR Web Studio</a>
+            </div>
+        </div>
+    </div>
+</footer>
