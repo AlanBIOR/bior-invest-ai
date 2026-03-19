@@ -1,6 +1,20 @@
 import json
 from django.shortcuts import render
 from .models import Investment
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+from django.shortcuts import render, redirect
+
+def registro(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('dashboard')
+    else:
+        form = UserCreationForm()
+    return render(request, 'auth/registro.html', {'form': form})
 
 def dashboard(request):
     inversiones = Investment.objects.all()
@@ -21,7 +35,24 @@ def dashboard(request):
 # --- Nuevas funciones para evitar el AttributeError ---
 
 def portafolio(request):
-    return render(request, 'pages/portafolio.html')
+    activos = Investment.objects.all()
+    total_invertido = sum(asset.amount for asset in activos)
+    
+    # Lógica para la gráfica (Agrupar por categoría)
+    datos_grafica = {}
+    for asset in activos:
+        nombre = asset.get_category_display()
+        datos_grafica[nombre] = datos_grafica.get(nombre, 0) + float(asset.amount)
+    
+    context = {
+        'activos': activos,
+        'total_invertido': total_invertido,
+        'valor_actual': total_invertido, # Por ahora igual
+        'ganancia': 0,
+        'nombres_categorias': json.dumps(list(datos_grafica.keys())),
+        'valores_categorias': json.dumps(list(datos_grafica.values())),
+    }
+    return render(request, 'pages/portafolio.html', context)
 
 def configuracion(request):
     return render(request, 'pages/configuracion.html')

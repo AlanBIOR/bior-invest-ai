@@ -1,34 +1,59 @@
 <nav class="main-nav">
     <ul>
-        <li><a href="/">Dashboard</a></li>
+        <li>
+            <a href="{% url 'dashboard' %}" 
+               class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+               Dashboard
+            </a>
+        </li>
         
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle">
+            <a href="#" class="dropdown-toggle {% if category or request.resolver_match.url_name == 'detalle_inversion' %}active{% endif %}">
                 Activos de Inversión
-                <svg class="caret" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                <svg class="caret" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
             </a>
             <ul class="dropdown-menu">
-                <li><a href="/detalle/renta_variable/">Renta Variable</a></li>
-                <li><a href="/detalle/inmuebles/">Inmuebles</a></li>
-                <li><a href="/detalle/private_equity/">Private Equity</a></li>
-                <li><a href="/detalle/inversiones_alternativas/">Alternativas</a></li>
-                <li><a href="/detalle/efectivo/">Efectivo</a></li>
-                <li><a href="/detalle/renta_fija/">Renta Fija</a></li>
+                <li><a href="{% url 'detalle_inversion' 'renta_variable' %}" class="{% if category == 'renta_variable' %}active{% endif %}">Renta Variable</a></li>
+                <li><a href="{% url 'detalle_inversion' 'inmuebles' %}" class="{% if category == 'inmuebles' %}active{% endif %}">Inmuebles</a></li>
+                <li><a href="{% url 'detalle_inversion' 'private_equity' %}" class="{% if category == 'private_equity' %}active{% endif %}">Private Equity</a></li>
+                <li><a href="{% url 'detalle_inversion' 'inversiones_alternativas' %}" class="{% if category == 'inversiones_alternativas' %}active{% endif %}">Inversiones Alternativas</a></li>
+                <li><a href="{% url 'detalle_inversion' 'efectivo' %}" class="{% if category == 'efectivo' %}active{% endif %}">Efectivo</a></li>
+                <li><a href="{% url 'detalle_inversion' 'renta_fija' %}" class="{% if category == 'renta_fija' %}active{% endif %}">Renta Fija</a></li>
             </ul>
         </li>
 
         {% if user.is_authenticated %}
-            <li><a href="/portafolio/">Mi Portafolio</a></li>
-            <li><a href="/configuracion/">Configuración</a></li>
+            <li>
+                <a href="{% url 'portafolio' %}" class="{% if request.resolver_match.url_name == 'portafolio' %}active{% endif %}">
+                    Mi Portafolio
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'admin:index' %}" target="_blank">
+                    <i class="fas fa-cogs"></i> Panel de Control
+                </a>
+            </li>
             <li>
                 <form method="post" action="{% url 'logout' %}" style="display:inline;">
                     {% csrf_token %}
-                    <button type="submit" class="logout-link" style="background:none; border:none; cursor:pointer;">Cerrar Sesión</button>
+                    <button type="submit" class="logout-link" style="background:none; border:none; cursor:pointer; font:inherit; color:inherit; padding:0;">
+                        Cerrar Sesión
+                    </button>
                 </form>
             </li>
         {% else %}
-            <li><a href="/login/">Iniciar Sesión</a></li>
-            <li><a href="/registro/">Crear Cuenta</a></li>
+            <li>
+                <a href="{% url 'login' %}" class="{% if request.resolver_match.url_name == 'login' %}active{% endif %}">
+                    Iniciar Sesión
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'registro' %}" class="{% if request.resolver_match.url_name == 'registro' %}active{% endif %}">
+                    Crear Cuenta
+                </a>
+            </li>
         {% endif %}
     </ul>
 </nav>

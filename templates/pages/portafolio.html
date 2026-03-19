@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Mi Portafolio | BIOR Invest{% endblock %}
+
+{% block extra_head %}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<header class="dashboard-header">
+    <div class="header-text">
+        <h1 style="display: flex; align-items: center; gap: 10px;">
+            Mi Portafolio Real 
+            <button id="privacy-toggle" aria-label="Modo Privacidad" style="background: none; border: none; cursor: pointer; color: #1a2a6c; font-size: 1.2rem; padding: 0;">
+                <i class="fas fa-eye"></i>
+            </button>
+        </h1>
+        <p>Monitorea tus activos y el rendimiento de tu capital en tiempo real.</p>
+    </div>
+</header>
+
+<section class="portfolio-grid-summary">
+    <div class="card stat-card">
+        <span class="label">Total Invertido</span>
+        <p class="value maskable">${{ total_invertido|floatformat:2 }}</p>
+    </div>
+    <div class="card stat-card">
+        <span class="label">Valor Actual</span>
+        <p class="value maskable">${{ valor_actual|floatformat:2 }}</p>
+    </div>
+    <div class="card stat-card {% if ganancia >= 0 %}profit{% else %}loss{% endif %}">
+        <span class="label">Ganancia / Pérdida</span>
+        <p class="value maskable">
+            {% if ganancia >= 0 %}+{% endif %}${{ ganancia|floatformat:2 }}
+        </p>
+    </div>
+</section>
+
+<section class="suggestions-carousel-container">
+    <div class="carousel-header">
+        <h3><i class="fas fa-lightbulb"></i> Guía de Inversión BIOR</h3>
+        <div class="carousel-controls">
+            <button id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+            <button id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+    
+    <div class="suggestions-slider" id="suggestionsSlider">
+        <div class="suggestion-card active">
+            <div class="sugg-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            </div>
+            <h4>Efectivo</h4>
+            <p>Liquidez inmediata para gastos operativos u oportunidades de compra.</p>
+        </div>
+        <div class="suggestion-card">
+            <div class="sugg-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            </div>
+            <h4>Renta Fija</h4>
+            <p>Inversiones de bajo riesgo con rendimientos pactados (CETES, Nu).</p>
+        </div>
+        <div class="suggestion-card">
+            <div class="sugg-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            </div>
+            <h4>Renta Variable</h4>
+            <p>Acciones o ETFs. Crecimiento a largo plazo aceptando volatilidad.</p>
+        </div>
+        <div class="suggestion-card">
+            <div class="sugg-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>
+            <h4>Inmuebles</h4>
+            <p>Estabilidad y flujos constantes mediante rentas o FIBRAS.</p>
+        </div>
+        <div class="suggestion-card">
+            <div class="sugg-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <h4>Inv. Alternativas</h4>
+            <p>Criptomonedas o Crowdfunding. Alto riesgo y potencial de retorno.</p>
+        </div>
+        <div class="suggestion-card">
+            <div class="sugg-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>
+            </div>
+            <h4>Private Equity</h4>
+            <p>Participación en negocios ilíquidos enfocados en crecimiento.</p>
+        </div>
+    </div>
+</section>
+
+<section class="portfolio-action-card">
+    <div class="card">
+        <h3>Registrar Nueva Compra</h3>
+        <form action="#" method="POST" class="asset-form" autocomplete="off">
+            {% csrf_token %}
+            <div class="form-row main-info">
+                <div class="form-group flex-2 search-container">
+                    <label for="asset_search">¿En qué invertiste?</label>
+                    <input type="text" id="asset_search" name="asset_name" placeholder="Busca: Bitcoin, Nu, CETES..." required>
+                </div>
+
+                <div class="form-group flex-1">
+                    <label for="category_id">Tipo de Activo</label>
+                    <select id="category_id" name="category_id" required>
+                        <option value="" disabled selected>Selecciona tipo...</option>
+                        <option value="RV">Renta Variable</option>
+                        <option value="IN">Inmuebles</option>
+                        <option value="RF">Renta Fija</option>
+                        <option value="EF">Efectivo</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row secondary-info">
+                <div class="form-group">
+                    <label for="amount">Monto</label>
+                    <input type="number" id="amount" name="amount" step="0.01" placeholder="0.00">
+                </div>
+                <button type="submit" class="btn-primary">Añadir Activo</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<section class="assets-table-section">
+    <div class="card">
+        <h3>Tus Activos Detallados</h3>
+        <div class="table-responsive">
+            <table class="portfolio-table">
+                <thead>
+                    <tr>
+                        <th>Activo</th>
+                        <th>Categoría</th>
+                        <th>Invertido</th>
+                        <th>Rendimiento</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for activo in activos %}
+                    <tr>
+                        <td data-label="Activo"><strong>{{ activo.get_category_display }}</strong></td>
+                        <td data-label="Categoría">
+                            <span class="badge cat-{{ activo.category }}">
+                                {{ activo.get_category_display }}
+                            </span>
+                        </td>
+                        <td data-label="Invertido" class="maskable">${{ activo.amount|floatformat:2 }}</td>
+                        <td data-label="Rendimiento" class="text-profit">+0.00%</td>
+                        <td data-label="Acciones">
+                            <button class="btn-delete" onclick="confirmDelete('{{ activo.id }}')">
+                                <i class="fas fa-trash"></i> Borrar
+                            </button>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5" class="empty-row">Aún no tienes activos registrados.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="portfolio-visuals">
+    <div class="card">
+        <h3>Distribución de Activos</h3>
+        <div style="height: 300px; position: relative;">
+            <canvas id="portfolioChart" 
+                data-labels='{{ nombres_categorias|safe }}' 
+                data-values='{{ valores_categorias|safe }}'>
+            </canvas>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Aquí puedes meter tu lógica de JS para el carrusel y el toggle de privacidad
+    console.log("Portafolio cargado con datos de Django");
+</script>
+{% endblock %}

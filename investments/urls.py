@@ -5,6 +5,7 @@ urlpatterns = [
     path('', views.dashboard, name='dashboard'),
     path('portafolio/', views.portafolio, name='portafolio'),
     path('configuracion/', views.configuracion, name='configuracion'),
+    path('registro/', views.registro, name='registro'),
     # Rutas legales del footer
     path('terminos/', views.terminos, name='terminos'),
     path('privacidad/', views.privacidad, name='privacidad'),
