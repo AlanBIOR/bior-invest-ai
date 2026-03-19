@@ -1,10 +1,11 @@
 import json
-from django.shortcuts import render
-from .models import Investment
+from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
-from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Investment
 
+# 1. Registro (Abierto)
 def registro(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -16,8 +17,15 @@ def registro(request):
         form = UserCreationForm()
     return render(request, 'auth/registro.html', {'form': form})
 
+# 2. Dashboard (Híbrido - No lleva @login_required)
 def dashboard(request):
-    inversiones = Investment.objects.all()
+    # Verificamos si el usuario entró con su cuenta
+    if request.user.is_authenticated:
+        inversiones = Investment.objects.filter(user=request.user)
+    else:
+        # Si es un invitado, enviamos una lista vacía para que no explote el ID
+        inversiones = Investment.objects.none() 
+
     labels = [inv.get_category_display() for inv in inversiones]
     data_values = [str(inv.amount) for inv in inversiones]
     
@@ -32,13 +40,24 @@ def dashboard(request):
     }
     return render(request, 'investments/dashboard.html', context)
 
-# --- Nuevas funciones para evitar el AttributeError ---
-
+# 3. Portafolio (Privado)
+@login_required
 def portafolio(request):
-    activos = Investment.objects.all()
+    if request.method == 'POST':
+        category = request.POST.get('category_id')
+        amount = request.POST.get('amount')
+
+        if category and amount:
+            Investment.objects.create(
+                user=request.user,
+                category=category,
+                amount=amount
+            )
+            return redirect('portafolio')
+
+    activos = Investment.objects.filter(user=request.user)
     total_invertido = sum(asset.amount for asset in activos)
     
-    # Lógica para la gráfica (Agrupar por categoría)
     datos_grafica = {}
     for asset in activos:
         nombre = asset.get_category_display()
@@ -47,16 +66,19 @@ def portafolio(request):
     context = {
         'activos': activos,
         'total_invertido': total_invertido,
-        'valor_actual': total_invertido, # Por ahora igual
+        'valor_actual': total_invertido,
         'ganancia': 0,
         'nombres_categorias': json.dumps(list(datos_grafica.keys())),
         'valores_categorias': json.dumps(list(datos_grafica.values())),
     }
     return render(request, 'pages/portafolio.html', context)
 
+# 4. Configuración (Privado)
+@login_required
 def configuracion(request):
-    return render(request, 'pages/configuracion.html')
+    return redirect('admin:index')
 
+# 5. Páginas Legales (Abiertas)
 def terminos(request):
     return render(request, 'pages/terminos.html')
 
@@ -66,7 +88,7 @@ def privacidad(request):
 def disclaimer(request):
     return render(request, 'pages/disclaimer.html')
 
+# 6. Detalle de Inversión (Abierto)
 def detalle_inversion(request, category_slug):
-    # Esta función es dinámica, luego la conectaremos con los datos reales
     context = {'category': category_slug}
     return render(request, 'detalles/detalle_generic.html', context)
