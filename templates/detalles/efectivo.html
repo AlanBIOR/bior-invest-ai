@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Efectivo y Liquidez | BIOR Invest{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <header class="dashboard-header detalle-header" style="border-left-color: #0891b2;">
+        <div class="detalle-header__wrapper">
+            <div class="detalle-header__content">
+                <h1 class="detalle-header__title">Efectivo y Liquidez</h1>
+                <p class="detalle-header__subtitle">Desglose detallado de activos basado en la estrategia de grandes patrimonios.</p>
+            </div>
+            <a href="{% url 'dashboard' %}" class="btn-back">
+                ← Volver al Dashboard
+            </a>
+        </div>
+    </header>
+
+    <section class="detalle-container">
+        <section class="detalle-hero card">
+            <div class="hero-header">
+                <div class="hero-icon-bg hero-icon-bg--efectivo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                </div>
+                <div class="hero-title-area">
+                    <h2 class="detalle-title">Efectivo y Liquidez</h2>
+                    <p class="detalle-subtitle">Tu fondo de emergencia y reserva estratégica de oportunidad.</p>
+                </div>
+            </div>
+            
+            <p class="detalle-description">
+                Esta categoría representa el <strong>8% del portfolio</strong> de los inversionistas más exitosos. Su objetivo no es el alto rendimiento, sino la <strong>seguridad absoluta</strong> y la disponibilidad inmediata para cubrir imprevistos o aprovechar caídas de mercado sin tocar tus inversiones a largo plazo.
+            </p>
+
+            <div class="emergency-fund-formula">
+                <div class="formula-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                </div>
+                <div class="formula-text">
+                    <strong>¿Cuánto debo tener?</strong> La regla de oro es calcular tus <strong>gastos mensuales fijos</strong> y multiplicarlos por <strong>6 o 12</strong>. Este es el capital "sagrado" que debe estar en cuentas con liquidez diaria.
+                </div>
+            </div>
+
+            <div class="metrics-hero-grid">
+                <div class="metric-card metric-card--risk">
+                    <div class="metric-card__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    </div>
+                    <div class="metric-card__content">
+                        <span class="metric-card__label">Nivel de Riesgo</span>
+                        <strong class="metric-card__value">Mínimo (Garantizado)</strong>
+                    </div>
+                </div>
+                <div class="metric-card metric-card--horizon">
+                    <div class="metric-card__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    </div>
+                    <div class="metric-card__content">
+                        <span class="metric-card__label">Disponibilidad</span>
+                        <strong class="metric-card__value">Inmediata (24/7)</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="strategy-details-grid">
+            <article class="info-card">
+                <header class="info-card__header">
+                    <div class="info-card__icon-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+                    </div>
+                    <h3>Gestión de Liquidez</h3>
+                </header>
+                <p class="info-card__intro">Los expertos recomiendan cubrir de 6 a 12 meses de gastos fijos en esta categoría:</p>
+                <div class="info-card__list">
+                    <div class="info-item">
+                        <span class="info-item__tag info-item__tag--efectivo">Paz Mental</span>
+                        <div class="info-item__text">Evita la liquidación forzosa de activos volátiles durante una urgencia personal o profesional.</div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-item__tag info-item__tag--efectivo">Interés Diario</span>
+                        <div class="info-item__text">El dinero debe residir en cuentas remuneradas que mitiguen la pérdida de poder adquisitivo frente a la inflación.</div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="info-card info-card--accent">
+                <header class="info-card__header">
+                    <div class="info-card__icon-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                    </div>
+                    <h3>Mejores Opciones (México {% now "Y" %})</h3>
+                </header>
+                <ul class="benefit-list">
+                    <li>
+                        <span class="benefit-icon benefit-icon--efectivo">✓</span>
+                        <div><strong>Nu México:</strong> Rendimiento del 13.5% - 15% con liquidez total. <a href="https://nu.com.mx/" target="_blank" class="link-action link-action--efectivo">Abrir Cajita →</a></div>
+                    </li>
+                    <li>
+                        <span class="benefit-icon benefit-icon--efectivo">✓</span>
+                        <div><strong>Bonddia:</strong> Inversión diaria en deuda gubernamental vía Cetesdirecto.</div>
+                    </li>
+                    <li>
+                        <span class="benefit-icon benefit-icon--efectivo">✓</span>
+                        <div><strong>Ualá / Stori:</strong> Diversificación de riesgo institucional con tasas agresivas.</div>
+                    </li>
+                </ul>
+            </article>
+        </div>
+
+        <div class="legal-and-market-grid">
+            <div class="card card--legal-protection">
+                <div class="api-header">
+                    <span class="status-pill status-pill--active efectivo"><span class="pulse-dot"></span>Protección CNBV</span>
+                    <h3>Seguridad y Fiscalidad</h3>
+                </div>
+                <div class="tax-info-container">
+                    <div class="tax-main-benefit efectivo">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        <p><strong>Ventaja SOFIPO:</strong> Los rendimientos están exentos de impuestos si tu saldo promedio es menor a 5 UMAs anuales.</p>
+                    </div>
+                    <div class="tax-grid-mini">
+                        <div class="tax-item">
+                            <h5>Seguro PROSOFIPO</h5>
+                            <p>Protege tu ahorro por hasta <strong>25,000 UDIS</strong> ante insolvencia de la entidad.</p>
+                        </div>
+                        <div class="tax-item">
+                            <h5>Seguro IPAB</h5>
+                            <p>Protección bancaria (Ualá/Stori) por hasta <strong>400,000 UDIS</strong> (aprox. $3.5M MXN).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card--api-data">
+                <div class="api-header">
+                    <span class="status-pill status-pill--active efectivo">
+                        <span class="pulse-dot"></span>Banxico Live
+                    </span>
+                    <h3>Factor de Rendimiento</h3>
+                </div>
+
+                <div class="api-data-display">
+                    <div class="trend-indicator down">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="7" x2="17" y2="17"></line><polyline points="17 7 17 17 7 17"></polyline></svg>
+                        Tendencia a la baja
+                    </div>
+                    <div class="data-value--large efectivo">7.00%</div>
+                    <div class="data-label">Tasa de Referencia Banxico</div>
+                </div>
+
+                <div class="info-card__intro">
+                    Actualmente, Banxico ha recortado la tasa al <strong>7.00%</strong>. Es el momento ideal para <strong>rotar capital hacia Renta Variable</strong>.
+                </div>
+                
+                <div class="api-footer">
+                    <p class="api-source">Fuente: Banco de México (Actualizado {% now "M Y" %}).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

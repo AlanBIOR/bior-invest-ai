@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.template import TemplateDoesNotExist # Para manejar errores de archivos faltantes
 from .models import Investment
 
 # 1. Registro (Abierto)
@@ -17,13 +18,11 @@ def registro(request):
         form = UserCreationForm()
     return render(request, 'auth/registro.html', {'form': form})
 
-# 2. Dashboard (Híbrido - No lleva @login_required)
+# 2. Dashboard (Híbrido)
 def dashboard(request):
-    # Verificamos si el usuario entró con su cuenta
     if request.user.is_authenticated:
         inversiones = Investment.objects.filter(user=request.user)
     else:
-        # Si es un invitado, enviamos una lista vacía para que no explote el ID
         inversiones = Investment.objects.none() 
 
     labels = [inv.get_category_display() for inv in inversiones]
@@ -76,6 +75,7 @@ def portafolio(request):
 # 4. Configuración (Privado)
 @login_required
 def configuracion(request):
+    # Por ahora al admin, pronto a una página personalizada
     return redirect('admin:index')
 
 # 5. Páginas Legales (Abiertas)
@@ -88,7 +88,16 @@ def privacidad(request):
 def disclaimer(request):
     return render(request, 'pages/disclaimer.html')
 
-# 6. Detalle de Inversión (Abierto)
+# 6. Detalle de Inversión (Dinámico)
 def detalle_inversion(request, category_slug):
-    context = {'category': category_slug}
-    return render(request, 'detalles/detalle_generic.html', context)
+    """
+    Busca el template específico en 'detalles/'. 
+    Si no existe (ej. alguien inventa una URL), carga el genérico.
+    """
+    template_path = f'detalles/{category_slug}.html'
+    
+    try:
+        return render(request, template_path, {'category': category_slug})
+    except TemplateDoesNotExist:
+        # Si no existe el archivo específico, mostramos el genérico por seguridad
+        return render(request, 'pages/detalle_generic.html', {'category': category_slug})

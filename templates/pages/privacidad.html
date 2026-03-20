@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Política de Privacidad - BIOR Invest{% endblock %}
+
+{% block content %}
+    <main class="main-content">
+        <div class="legal-container">
+            <header class="legal-header">
+                <h1>Aviso de Privacidad</h1>
+                <p>Tu privacidad es nuestra prioridad absoluta.</p>
+                {# Usamos el tag 'now' de Django para la fecha actual #}
+                <p>Última actualización: {% now "d/m/Y" %}</p>
+            </header>
+
+            <div class="legal-content">
+                <h2>1. Responsable de la Protección de sus Datos</h2>
+                <p><strong>BIOR Web Studio</strong>, con domicilio en Apizaco, Tlaxcala, es responsable de recabar sus datos personales, del uso que se le dé a los mismos y de su protección bajo los más altos estándares de seguridad informática.</p>
+
+                <h2>2. Datos Personales que Recabamos</h2>
+                <p>Para la operación de <strong>BIOR Invest</strong>, solicitamos los siguientes datos:</p>
+                <ul>
+                    <li>Nombre de usuario y correo electrónico.</li>
+                    <li>Información sobre activos financieros (montos invertidos y plataformas utilizadas).</li>
+                    <li>Contraseñas (almacenadas bajo protocolos de cifrado irreversibles).</li>
+                </ul>
+                <p><strong>Importante:</strong> Nosotros no solicitamos ni almacenamos números de tarjetas de crédito, claves interbancarias o contraseñas de acceso a sus cuentas bancarias reales.</p>
+
+                <h2>3. Finalidad del Tratamiento de Datos</h2>
+                <p>Sus datos son utilizados exclusivamente para:</p>
+                <ul>
+                    <li>Proveer las funciones de cálculo y visualización de su portafolio.</li>
+                    <li>Personalizar la experiencia de usuario y proyecciones financieras.</li>
+                    <li>Enviar notificaciones técnicas o de seguridad relacionadas con su cuenta.</li>
+                </ul>
+
+                <h2>4. Seguridad y Almacenamiento</h2>
+                <p>Sus datos se almacenan en servidores seguros con certificados SSL (HTTPS). Utilizamos tecnología de <em>hashing</em> para que nadie, ni siquiera el equipo de BIOR Web Studio, pueda conocer su contraseña real.</p>
+
+                <h2>5. Transferencia de Datos</h2>
+                <p>BIOR Web Studio <strong>no vende, ni transfiere, ni comparte</strong> su información personal o financiera con terceros, empresas de marketing o instituciones financieras sin su consentimiento expreso, salvo por requerimiento legal de autoridad competente.</p>
+
+                <h2>6. Derechos ARCO (Acceso, Rectificación, Cancelación y Oposición)</h2>
+                <p>Usted tiene derecho a conocer qué datos tenemos de usted, para qué los utilizamos y las condiciones del uso que les damos. En cualquier momento puede:</p>
+                <ul>
+                    <li>Actualizar su información desde el panel de <strong>Configuración</strong>.</li>
+                    <li>Eliminar permanentemente su cuenta y todos los datos asociados a ella mediante la función de "Eliminar Cuenta".</li>
+                </ul>
+
+                <h2>7. Contacto</h2>
+                <p>Si tiene dudas sobre el tratamiento de sus datos, puede contactarnos en: <a href="mailto:alanalfonso261002@gmail.com">alanalfonso261002@gmail.com</a>.</p>
+            </div>
+        </div>
+    </main>
+{% endblock %}

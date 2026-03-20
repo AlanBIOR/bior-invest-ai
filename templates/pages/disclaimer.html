@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Descargo de Responsabilidad - BIOR Invest{% endblock %}
+
+{% block content %}
+    <main class="main-content">
+        <div class="legal-container">
+            <header class="legal-header">
+                <div class="disclaimer-icon">
+                    {# Asegúrate de tener FontAwesome cargado en tu base.html para este icono #}
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h1>Descargo de Responsabilidad</h1>
+                <p>Información importante sobre el uso de BIOR Invest y riesgos financieros.</p>
+                <p><small>Última revisión: {% now "d/m/Y" %}</small></p>
+            </header>
+
+            <div class="legal-content">
+                <h2>1. No es Asesoría Financiera</h2>
+                <p>El contenido, cálculos, gráficas y proyecciones generadas por <strong>BIOR Invest</strong> tienen un propósito meramente informativo y educativo. <strong>BIOR Web Studio</strong> no es una institución financiera, casa de bolsa, ni asesor de inversiones registrado ante la CNBV (Comisión Nacional Bancaria y de Valores) o autoridades similares en otros países.</p>
+                <p>Ninguna información en esta plataforma debe interpretarse como una oferta, recomendación o solicitud para comprar o vender activos financieros.</p>
+
+                <h2>2. Aviso de Riesgo de Inversión</h2>
+                <p>Invertir en mercados financieros (acciones, ETFs, criptomonedas, renta fija, etc.) conlleva riesgos inherentes. El valor de las inversiones puede subir o bajar, y usted puede perder la totalidad de su capital. <strong>Rendimientos pasados no son garantía de resultados futuros.</strong></p>
+
+                <h2>3. Exactitud de la Información</h2>
+                <p>Aunque nos esforzamos por ofrecer datos precisos a través de nuestras integraciones con APIs de terceros, no garantizamos la exactitud, integridad o puntualidad de la información (precios de mercado, tasas de interés, etc.). BIOR Invest no se hace responsable por errores u omisiones en los datos proporcionados por fuentes externas como Yahoo Finance, Banxico o proveedores de criptoactivos.</p>
+
+                <h2>4. Deslinde de Plataformas de Terceros</h2>
+                <p>Dentro de nuestra plataforma se mencionan o enlazan servicios externos como <strong>GBM+, Interactive Brokers, Nu México, Cetesdirecto, TradingView</strong>, entre otros. BIOR Web Studio:</p>
+                <ul>
+                    <li>No tiene afiliación societaria ni comercial con dichas marcas.</li>
+                    <li>No recibe comisiones por su mención (salvo que se indique lo contrario).</li>
+                    <li>No es responsable por fallas técnicas, pérdidas de dinero o mala gestión dentro de dichas plataformas externas.</li>
+                </ul>
+
+                <h2>5. Responsabilidad del Usuario</h2>
+                <p>Usted asume la responsabilidad total de sus decisiones financieras. Al utilizar esta herramienta, usted libera a BIOR Web Studio y a sus desarrolladores de cualquier responsabilidad legal o financiera por pérdidas directas o indirectas resultantes del uso de la información aquí presentada.</p>
+
+                <h2>6. Uso del Software</h2>
+                <p>BIOR Invest se proporciona "tal cual". No garantizamos que la plataforma esté libre de errores técnicos o interrupciones. El usuario acepta que utiliza el software bajo su propio riesgo.</p>
+            </div>
+        </div>
+    </main>
+{% endblock %}

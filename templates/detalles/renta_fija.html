@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Renta Fija (Bonos) | BIOR Invest{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <header class="dashboard-header detalle-header" style="border-left-color: #4b5563;">
+        <div class="detalle-header__wrapper">
+            <div class="detalle-header__content">
+                <h1 class="detalle-header__title">Renta Fija (Bonos)</h1>
+                <p class="detalle-header__subtitle">Desglose detallado de activos basado en la estrategia de grandes patrimonios.</p>
+            </div>
+            <a href="{% url 'dashboard' %}" class="btn-back">
+                ← Volver al Dashboard
+            </a>
+        </div>
+    </header>
+
+    <section class="detalle-container">
+        
+        <section class="detalle-hero card">
+            <div class="hero-header">
+                <div class="hero-icon-bg hero-icon-bg--renta-fija">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                </div>
+                <div class="hero-title-area">
+                    <h2 class="detalle-title">¿Qué es la Renta Fija (Bonos)?</h2>
+                    <p class="detalle-subtitle">El amortiguador que protege tu capital cuando la bolsa cae.</p>
+                </div>
+            </div>
+            
+            <p class="detalle-description">
+                La Renta Fija consiste en prestar tu dinero a una institución a cambio de un rendimiento pactado desde el inicio. Es el activo más estable del portafolio, representando históricamente el 5% en carteras de alto patrimonio. Su función principal es actuar como un amortiguador que protege tu capital cuando la bolsa de valores cae.
+            </p>
+
+            <div class="metrics-hero-grid">
+                <div class="metric-card metric-card--risk">
+                    <div class="metric-card__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    </div>
+                    <div class="metric-card__content">
+                        <span class="metric-card__label">Nivel de Riesgo</span>
+                        <strong class="metric-card__value">Mínimo (Soberano)</strong>
+                    </div>
+                </div>
+                <div class="metric-card metric-card--horizon">
+                    <div class="metric-card__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    </div>
+                    <div class="metric-card__content">
+                        <span class="metric-card__label">Horizonte Ideal</span>
+                        <strong class="metric-card__value">1 a 5 años</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="strategy-details-grid">
+            <article class="info-card">
+                <header class="info-card__header">
+                    <div class="info-card__icon-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"></path><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                    </div>
+                    <h3>Instrumentos en México</h3>
+                </header>
+                <p class="info-card__intro">México ofrece instrumentos de deuda considerados los más seguros por su respaldo gubernamental:</p>
+                <div class="info-card__list">
+                    <div class="info-item">
+                        <span class="info-item__tag info-item__tag--renta-fija">CETES</span>
+                        <div class="info-item__text">Es la "vieja confiable". Le prestas dinero al gobierno y este te paga un interés.</div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-item__tag info-item__tag--renta-fija">UDIBONOS</span>
+                        <div class="info-item__text">Inviertes en UDIS para asegurar un rendimiento real por encima del aumento de la inflación.</div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-item__tag info-item__tag--renta-fija">Corporativos</span>
+                        <div class="info-item__text">Préstamos a empresas privadas. Ofrecen tasas mayores por tener mayor riesgo que un país.</div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="info-card info-card--accent">
+                <header class="info-card__header">
+                    <div class="info-card__icon-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                    </div>
+                    <h3>¿Dónde invertir?</h3>
+                </header>
+                <p class="info-card__intro">Dependiendo de tu estrategia, utiliza estas plataformas especializadas:</p>
+                <ul class="benefit-list">
+                    <li>
+                        <span class="benefit-icon benefit-icon--renta-fija">✓</span>
+                        <div><strong>Cetesdirecto:</strong> La plataforma oficial sin comisiones ni intermediarios. <a href="https://www.cetesdirecto.com/" target="_blank" class="link-action link-action--renta-fija">Comienza aquí →</a></div>
+                    </li>
+                    <li>
+                        <span class="benefit-icon benefit-icon--renta-fija">✓</span>
+                        <div><strong>GBM+ (ETFs):</strong> Diversifica en deuda internacional y bonos corporativos.</div>
+                    </li>
+                </ul>
+            </article>
+        </div>
+
+        <div class="legal-and-market-grid">
+            <div class="card card--legal-protection">
+                <div class="api-header">
+                    <span class="status-pill status-pill--active status-pill--active--renta-fija">
+                        <span class="pulse-dot"></span>México {% now "Y" %}
+                    </span>
+                    <h3>Seguridad y Retenciones</h3>
+                </div>
+
+                <div class="tax-info-container">
+                    <div class="tax-main-benefit tax-main-benefit--renta-fija">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        <p>Al invertir en deuda, se aplica una retención automática provisional (<strong>0.9% anual para {% now "Y" %}</strong>) que se ajusta en la declaración anual.</p>
+                    </div>
+                    <div class="tax-grid-mini">
+                        <div class="tax-item">
+                            <h5>Seguridad Soberana</h5>
+                            <p>Invertir en CETES es lo más seguro, ya que el estado tiene el poder de recaudar impuestos para pagar sus deudas.</p>
+                        </div>
+                        <div class="tax-item">
+                            <h5>Declaración Anual</h5>
+                            <p>Vital para recuperar saldos a favor si la inflación fue superior a los rendimientos nominales.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card--api-data">
+                <div class="api-header">
+                    <span class="status-pill status-pill--active status-pill--active--renta-fija">
+                        <span class="pulse-dot"></span>Mercado en Vivo
+                    </span>
+                    <h3>Bonos de Referencia Global</h3>
+                </div>
+                <div class="widget-wrapper widget-wrapper--standard">
+                    <div class="tradingview-widget-container" style="width: 100%; height: 100%;">
+                        <iframe scrolling="no" allowtransparency="true" frameborder="0" src="https://www.tradingview-widget.com/embed-widget/symbol-overview/?locale=es#%7B%22symbols%22%3A%5B%5B%22Bonos%20Tesoro%20EE.UU.%20(TLT)%22%2C%22NASDAQ%3ATLT%7C12M%22%5D%2C%5B%22Bonos%20Corporativos%20(LQD)%22%2C%22AMEX%3ALQD%7C12M%22%5D%5D%2C%22chartOnly%22%3Afalse%2C%22width%22%3A%22100%25%22%2C%22height%22%3A%22100%25%22%2C%22colorTheme%22%3A%22light%22%2C%22chartType%22%3A%22area%22%2C%22lineWidth%22%3A2%2C%22dateRanges%22%3A%5B%221m%7C1D%22%2C%223m%7C1D%22%2C%2212m%7C1D%22%2C%22all%7C1M%22%5D%2C%22utm_source%22%3A%22invest.bior-studio.com%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22symbol-overview%22%2C%22page-uri%22%3A%22invest.bior-studio.com%2Fdetalle_inversion%2Frenta_fija%22%7D" style="user-select: none; box-sizing: border-box; display: block; height: 100%; width: 100%;"></iframe>
+                    </div>
+                </div>
+                <div class="api-footer">
+                    <p class="api-source">Fuente: TradingView &amp; Cetesdirecto.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

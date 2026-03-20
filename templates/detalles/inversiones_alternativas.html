@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Inversiones Alternativas (Cripto, Oro y Alternativos) | BIOR Invest{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <header class="dashboard-header detalle-header" style="border-left-color: #ea580c;">
+        <div class="detalle-header__wrapper">
+            <div class="detalle-header__content">
+                <h1 class="detalle-header__title">Inversiones Alternativas (Cripto, Oro y Alternativos)</h1>
+                <p class="detalle-header__subtitle">Desglose detallado de activos basado en la estrategia de grandes patrimonios.</p>
+            </div>
+            <a href="{% url 'dashboard' %}" class="btn-back">
+                ← Volver al Dashboard
+            </a>
+        </div>
+    </header>
+
+    <section class="detalle-container">
+        
+        <section class="detalle-hero card">
+            <div class="hero-header">
+                <div class="hero-icon-bg --orange">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+                </div>
+                <div class="hero-title-area">
+                    <h2 class="detalle-title">Inversiones Alternativas</h2>
+                    <p class="detalle-subtitle">Protección y descorrelación: el seguro de valor de los grandes patrimonios.</p>
+                </div>
+            </div>
+            
+            <p class="detalle-description">
+                Abarcan activos que no se comportan como la bolsa tradicional. Representan aproximadamente el <strong>8% del total</strong> en portafolios de alto patrimonio. Su objetivo primordial es que, si los mercados financieros caen, estos activos mantengan su valor o incluso suban.
+            </p>
+
+            <div class="metrics-hero-grid">
+                <div class="metric-card metric-card--risk">
+                    <div class="metric-card__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    </div>
+                    <div class="metric-card__content">
+                        <span class="metric-card__label">Nivel de Riesgo</span>
+                        <strong class="metric-card__value">Muy Alto / Volátil</strong>
+                    </div>
+                </div>
+                <div class="metric-card metric-card--horizon">
+                    <div class="metric-card__icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    </div>
+                    <div class="metric-card__content">
+                        <span class="metric-card__label">Horizonte Sugerido</span>
+                        <strong class="metric-card__value">Largo Plazo</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="strategy-details-grid">
+            <article class="info-card">
+                <header class="info-card__header">
+                    <div class="info-card__icon-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+                    </div>
+                    <h3>Composición Estratégica</h3>
+                </header>
+                <p class="info-card__intro">Distribución de este 8% según informes de comunidades de millonarios:</p>
+                <div class="info-card__list">
+                    <div class="info-item">
+                        <span class="info-item__tag info-item__tag--alternativas">54%</span>
+                        <div class="info-item__text"><strong>Criptomonedas:</strong> Bitcoin y Ethereum como reservas de valor digital.</div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-item__tag info-item__tag--alternativas">11%</span>
+                        <div class="info-item__text"><strong>Metales Preciosos:</strong> El Oro como refugio histórico ante crisis sistémicas.</div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-item__tag info-item__tag--alternativas">8%</span>
+                        <div class="info-item__text"><strong>Materias Primas:</strong> Inversión en recursos naturales y petróleo.</div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="info-card info-card--accent">
+                <header class="info-card__header">
+                    <div class="info-card__icon-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                    </div>
+                    <h3>¿Dónde Invertir?</h3>
+                </header>
+                <p class="info-card__intro">Plataformas seguras y reguladas para el mercado mexicano:</p>
+                <ul class="benefit-list">
+                    <li>
+                        <span class="benefit-icon benefit-icon--alternativas">✓</span>
+                        <div><strong>Bitso:</strong> Exchange regulado con liquidez directa en MXN. <a href="TU_LINK_DE_REFERIDO_BITSO" target="_blank" class="link-action link-action--alternativas">Registrarse →</a></div>
+                    </li>
+                    <li>
+                        <span class="benefit-icon benefit-icon--alternativas">✓</span>
+                        <div><strong>GBM+:</strong> Inversión en Oro (GLD) y Commodities vía SIC. <a href="TU_LINK_DE_REFERIDO_GBM" target="_blank" class="link-action link-action--alternativas">Invertir →</a></div>
+                    </li>
+                </ul>
+            </article>
+        </div>
+
+        <div class="legal-and-market-grid">
+            <div class="card card--legal-protection">
+                <div class="api-header">
+                    <span class="status-pill status-pill--active --orange">
+                        <span class="pulse-dot"></span>
+                        México {% now "Y" %}
+                    </span>
+                    <h3>Marco Legal y Estrategia Fiscal</h3>
+                </div>
+
+                <div class="tax-info-container">
+                    <div class="tax-main-benefit --orange">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        <p>Las Criptomonedas tributan como <strong>Ganancia de Capital</strong>: debes pagar ISR sobre la utilidad neta al momento de vender por moneda FIAT (MXN/USD).</p>
+                    </div>
+
+                    <div class="tax-grid-mini">
+                        <div class="tax-group">
+                            <div class="tax-item">
+                                <h5>Declaración Anual</h5>
+                                <p>Si tus enajenaciones exceden los <strong>$600,000 MXN</strong> al año (incluyendo otros ingresos), la declaración es obligatoria para evitar discrepancia fiscal ante el SAT.</p>
+                            </div>
+                            <div class="tax-item">
+                                <h5>Costo Promedio</h5>
+                                <p>Es vital llevar un registro (bitácora) del precio de compra. El impuesto se calcula restando el <strong>Precio de Adquisición</strong> al <strong>Precio de Venta</strong>.</p>
+                            </div>
+                        </div>
+
+                        <div class="tax-group">
+                            <div class="tax-item">
+                                <h5>Metales (GLD vs Físico)</h5>
+                                <p>Invertir en el ETF <strong>GLD</strong> vía SIC tiene una tasa preferencial del 10% sobre la utilidad, mientras que el oro físico requiere facturación para acreditar su origen.</p>
+                            </div>
+                            <div class="tax-item">
+                                <h5>Custodia Proactiva</h5>
+                                <p>"Not your keys, not your crypto". Para montos altos, se recomienda mover activos de Bitso a una <strong>Cold Wallet</strong> (Ledger/Trezor) para eliminar el riesgo de contraparte.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tax-footer-note--orange">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <p><strong>Nota Pro:</strong> La volatilidad de estos activos (pudiendo superar el 20% diario) los clasifica como herramientas de <strong>preservación o especulación</strong>, no de flujo de caja inmediato.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card--api-data">
+                <div class="api-header">
+                    <span class="status-pill status-pill--active"><span class="pulse-dot"></span>En Vivo</span>
+                    <h3>Cripto y Metales</h3>
+                </div>
+                <div class="widget-wrapper widget-wrapper--standard">
+                    <div class="tradingview-widget-container" style="width: 100%; height: 100%;">
+                        <iframe scrolling="no" allowtransparency="true" frameborder="0" src="https://www.tradingview-widget.com/embed-widget/symbol-overview/?locale=es#%7B%22symbols%22%3A%5B%5B%22Cripto%20(Bitcoin)%22%2C%22BITSO%3ABTCMXN%7C12M%22%5D%2C%5B%22Cripto%20(Ethereum)%22%2C%22BITSO%3AETHMXN%7C12M%22%5D%2C%5B%22Metales%20(Oro%20GLD)%22%2C%22AMEX%3AGLD%7C12M%22%5D%5D%2C%22chartOnly%22%3Afalse%2C%22width%22%3A%22100%25%22%2C%22height%22%3A%22100%25%22%2C%22colorTheme%22%3A%22light%22%2C%22chartType%22%3A%22area%22%2C%22lineWidth%22%3A2%2C%22dateRanges%22%3A%5B%221m%7C1D%22%2C%223m%7C1D%22%2C%2212m%7C1D%22%2C%22all%7C1M%22%5D%2C%22utm_source%22%3A%22invest.bior-studio.com%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22symbol-overview%22%2C%22page-uri%22%3A%22invest.bior-studio.com%2Fdetalle_inversion%2Finversiones_alternativas%22%7D" style="user-select: none; box-sizing: border-box; display: block; height: 100%; width: 100%;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

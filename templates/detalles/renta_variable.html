@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Renta Variable (Acciones y ETFs) | BIOR Invest{% endblock %}
+
+{% block content %}
+<main class="main-content">
+    <header class="dashboard-header detalle-header" style="border-left-color: #2563eb;">
+        <div class="detalle-header__wrapper">
+            <div class="detalle-header__content">
+                <h1 class="detalle-header__title">Renta Variable (Acciones y ETFs)</h1>
+                <p class="detalle-header__subtitle">Desglose detallado de activos basado en la estrategia de grandes patrimonios.</p>
+            </div>
+            <a href="{% url 'dashboard' %}" class="btn-back">
+                ← Volver al Dashboard
+            </a>
+        </div>
+    </header>
+
+    <section class="detalle-container">
+        
+        <section class="detalle-hero card detalle-hero--renta-variable">
+            <div class="header-with-icon header-with-icon--renta-variable">
+                <div class="svg-icon svg-icon--large svg-icon--renta-variable">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
+                </div>
+                <h2 class="detalle-title detalle-title--renta-variable">El Pilar de los Grandes Patrimonios</h2>
+            </div>
+            
+            <p class="detalle-description detalle-description--renta-variable">
+                La Renta Variable representa el 47% del portafolio promedio de los multimillonarios con más de $2.2M USD invertidos. No es una apuesta; es la propiedad de los activos más productivos del planeta.
+            </p>
+            <p class="detalle-description detalle-description--renta-variable">
+                Invertir aquí te permite participar en el crecimiento global de forma justa: el porcentaje de ganancia es el mismo para ti que para un inversor institucional.
+            </p>
+            
+            <div class="metrics-hero-grid metrics-hero-grid--renta-variable">
+                <div class="metric-card metric-card--risk metric-card--renta-variable">
+                    <div class="metric-card__icon metric-card__icon--renta-variable">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    </div>
+                    <div class="metric-card__content">
+                        <span class="metric-card__label">Nivel de Riesgo</span>
+                        <strong class="metric-card__value">Moderado - Alto</strong>
+                    </div>
+                </div>
+
+                <div class="metric-card metric-card--horizon metric-card--renta-variable">
+                    <div class="metric-card__icon metric-card__icon--renta-variable">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    </div>
+                    <div class="metric-card__content">
+                        <span class="metric-card__label">Horizonte de Inversión</span>
+                        <strong class="metric-card__value">+5 a 10 Años</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="strategy-details-grid">
+            <article class="info-card">
+                <header class="info-card__header">
+                    <div class="info-card__icon-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                    </div>
+                    <h3>Arquitectura del Portfolio</h3>
+                </header>
+                
+                <p class="info-card__intro">Estrategia utilizada por perfiles con más de $2.2M USD para maximizar el interés compuesto.</p>
+                
+                <div class="info-card__list">
+                    <div class="info-item">
+                        <span class="info-item__tag info-item__tag--renta-variable">66%</span>
+                        <div class="info-item__text">
+                            <strong>Fondos Indexados:</strong> Inversión pasiva en las 500 empresas más grandes de EE.UU. (S&amp;P 500).
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-item__tag info-item__tag--renta-variable">17%</span>
+                        <div class="info-item__text">
+                            <strong>Stock Picking:</strong> Selección de empresas individuales con alto potencial de crecimiento.
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-item__tag info-item__tag--renta-variable">11%</span>
+                        <div class="info-item__text">
+                            <strong>Internacional:</strong> Diversificación en mercados de Europa y Asia para reducir el riesgo geográfico.
+                        </div>
+                    </div>
+                </div>
+                
+                <footer class="info-card__footer">
+                    <a href="https://www.longangle.com/" target="_blank" class="link-action--renta-variable">
+                        Explorar reporte Long Angle <i class="icon-arrow-right"></i>
+                    </a>
+                </footer>
+            </article>
+
+            <article class="info-card info-card--accent">
+                <header class="info-card__header">
+                    <div class="info-card__icon-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    </div>
+                    <h3>Implementación en México</h3>
+                </header>
+
+                <p class="info-card__intro">Ventajas competitivas legales que potencian tu rendimiento neto.</p>
+
+                <ul class="benefit-list">
+                    <li>
+                        <span class="benefit-icon">✓</span>
+                        <div><strong>Tasa Fija del 10%:</strong> Impuesto reducido sobre utilidades en bolsa (Art. 129 LISR).</div>
+                    </li>
+                    <li>
+                        <span class="benefit-icon">✓</span>
+                        <div><strong>SIC (BMV):</strong> Invierte en Apple, Amazon o Tesla directamente en pesos.</div>
+                    </li>
+                    <li>
+                        <span class="benefit-icon">✓</span>
+                        <div><strong>ETFs de Acumulación:</strong> Optimizan el crecimiento al reinvertir dividendos sin generar impuestos.</div>
+                    </li>
+                </ul>
+
+                <footer class="info-card__footer">
+                    <a href="https://www.gob.mx/sat" target="_blank" class="link-action link-action--sat">
+                        Ver Guía de Inversión en el SAT <i class="icon-external"></i>
+                    </a>
+                </footer>
+            </article>
+        </section>
+
+        <section class="card cta-referral-card">
+            <div class="cta-wrapper">
+                <div class="cta-text">
+                    <h3>¿Listo para construir tu patrimonio?</h3>
+                    <p>Comienza a invertir en plataformas reguladas por la CNBV y protege tu futuro.</p>
+                </div>
+                <div class="cta-buttons">
+                    <a href="TU_LINK_REFERIDO_GBM" target="_blank" class="btn-main">
+                        Comenzar en GBM+
+                    </a>
+                    <a href="https://www.interactivebrokers.com/" target="_blank" class="btn-secondary">
+                        Interactive Brokers (Global)
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="card card--api-data">
+            <div class="api-header">
+                <span class="status-pill status-pill--active">
+                    <span class="pulse-dot"></span>
+                    Mercado en Tiempo Real
+                </span>
+                <h3>Monitoreo de Gigantes y ETFs</h3>
+            </div>
+
+            <div class="widget-wrapper widget-wrapper--desktop">
+                <div class="tradingview-widget-container" style="width: 100%; height: 100%;">
+                    <iframe scrolling="no" allowtransparency="true" frameborder="0" src="https://www.tradingview-widget.com/embed-widget/market-overview/?locale=es#%7B%22colorTheme%22%3A%22light%22%2C%22dateRange%22%3A%2212M%22%2C%22showChart%22%3Atrue%2C%22isTransparent%22%3Atrue%2C%22showSymbolLogo%22%3Atrue%2C%22width%22%3A%22100%25%22%2C%22height%22%3A%22100%25%22%2C%22tabs%22%3A%5B%7B%22title%22%3A%2266%25%20ETFs%20Nucleares%20(S%26P%20500)%22%2C%22symbols%22%3A%5B%7B%22s%22%3A%22AMEX%3AVOO%22%2C%22d%22%3A%22Vanguard%20S%26P%20500%22%7D%2C%7B%22s%22%3A%22AMEX%3AIVV%22%2C%22d%22%3A%22iShares%20Core%20S%26P%20500%22%7D%5D%7D%2C%7B%22title%22%3A%2217%25%20Selecci%C3%B3n%20Estrat%C3%A9gica%22%2C%22symbols%22%3A%5B%7B%22s%22%3A%22NASDAQ%3AAAPL%22%2C%22d%22%3A%22Apple%20Inc.%22%7D%2C%7B%22s%22%3A%22NASDAQ%3AMSFT%22%2C%22d%22%3A%22Microsoft%22%7D%2C%7B%22s%22%3A%22NASDAQ%3ANVDA%22%2C%22d%22%3A%22NVIDIA%20Corp.%22%7D%5D%7D%5D%2C%22utm_source%22%3A%22invest.bior-studio.com%22%2C%22utm_medium%22%3A%22widget%22%2C%22utm_campaign%22%3A%22market-overview%22%2C%22page-uri%22%3A%22invest.bior-studio.com%2Fdetalle_inversion%2Frenta_variable%22%7D" style="user-select: none; box-sizing: border-box; display: block; height: 100%; width: 100%;"></iframe>
+                </div>
+            </div>
+
+            <div class="api-footer">
+                <p class="api-source">Fuentes: TradingView &amp; Long Angle Community.</p>
+                <p class="api-disclaimer">* Los datos muestran el rendimiento histórico (10% anual promedio S&amp;P 500). Esta información es educativa; consulta siempre a tu contador profesional.</p>
+            </div>
+        </section>
+    </section>
+</main>
+{% endblock %}

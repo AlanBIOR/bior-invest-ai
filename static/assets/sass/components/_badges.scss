@@ -1,6 +1,6 @@
-// Importamos las variables para que el loop funcione
 @use '../abstracts/variables' as *;
 
+// Loop dinámico para generar badges por categoría
 @each $name, $color in $categories {
     .badge-#{$name} {
         background-color: rgba($color, 0.1); 
@@ -11,5 +11,10 @@
         font-size: 0.85rem;
         font-weight: 500;
         display: inline-block;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background-color: rgba($color, 0.15);
+        }
     }
 }
