@@ -9,10 +9,41 @@
             <div class="footer-links">
                 <h4>Explorar</h4>
                 <ul>
-                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                    <li><a href="/detalle/renta_variable/">Activos de Inversión</a></li>
+                    <li>
+                        <a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                            Dashboard
+                        </a>
+                    </li>
+                    
+                    <li class="footer-dropdown">
+                        {# Detectamos si estamos en alguna página de detalle para abrir el dropdown #}
+                        <details {% if '/detalle/' in request.path %}open{% endif %}>
+                            <summary class="{% if '/detalle/' in request.path %}active{% endif %}">
+                                Activos de Inversión 
+                                <i class="fas fa-chevron-down"></i>
+                            </summary>
+                            <ul class="footer-sub-menu">
+                                <li><a href="/detalle/renta_variable/" class="{% if '/renta_variable/' in request.path %}active{% endif %}">Renta Variable</a></li>
+                                <li><a href="/detalle/inmuebles/" class="{% if '/inmuebles/' in request.path %}active{% endif %}">Inmuebles</a></li>
+                                <li><a href="/detalle/private_equity/" class="{% if '/private_equity/' in request.path %}active{% endif %}">Private Equity</a></li>
+                                <li><a href="/detalle/inversiones_alternativas/" class="{% if '/inversiones_alternativas/' in request.path %}active{% endif %}">Alternativas</a></li>
+                                <li><a href="/detalle/efectivo/" class="{% if '/efectivo/' in request.path %}active{% endif %}">Efectivo</a></li>
+                                <li><a href="/detalle/renta_fija/" class="{% if '/renta_fija/' in request.path %}active{% endif %}">Renta Fija</a></li>
+                            </ul>
+                        </details>
+                    </li>
+
                     {% if user.is_authenticated %}
-                        <li><a href="{% url 'portafolio' %}">Mi Portafolio</a></li>
+                        <li>
+                            <a href="{% url 'portafolio' %}" class="{% if request.resolver_match.url_name == 'portafolio' %}active{% endif %}">
+                                Mi Portafolio
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'configuracion' %}" class="{% if request.resolver_match.url_name == 'configuracion' %}active{% endif %}">
+                                Configuración
+                            </a>
+                        </li>
                     {% endif %}
                 </ul>
             </div>
@@ -20,23 +51,21 @@
             <div class="footer-links">
                 <h4>Legal</h4>
                 <ul>
-                    <li><a href="{% url 'terminos' %}">Términos y Condiciones</a></li>
-                    <li><a href="{% url 'privacidad' %}">Aviso de Privacidad</a></li>
-                    <li><a href="{% url 'disclaimer' %}">Descargo de Responsabilidad</a></li>
+                    <li><a href="{% url 'terminos' %}" class="{% if request.resolver_match.url_name == 'terminos' %}active{% endif %}">Términos y Condiciones</a></li>
+                    <li><a href="{% url 'privacidad' %}" class="{% if request.resolver_match.url_name == 'privacidad' %}active{% endif %}">Aviso de Privacidad</a></li>
+                    <li><a href="{% url 'disclaimer' %}" class="{% if request.resolver_match.url_name == 'disclaimer' %}active{% endif %}">Descargo de Responsabilidad</a></li>
                 </ul>
             </div>
         </div>
 
         <div class="footer-disclaimer">
-            <p><strong>Aviso de Riesgo:</strong> BIOR Invest es una herramienta tecnológica de información. No proporciona asesoría financiera. Toda inversión conlleva riesgo de pérdida de capital.</p>
-            <p><strong>Plataformas de Terceros:</strong> Las menciones a GBM+, Nu o Cetesdirecto son educativas. No tenemos afiliación comercial con ellas.</p>
+            <p><strong>Aviso de Riesgo:</strong> BIOR Invest es una herramienta tecnológica de información y seguimiento potenciada por IA. No proporciona asesoría financiera, fiscal ni recomendaciones de inversión. Toda inversión en mercados financieros conlleva un alto riesgo, incluida la posible pérdida total del capital.</p>
+            <p><strong>Plataformas de Terceros:</strong> Las menciones a plataformas externas (GBM+, Nu, Cetesdirecto, etc.) tienen un fin estrictamente educativo. BIOR Invest no tiene afiliación comercial y no se hace responsable por sus servicios.</p>
         </div>
-
-        <hr class="footer-divider">
 
         <div class="footer-bottom">
             <div class="copy">
-                © 2026 <strong>BIOR Invest</strong>. Todos los derechos reservados.
+                &copy; {% now "Y" %} <strong>BIOR Invest</strong>. Todos los derechos reservados.
             </div>
             <div class="developer-credit">
                 Desarrollado por <a href="https://bior-studio.com" target="_blank" rel="noopener noreferrer">BIOR Web Studio</a>

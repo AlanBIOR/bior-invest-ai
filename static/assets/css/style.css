@@ -300,10 +300,6 @@ body {
   font-weight: 800;
   color: #1e293b;
 }
-.proyeccion-item:hover {
-  transform: translateY(-3px);
-  border-color: #00b894;
-}
 
 .modal-overlay {
   position: fixed;
@@ -660,7 +656,6 @@ body.is-masked .maskable {
 }
 
 .main-footer {
-  margin-top: 5rem;
   padding: 4rem 1.5rem 2rem;
   background-color: #f1f4f8;
   border-top: 1px solid #e2e8f0;
