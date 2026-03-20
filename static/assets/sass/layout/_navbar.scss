@@ -58,7 +58,6 @@
             // Estilo específico para logout (Móvil)
             .logout-link {
                 color: #ff7675 !important;
-                display: flex; // Asegura que se comporte como bloque flex
                 &:hover {
                     background-color: rgba(#ff7675, 0.1) !important;
                     padding-left: 35px;
@@ -141,14 +140,22 @@
 
                 // Estilo botón "Cerrar Sesión" (Escritorio)
                 .logout-link {
-                    color: #ff7675;
-                    border: 1px solid rgba(#ff7675, 0.3);
-                    display: inline-flex; // Evita que se estire
+                    color: #ff7675 !important;
+                    border: 1.5px solid rgba(#ff7675, 0.5) !important;
+                    padding: 8px 22px !important; 
+                    border-radius: 8px !important; 
+                    display: inline-flex;
+                    width: auto;
+                    margin-left: 10px;
+                    background: transparent !important;
+                    justify-content: center;
+
                     &:hover {
-                        background-color: #ff7675;
-                        color: $white;
-                        border-color: #ff7675;
-                        padding-left: 16px; // Mantiene el padding uniforme
+                        background-color: rgba(#ff7675, 0.1) !important; 
+                        border-color: #ff7675 !important; 
+                        color: #ff7675 !important;
+                        padding-left: 22px !important;
+                        transform: translateY(-1px);
                     }
                 }
 

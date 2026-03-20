@@ -1,26 +1,27 @@
-@use "buttons" as *;
-@use "fintech" as *;
-@use "badges" as *;
-@use "tables" as *;
-@use "cards" as *;
-@use "toasts" as *;
-@use "modals" as *;
-@use "privacy" as *;
-
 @use "../abstracts/variables" as *;
 @use "../abstracts/mixins" as *;
 
+// Importamos los estilos de componentes específicos
+@forward "badges";
+@forward "buttons";
+@forward "cards";
+@forward "fintech";
+@forward "modals";
+@forward "tables";
+@forward "toasts";
+@forward "privacy";
+
+// Estilo Global de Tarjetas (The BIOR Card)
 .card {
     background: $white;
     border-radius: 16px;
     padding: 24px;
     box-shadow: $shadow-md;
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba($white, 0.8);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     position: relative;
     overflow: hidden;
 
-    // Efecto interactivo unificado
     &:hover {
         box-shadow: $shadow-lg;
     }
@@ -52,7 +53,7 @@
         background: linear-gradient(135deg, $primary-color, #3a4ba0);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        color: $white;
+        color: $white; // Fallback
         margin-bottom: 8px;
     }
 

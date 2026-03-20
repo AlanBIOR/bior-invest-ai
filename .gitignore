@@ -1,3 +1,36 @@
+# --- Entorno Virtual ---
 venv/
+env/
+ENV/
+bin/
+lib/
+
+# --- Python / Django ---
 __pycache__/
-db.sqlite3
+*.py[cod]
+*$py.class
+.pytest_cache/
+.DS_Store
+*.log
+
+# --- Base de Datos Local ---
+# (Ignoramos sqlite para que no se suba tu info personal de pruebas)
+*.sqlite3
+
+# --- Secretos y Variables de Entorno ---
+# (Cualquier archivo que contenga contraseñas o el SECRET_KEY)
+.env
+secret_settings.py
+
+# --- Estilos y Assets ---
+# Ignoramos los mapas de Sass porque solo sirven para desarrollo local
+static/assets/css/*.map
+
+# --- IDEs / Editores ---
+.vscode/
+.idea/
+*.swp
+*.bak
+
+# --- Archivos de Medios (Subidos por usuarios) ---
+media/

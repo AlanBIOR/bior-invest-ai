@@ -6,16 +6,10 @@
     display: grid;
     margin-bottom: 50px;
     gap: 20px;
-    grid-template-columns: 1fr; // Móvil: 1 columna
+    grid-template-columns: 1fr;
 
-    @include breakpoint(tablet) {
-        grid-template-columns: repeat(2, 1fr); // Tablet: 2 columnas
-    }
-
-    @include breakpoint(desktop) {
-        gap: 32px;
-        grid-template-columns: repeat(3, 1fr); // Desktop: 3 columnas
-    }
+    @include tablet { grid-template-columns: repeat(2, 1fr); }
+    @include desktop { gap: 32px; grid-template-columns: repeat(3, 1fr); }
 }
 
 .btn-text-cta {
@@ -37,17 +31,11 @@
     }
 
     &:hover {
-        // CORRECCIÓN AQUÍ: Usamos color.adjust en lugar de lighten
         color: color.adjust($primary-color, $lightness: 15%); 
-        
-        .arrow {
-            transform: translateX(5px); 
-        }
+        .arrow { transform: translateX(5px); }
     }
 
-    &:active {
-        transform: scale(0.98); 
-    }
+    &:active { transform: scale(0.98); }
 }
 
 .card-header {

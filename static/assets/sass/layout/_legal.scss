@@ -1,7 +1,5 @@
-@use "sass:color";
 @use "../abstracts/variables" as *;
 @use "../abstracts/mixins" as *;
-/* assets/sass/layout/_legal.scss */
 
 .legal-container {
     max-width: 850px;
@@ -9,17 +7,12 @@
     background: $white;
     border-radius: 16px;
     padding: 4rem;
-    box-shadow: $shadow-md; // Usando tu sombra media oficial
+    box-shadow: $shadow-md;
     font-family: $roboto-font;
     color: $text-color;
     transition: transform 0.3s ease;
 
-    // Responsive usando tus breakpoints
-    @media (max-width: $bp-tablet) {
-        padding: 2rem;
-        margin: 1rem;
-        border-radius: 12px;
-    }
+    @include mobile { padding: 2rem; margin: 1rem; border-radius: 12px; }
 
     .legal-header {
         text-align: center;
@@ -29,31 +22,23 @@
 
         .disclaimer-icon {
             font-size: 3rem;
-            color: $accent-color; // Usando tu color dorado de marca
+            color: $accent-color;
             margin-bottom: 1rem;
             display: block;
         }
 
         h1 {
-            color: $primary-color; // Azul BIOR
+            color: $primary-color;
             font-size: 2.2rem;
             margin-bottom: 0.5rem;
             font-weight: 800;
-            line-height: 1.2;
-
-            @media (max-width: $bp-tablet) {
-                font-size: 1.8rem;
-            }
+            @include mobile { font-size: 1.8rem; }
         }
 
-        p {
-            color: $text-muted;
-            font-size: 1rem;
-        }
+        p { color: $text-muted; font-size: 1rem; }
     }
 
     .legal-content {
-        color: $text-color;
         line-height: 1.8;
 
         h2 {
@@ -61,19 +46,12 @@
             font-size: 1.4rem;
             margin-top: 3rem;
             margin-bottom: 1.2rem;
-            border-left: 4px solid $primary-color; // Tu verde oficial
+            border-left: 4px solid $primary-color;
             padding-left: 15px;
             font-weight: 700;
         }
 
-        p {
-            margin-bottom: 1.2rem;
-            text-align: justify;
-
-            @media (max-width: $bp-tablet) {
-                text-align: left; // Mejor legibilidad en móvil
-            }
-        }
+        p { margin-bottom: 1.2rem; text-align: justify; @include mobile { text-align: left; } }
 
         ul {
             margin: 1.5rem 0;
@@ -84,12 +62,9 @@
                 margin-bottom: 0.8rem;
                 position: relative;
                 padding-left: 1.5rem;
-                color: $text-color;
-
                 &::before {
                     content: "•";
                     color: $primary-color;
-                    font-weight: bold;
                     position: absolute;
                     left: 0;
                     font-size: 1.2rem;
@@ -97,22 +72,14 @@
             }
         }
 
-        strong {
-            color: $primary-color;
-            font-weight: 700;
-        }
+        strong { color: $primary-color; font-weight: 700; }
 
         a {
             color: $primary-color;
             text-decoration: none;
-            font-weight: 500;
             border-bottom: 1px dotted transparent;
             transition: all 0.3s ease;
-
-            &:hover {
-                color: $success-green;
-                border-bottom-color: $success-green;
-            }
+            &:hover { color: $success-green; border-bottom-color: $success-green; }
         }
     }
 }

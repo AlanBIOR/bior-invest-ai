@@ -1,92 +1,66 @@
-// assets/sass/components/_tables.scss (o donde gestiones las tablas)
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
 
-// Breakpoint móvil: 768px (basado en tus variables de Sass)
-@media (max-width: 768px) {
-    
+@include mobile {
     .portfolio-detailed-table {
         display: block;
         border: 0;
 
-        // Ocultamos la cabecera de la tabla de escritorio
-        thead {
-            display: none;
-        }
+        thead { display: none; }
+        tbody { display: block; }
 
-        tbody {
-            display: block;
-        }
-
-        // Transformamos cada fila en una tarjeta
         tbody tr {
             display: block;
-            background-color: #ffffff; // $white
-            border-radius: 8px;
+            background-color: $white;
+            border-radius: 12px;
             padding: 1.5rem;
             margin-bottom: 1.25rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); // $shadow-md sutil
-            border: 1px solid #e2e8f0; // Borde suave
+            box-shadow: $shadow-sm;
+            border: 1px solid $border-color;
         }
 
-        // --- Celda de Cabecera de Tarjeta: ACTIVO ---
         td.asset-cell {
             display: block;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid rgba($border-color, 0.5);
             padding: 0 0 1rem 0;
             margin-bottom: 1rem;
-            text-align: left;
             
-            // Estilo del nombre del activo como título
             .asset-name {
                 font-size: 1.15rem;
                 font-weight: 700;
-                color: #1a2a6c; // $primary-color
+                color: $primary-color;
             }
         }
 
-        // --- Celda de Acciones: Botón de Borrar al final ---
         td.actions-cell {
             display: block;
             padding: 1.25rem 0 0 0;
-            border-top: 1px solid #eee;
+            border-top: 1px solid rgba($border-color, 0.5);
             margin-top: 1.25rem;
-            text-align: center; // Centramos el botón en móvil
+            text-align: center;
         }
 
-        // --- Celdas de Datos Listadas (Grid/Flex) ---
-        // Aplicamos un diseño de lista con etiquetas para Categoría hasta Rendimiento
         td:not(.asset-cell):not(.actions-cell) {
             display: flex;
-            justify-content: space-between; // Etiqueta a la izquierda, valor a la derecha
+            justify-content: space-between;
             align-items: center;
-            padding: 0.5rem 0;
-            margin: 0;
+            padding: 0.6rem 0;
             border: 0;
+
+            &::before {
+                content: attr(data-label); // Usa el atributo data-label del HTML
+                font-weight: 700;
+                color: $text-muted;
+                font-size: 0.75rem;
+                text-transform: uppercase;
+            }
         }
 
-        // --- Pseudo-etiquetas Móviles (La Clave de la Solución) ---
-        // Añadimos las etiquetas mediante CSS para no tocar el HTML
-        td::before {
-            font-weight: 600;
-            color: #64748b; // $text-muted
-            font-size: 0.85rem;
-            text-transform: uppercase; // Estilo profesional
-        }
-
-        // Asignamos el texto a cada pseudo-etiqueta según la celda
+        // Si prefieres hardcodear las etiquetas en lugar de data-label:
         td.category-cell::before { content: "CATEGORÍA:"; }
         td.platform-cell::before { content: "PLATAFORMA:"; }
         td.invested-cell::before { content: "INVERTIDO:"; }
         td.current-value-cell::before { content: "VALOR ACTUAL:"; }
         td.performance-cell::before { content: "RENDIMIENTO:"; }
-
-        // Mantenemos el color del rendimiento (+Verde / -Rojo)
-        td.performance-cell span {
-            // Aseguramos que la clase existente .text-success o .text-danger se mantenga
-        }
-
-        // Alineación del badge de categoría
-        td.category-cell span.badge {
-            margin: 0;
-        }
     }
 }

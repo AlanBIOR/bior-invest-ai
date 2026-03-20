@@ -1,242 +1,50 @@
-@use "sass:color";
 @use "../abstracts/variables" as *;
 @use "../abstracts/mixins" as *;
 
-/* ==========================================================================
-   HEADER PRINCIPAL Y NAVEGACIÓN DINÁMICA
-   ========================================================================== */
-
 .main-header {
-    background: $primary-color;
-    width: 100%; // Asegura que el fondo azul cubra toda la pantalla
+    background-color: $primary-color;
+    width: 100%;
     position: sticky;
     top: 0;
     z-index: 1000;
     box-shadow: $shadow-md;
 
-    // Animación del botón a "X" (se queda al nivel del header por si JS aplica la clase aquí)
-    &.menu-open {
-        .menu-toggle .bar {
-            &:nth-child(1) { transform: rotate(45deg); }
-            &:nth-child(2) { opacity: 0; }
-            &:nth-child(3) { transform: rotate(-45deg); }
-        }
-    }
-
-    // --- LA CAJA CENTRADORA ---
     .header-wrapper {
-        max-width: $bp-desktop; // Limita el ancho al tamaño de escritorio
-        margin: 0 auto; // Centra la caja horizontalmente
-        width: 100%;
-        display: flex; // Separa el logo del menú
+        max-width: $bp-desktop;
+        margin: 0 auto;
+        padding: 12px 20px;
+        display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 15px 20px;
         position: relative;
 
         .logo h2 {
             margin: 0;
+            color: $white;
             font-size: 1.5rem;
             font-weight: 800;
             letter-spacing: -0.5px;
-            color: $white;
         }
 
-        // Botón de Hamburguesa (Solo Móvil)
+        // Hamburguesa
         .menu-toggle {
             display: flex;
             flex-direction: column;
             justify-content: space-around;
-            width: 30px;
-            height: 25px;
+            width: 28px;
+            height: 20px;
             background: transparent;
             border: none;
             cursor: pointer;
             padding: 0;
-            z-index: 110;
+
+            @include tablet { display: none; }
 
             .bar {
                 width: 100%;
-                height: 3px;
+                height: 2px;
                 background-color: $white;
-                border-radius: 10px;
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                transform-origin: 1px;
-            }
-
-            @include breakpoint(tablet) {
-                display: none;
-            }
-        }
-
-        // --- NAVEGACIÓN ---
-        .main-nav {
-            // Estilos Base (Móvil)
-            position: absolute;
-            top: 100%; // Se pega justo debajo del header-wrapper
-            left: 0;
-            width: 100%;
-            background-color: color.adjust($primary-color, $lightness: -5%);
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-
-            ul {
-                list-style: none;
-                padding: 10px 0;
-                margin: 0;
-                display: flex;
-                flex-direction: column;
-
-                li {
-                    position: relative; // Fundamental para el dropdown
-
-                    a {
-                        display: flex;
-                        align-items: center;
-                        justify-content: space-between; // Para separar el texto de la flecha
-                        padding: 15px 25px;
-                        color: rgba($white, 0.7);
-                        text-decoration: none;
-                        font-weight: 600;
-                        font-size: 0.95rem;
-                        transition: all 0.3s ease;
-
-                        // ESTADO ACTIVO Y HOVER EN MÓVIL
-                        &:hover, &.active {
-                            color: $white;
-                            background-color: rgba($white, 0.1);
-                            padding-left: 35px;
-                        }
-
-                        &.active {
-                            border-left: 4px solid $accent-color;
-                            color: $accent-color;
-                            
-                            .caret { color: $accent-color; }
-                        }
-
-                        .caret {
-                            transition: transform 0.3s ease;
-                            opacity: 0.7;
-                        }
-                    }
-                }
-                
-                // --- DROPDOWN MÓVIL ---
-                .dropdown {
-                    .dropdown-menu {
-                        display: none;
-                        background-color: color.adjust($primary-color, $lightness: -10%);
-                        padding: 0;
-                        
-                        a {
-                            padding: 12px 25px 12px 45px; // Indentación extra
-                            font-size: 0.85rem;
-                            font-weight: 500;
-                            border-left: none;
-
-                            &:hover, &.active {
-                                padding-left: 50px;
-                                color: $accent-color;
-                                background-color: rgba($white, 0.05);
-                            }
-                        }
-                    }
-
-                    &:hover {
-                        .dropdown-menu { display: block; }
-                        .caret { transform: rotate(180deg); }
-                    }
-                }
-            }
-
-            &.open {
-                max-height: 800px; // Aumentado para dar espacio al dropdown
-            }
-
-            // --- Estilos para Escritorio (Tablet en adelante) ---
-            @include breakpoint(tablet) {
-                position: static;
-                max-height: none;
-                background-color: transparent;
-                box-shadow: none;
-                width: auto;
-                overflow: visible; // VITAL para que el dropdown flote fuera del nav
-
-                ul {
-                    flex-direction: row;
-                    gap: 10px;
-                    padding: 0;
-
-                    li {
-                        a {
-                            padding: 8px 16px;
-                            border-radius: 8px;
-                            color: rgba($white, 0.8);
-                            border-left: none;
-                            justify-content: flex-start;
-                            gap: 8px;
-
-                            // ESTADO ACTIVO Y HOVER EN ESCRITORIO
-                            &:hover, &.active {
-                                color: $white;
-                                background-color: rgba($white, 0.15);
-                                padding-left: 16px; // Reset del efecto móvil
-                            }
-
-                            &.active {
-                                background-color: rgba($white, 0.2);
-                                color: $accent-color;
-                                box-shadow: inset 0 0 0 1px rgba($white, 0.1);
-                            }
-                        }
-                    }
-
-                    // --- DROPDOWN ESCRITORIO ---
-                    .dropdown {
-                        .dropdown-menu {
-                            display: block; // Revertimos el display:none del móvil
-                            position: absolute;
-                            top: 100%;
-                            left: 0;
-                            background-color: color.adjust($primary-color, $lightness: 5%);
-                            min-width: 240px;
-                            padding: 10px 0;
-                            border-radius: 8px;
-                            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-                            
-                            // Efecto Flotante
-                            opacity: 0;
-                            visibility: hidden;
-                            transform: translateY(10px);
-                            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                            z-index: 1000;
-
-                            a {
-                                padding: 12px 20px;
-                                border-radius: 0;
-                                white-space: nowrap; // Evita textos partidos
-                                
-                                &:hover, &.active {
-                                    background-color: rgba($white, 0.1);
-                                    padding-left: 20px; // Sin desplazamiento horizontal
-                                    color: $accent-color;
-                                    box-shadow: none;
-                                }
-                            }
-                        }
-
-                        &:hover {
-                            .dropdown-menu {
-                                opacity: 1;
-                                visibility: visible;
-                                transform: translateY(0);
-                            }
-                        }
-                    }
-                }
+                transition: all 0.3s ease;
             }
         }
     }

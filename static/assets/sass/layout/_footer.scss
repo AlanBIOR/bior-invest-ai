@@ -2,12 +2,10 @@
 @use "../abstracts/variables" as *;
 @use "../abstracts/mixins" as *;
 
-/* assets/sass/layout/_footer.scss */
-
 .main-footer {
     margin-top: 5rem;
     padding: 4rem 1.5rem 2rem;
-    background-color: #f1f4f8; // Un tono más profundo para dar contraste real
+    background-color: #f1f4f8; 
     border-top: 1px solid $border-color;
     font-family: $roboto-font;
 
@@ -18,19 +16,16 @@
 
     .footer-grid {
         display: grid;
-        // Desktop: 3 columnas equilibradas
         grid-template-columns: 1.8fr 1fr 1.2fr;
         gap: 4rem;
         margin-bottom: 3rem;
 
-        // Tablet (Punto medio crítico): Pasamos a 2 columnas
         @media (max-width: $bp-tablet-horizontal) {
             grid-template-columns: 1fr 1fr;
             gap: 3rem;
         }
 
-        // Mobile: Todo en una columna centrada
-        @media (max-width: $bp-tablet) {
+        @include mobile {
             grid-template-columns: 1fr;
             gap: 2.5rem;
             text-align: center;
@@ -49,7 +44,7 @@
             color: $text-muted; 
             line-height: 1.7;
             max-width: 400px;
-            @media (max-width: $bp-tablet) { margin: 0 auto; }
+            @include mobile { margin: 0 auto; }
         }
     }
 
@@ -79,7 +74,6 @@
                     padding: 5px 0;
                     border-left: 3px solid transparent;
 
-                    // ESTADO ACTIVO (Identidad igual al sidebar)
                     &.active {
                         color: $accent-color !important;
                         padding-left: 12px;
@@ -97,23 +91,21 @@
         }
     }
 
-    /* --- DESPLEGABLE DE ACTIVOS --- */
     .footer-dropdown {
         summary {
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            width: fit-content; // Evita que el borde amarillo ocupe todo el ancho
+            width: fit-content;
             outline: none;
-            @media (max-width: $bp-tablet) { margin: 0 auto; }
+            @include mobile { margin: 0 auto; }
 
             i { 
                 margin-left: 12px; 
                 font-size: 0.8rem;
                 transition: transform 0.3s ease; 
             }
-            
             &::-webkit-details-marker { display: none; }
         }
 
@@ -127,20 +119,13 @@
             border-left: 1px solid $border-color;
             margin-left: 5px;
             
-            li {
-                margin-bottom: 8px;
-                a { 
-                    font-size: 0.85rem; 
-                    padding-left: 15px; 
-                    border-left: none; // No duplicamos bordes en el submenú
-                    
-                    &.active {
-                        color: $accent-color !important;
-                        font-weight: 600;
-                    }
-                    
-                    &:hover { padding-left: 20px; color: $accent-color; }
-                }
+            li a { 
+                font-size: 0.85rem; 
+                padding-left: 15px; 
+                border-left: none;
+                
+                &.active { color: $accent-color !important; font-weight: 600; }
+                &:hover { padding-left: 20px; color: $accent-color; }
             }
         }
     }
@@ -154,11 +139,7 @@
         margin-bottom: 2.5rem;
         text-align: justify;
 
-        @media (max-width: $bp-tablet) { 
-            text-align: center;
-            padding-top: 2rem;
-        }
-        
+        @include mobile { text-align: center; padding-top: 2rem; }
         strong { color: $text-muted; }
     }
 
@@ -170,14 +151,8 @@
         padding-top: 1.5rem;
         border-top: 1px solid rgba($border-color, 0.5);
 
-        @media (max-width: $bp-tablet) {
-            flex-direction: column;
-            gap: 1.2rem;
-            text-align: center;
-        }
-
+        @include mobile { flex-direction: column; gap: 1.2rem; text-align: center; }
         .copy strong { color: $primary-color; }
-        
         .developer-credit a {
             color: $primary-color;
             font-weight: 700;

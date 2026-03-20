@@ -1,13 +1,17 @@
 @use "../abstracts/variables" as *;
 @use "../abstracts/mixins" as *;
-@use "sass:color";
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
 
 .toast-container {
     position: fixed;
     top: 50px;
     right: 20px;
     left: 20px;
-    z-index: 10000; // Un nivel arriba del sidebar y todo lo demás
+    z-index: 10000;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -17,78 +21,15 @@
         left: auto;
         width: 380px;
     }
-    .toast {
-    position: relative; // Vital para el z-index interno
-    pointer-events: auto;
-    background: $white;
-    padding: 16px 20px;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    border-left: 6px solid;
-    animation: slideInRight 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    transition: all 0.4s ease;
-    overflow: visible; // Permite que el botón sea clickeable sin recortes
-
-    &--success { border-left-color: #10b981; }
-    &--error { border-left-color: #ef4444; }
-
-    .toast-content {
-        flex-grow: 1;
-        p {
-            margin: 0;
-            font-weight: 600;
-            font-size: 0.95rem;
-            color: $primary-color;
-        }
-    }
-
-    .toast-close {
-        position: relative;
-        z-index: 10001 !important; // Por encima de cualquier icono inyectado
-        background: #f1f5f9;
-        border: none;
-        color: #64748b;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer !important;
-        font-size: 1.4rem;
-        transition: all 0.2s;
-        pointer-events: auto !important; // Fuerza la recepción del clic
-
-        &:hover {
-            background: #e2e8f0;
-            color: $primary-color;
-            transform: scale(1.1);
-        }
-    }
-
-    // Mata cualquier icono de extensión que se meta en el toast
-    svg, div[id*="pwm"] {
-        pointer-events: none !important;
-    }
-
-    &.fade-out {
-        opacity: 0;
-        transform: translateX(50px);
-    }
-}
 }
 
 .toast {
-    position: relative; // Vital para el z-index interno
+    position: relative;
     pointer-events: auto;
     background: $white;
     padding: 16px 20px;
     border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: $shadow-lg;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -96,10 +37,10 @@
     border-left: 6px solid;
     animation: slideInRight 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     transition: all 0.4s ease;
-    overflow: visible; // Permite que el botón sea clickeable sin recortes
+    overflow: visible;
 
-    &--success { border-left-color: #10b981; }
-    &--error { border-left-color: #ef4444; }
+    &--success { border-left-color: $success-green; }
+    &--error { border-left-color: $error-red; }
 
     .toast-content {
         flex-grow: 1;
@@ -112,21 +53,16 @@
     }
 
     .toast-close {
-        position: relative;
-        z-index: 10001 !important; // Por encima de cualquier icono inyectado
         background: #f1f5f9;
         border: none;
-        color: #64748b;
-        width: 32px;
-        height: 32px;
+        color: $text-muted;
+        width: 32px; height: 32px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        cursor: pointer !important;
-        font-size: 1.4rem;
+        cursor: pointer;
         transition: all 0.2s;
-        pointer-events: auto !important; // Fuerza la recepción del clic
 
         &:hover {
             background: #e2e8f0;
@@ -135,18 +71,8 @@
         }
     }
 
-    // Mata cualquier icono de extensión que se meta en el toast
-    svg, div[id*="pwm"] {
-        pointer-events: none !important;
-    }
-
     &.fade-out {
         opacity: 0;
         transform: translateX(50px);
     }
-}
-
-@keyframes slideInRight {
-    from { transform: translateX(100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
 }
