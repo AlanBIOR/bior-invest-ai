@@ -12,4 +12,5 @@ urlpatterns = [
     path('disclaimer/', views.disclaimer, name='disclaimer'),
     # Ruta dinámica para los detalles (lo que tenías en PHP como detalle_inversion/)
     path('detalle/<str:category_slug>/', views.detalle_inversion, name='detalle_inversion'),
+    path('guardar-progreso/', views.guardar_progreso, name='guardar_progreso'),
 ]

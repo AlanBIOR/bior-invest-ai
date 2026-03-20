@@ -16,7 +16,7 @@
                 <line x1="12" y1="8" x2="12.01" y2="8"></line>
             </svg>
             <span>
-                <strong>Consejo para el futuro:</strong> Las cosas suben de precio cada año debido a la inflación. Para que tu dinero te alcance para lo mismo en el futuro, te sugerimos aumentar tu ahorro un 5% cada año.
+                <strong>Consejo para el futuro:</strong> Las cosas suben de precio cada año debido a la inflación. Te sugerimos aumentar tu ahorro un 5% cada año.
             </span>
         </small>
     </div>
@@ -29,7 +29,7 @@
             </div>
             <div class="input-group">
                 <span>$</span>
-                <input type="number" id="montoTotal" value="10000" placeholder="Ej: 100000">
+                <input type="number" id="montoTotal" value="{{ capital_inicial|floatformat:0 }}" placeholder="Ej: 100000">
                 <span>MXN</span>
             </div>
         </div>
@@ -41,7 +41,7 @@
             </div>
             <div class="input-group">
                 <span>$</span>
-                <input type="number" id="montoAportacion" value="500" placeholder="Ej: 5000">
+                <input type="number" id="montoAportacion" value="{{ aportacion_mensual|floatformat:0 }}" placeholder="Ej: 5000">
                 <span>MXN</span>
             </div>
         </div>
@@ -60,28 +60,29 @@
 </header>
 
 <section class="investment-grid">
-    {% for inv in inversiones %}
-        <div class="card investment-card" data-category="{{ inv.get_category_display }}">
+    {% for cat in categorias %}
+        <div class="card investment-card" data-category="{{ cat.name }}">
             <div class="card-header">
                 <div class="card-content">
-                    <h3>{{ inv.get_category_display }}</h3>
-                    <p class="porcentaje-display">--%</p>
+                    <h3>{{ cat.name }}</h3>
+                    <p class="porcentaje-display">{{ cat.target_percentage }}%</p>
                     
                     <p class="monto-calculado-container">
-                        $ <span class="monto-calculado">{{ inv.amount }}</span>
+                        $ <span class="monto-calculado" data-porcentaje="{{ cat.target_percentage }}">0.00</span>
                     </p>
                     
-                    <small>{{ inv.description }}</small>
+                    <small>{{ cat.description }}</small>
                 </div>
 
-                <a href="/detalle/{{ inv.category|lower }}/" class="btn-text-cta">
+                {# Generamos la URL amigable basada en el nombre #}
+                <a href="/detalle/{{ cat.name|slugify }}/" class="btn-text-cta">
                     Saber más <span class="arrow">→</span>
                 </a>
             </div>
         </div>
     {% empty %}
         <div class="card">
-            <p>No hay inversiones. Agrega algunas en el <a href="/admin/">Admin</a>.</p>
+            <p>No se encontraron categorías. Ejecuta el script de siembra o agrégalas en el <a href="/admin/">Admin</a>.</p>
         </div>
     {% endfor %}
 </section>
@@ -89,7 +90,7 @@
 <div class="card chart-container">
     <h2>Distribución Estratégica</h2>
     <div class="chart-wrapper">
-        <canvas id="graficoInversiones"></canvas>
+        <canvas id="portfolioChart"></canvas>
     </div>
 </div>
 {% endblock %}
@@ -98,9 +99,15 @@
     <script id="inversiones-data" type="application/json">
         {{ datos_js|safe }}
     </script>
+    
     <script>
-        window.BIOR_CONFIG = {
-            isLoggedIn: {{ user.is_authenticated|yesno:"true,false" }}
+        // Pequeño parche para que grafico.js reciba lo que espera
+        const rawData = JSON.parse(document.getElementById('inversiones-data').textContent);
+        
+        // Transformamos los datos al formato que Chart.js entiende
+        window.CHART_DATA = {
+            labels: rawData.map(item => item.name),
+            values: rawData.map(item => item.target_percentage)
         };
     </script>
 {% endblock %}
