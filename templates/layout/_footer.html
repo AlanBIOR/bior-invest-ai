@@ -23,12 +23,13 @@
                                 <i class="fas fa-chevron-down"></i>
                             </summary>
                             <ul class="footer-sub-menu">
-                                <li><a href="/detalle/renta_variable/" class="{% if '/renta_variable/' in request.path %}active{% endif %}">Renta Variable</a></li>
-                                <li><a href="/detalle/inmuebles/" class="{% if '/inmuebles/' in request.path %}active{% endif %}">Inmuebles</a></li>
-                                <li><a href="/detalle/private_equity/" class="{% if '/private_equity/' in request.path %}active{% endif %}">Private Equity</a></li>
-                                <li><a href="/detalle/inversiones_alternativas/" class="{% if '/inversiones_alternativas/' in request.path %}active{% endif %}">Alternativas</a></li>
-                                <li><a href="/detalle/efectivo/" class="{% if '/efectivo/' in request.path %}active{% endif %}">Efectivo</a></li>
-                                <li><a href="/detalle/renta_fija/" class="{% if '/renta_fija/' in request.path %}active{% endif %}">Renta Fija</a></li>
+                                {# Usamos el tag url y guiones medios para coincidir con el Navbar #}
+                                <li><a href="{% url 'detalle_inversion' 'renta-variable' %}" class="{% if 'renta-variable' in request.path %}active{% endif %}">Renta Variable</a></li>
+                                <li><a href="{% url 'detalle_inversion' 'inmuebles' %}" class="{% if 'inmuebles' in request.path %}active{% endif %}">Inmuebles</a></li>
+                                <li><a href="{% url 'detalle_inversion' 'private-equity' %}" class="{% if 'private-equity' in request.path %}active{% endif %}">Private Equity</a></li>
+                                <li><a href="{% url 'detalle_inversion' 'inversiones-alternativas' %}" class="{% if 'inversiones-alternativas' in request.path %}active{% endif %}">Alternativas</a></li>
+                                <li><a href="{% url 'detalle_inversion' 'efectivo' %}" class="{% if 'efectivo' in request.path %}active{% endif %}">Efectivo</a></li>
+                                <li><a href="{% url 'detalle_inversion' 'renta-fija' %}" class="{% if 'renta-fija' in request.path %}active{% endif %}">Renta Fija</a></li>
                             </ul>
                         </details>
                     </li>

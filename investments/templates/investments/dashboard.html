@@ -75,7 +75,7 @@
                 </div>
 
                 {# Generamos la URL amigable basada en el nombre #}
-                <a href="/detalle/{{ cat.slug }}/" class="btn-text-cta">
+                <a href="{% url 'detalle_inversion' cat.slug %}" class="btn-text-cta">
                     Saber más <span class="arrow">→</span>
                 </a>
             </div>
