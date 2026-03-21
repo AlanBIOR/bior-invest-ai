@@ -136,11 +136,22 @@ LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = 'login'      # A donde vas al salir
 
 if not DEBUG:
+    # 1. Agregamos el dominio a la lista de confianza para formularios
+    CSRF_TRUSTED_ORIGINS = [
+        'http://vps22710.cubepath.net',
+        'http://vps22710.cubepath.net:8000',
+        'http://157.254.174.144',
+    ]
+
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    # SECURE_SSL_REDIRECT = True  # <-- Mantenla comentada hasta tener SSL funcional
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    # Esto ayuda a que los archivos estáticos carguen bien con WhiteNoise
+    
+    # 2. IMPORTANTE: Cambia estos a False mientras no tengamos HTTPS real (SSL)
+    # Si están en True y entras por el puerto 8000, siempre te dará error 403
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+    SECURE_SSL_REDIRECT = False 
+    
+    # Configuración de HSTS (puedes dejarla o comentarla)
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
