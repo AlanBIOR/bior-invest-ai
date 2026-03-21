@@ -5,6 +5,7 @@ import { generarImagen } from './modules/reporte.js';
 import * as Portfolio from './modules/portfolio.js';
 import { initToasts, initAlertsConf } from './modules/alerts.js';
 import { initPrivacyMode } from './modules/privacy.js';
+import { initAIChat } from './modules/ai_chat.js';
 
 // --- FUNCIONES DE PERSISTENCIA PARA DJANGO ---
 function getCookie(name) {
@@ -44,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 0. INICIALIZACIÓN PRIORITARIA ---
     initToasts();
     initAlertsConf();
+    initAIChat();
     if (typeof initPrivacyMode === 'function') initPrivacyMode();
 
     // --- 1. EXPOSICIÓN GLOBAL (Para botones en HTML) ---

@@ -19,6 +19,7 @@
             username: "{{ user.username|default:'Invitado' }}"
         };
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     {% block extra_head %}{% endblock %}
 </head>
@@ -80,6 +81,10 @@
     {% endif %}
 
     {% block extra_scripts %}{% endblock %}
+
+    {% if user.is_authenticated %}
+        {% include 'components/ai_chat/chat_button.html' %}
+    {% endif %}
 
     <script src="{% static 'assets/js/main.js' %}" type="module"></script>
 </body>

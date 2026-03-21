@@ -544,6 +544,234 @@ body.is-masked .maskable {
   pointer-events: none; /* Evita que le den clic a cosas ocultas por accidente */
 }
 
+/* =========================================
+   CHAT DE IA FLOTANTE (BIOR Invest)
+   ========================================= */
+/* --- 1. Botón Flotante Principal --- */
+#ai-chat-toggle {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background-color: #2563eb;
+  color: white;
+  padding: 1rem;
+  border-radius: 50%;
+  border: none;
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+  cursor: pointer;
+  z-index: 9999;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#ai-chat-toggle svg {
+  width: 2rem;
+  height: 2rem;
+}
+#ai-chat-toggle:hover {
+  background-color: #1d4ed8;
+  transform: scale(1.1);
+}
+
+/* --- 2. Ventana de Chat --- */
+#ai-chat-window {
+  position: fixed;
+  bottom: 6rem;
+  right: 2rem;
+  width: 380px;
+  height: 550px;
+  background-color: #111827;
+  border: 1px solid #374151;
+  border-radius: 1rem;
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.2);
+  z-index: 9998;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: Arial, sans-serif; /* Ajusta a la fuente de tu proyecto */
+}
+#ai-chat-window.hidden {
+  display: none !important;
+}
+#ai-chat-window {
+  /* Encabezado */
+}
+#ai-chat-window .chat-header {
+  background-color: #1f2937;
+  padding: 1rem;
+  border-bottom: 1px solid #374151;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#ai-chat-window .chat-header .chat-title {
+  display: flex;
+  align-items: center;
+}
+#ai-chat-window .chat-header .chat-title h3 {
+  color: white;
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+#ai-chat-window .chat-header .status-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #10b981;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+#ai-chat-window .chat-header button {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+}
+#ai-chat-window .chat-header button svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+#ai-chat-window .chat-header button:hover {
+  color: white;
+}
+#ai-chat-window {
+  /* Área de Mensajes */
+}
+#ai-chat-window #ai-chat-messages {
+  flex-grow: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+#ai-chat-window #ai-chat-messages .ai-message {
+  display: flex;
+  justify-content: flex-start;
+}
+#ai-chat-window #ai-chat-messages .user-message {
+  display: flex;
+  justify-content: flex-end;
+}
+#ai-chat-window #ai-chat-messages .ai-message > div {
+  background-color: #1f2937;
+  color: white;
+  padding: 0.8rem;
+  border-radius: 1rem 1rem 1rem 0;
+  max-width: 85%;
+  border: 1px solid #374151;
+}
+#ai-chat-window #ai-chat-messages .user-message > div {
+  background-color: #2563eb;
+  color: white;
+  padding: 0.8rem;
+  border-radius: 1rem 1rem 0 1rem;
+  max-width: 85%;
+}
+#ai-chat-window #ai-chat-messages p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+#ai-chat-window {
+  /* Loading state */
+}
+#ai-chat-window #ai-chat-loading {
+  padding: 0.5rem 1rem;
+  color: #9ca3af;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+}
+#ai-chat-window #ai-chat-loading.hidden {
+  display: none !important;
+}
+#ai-chat-window #ai-chat-loading .spinner {
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-right: 8px;
+  animation: spin 1s linear infinite;
+}
+#ai-chat-window {
+  /* Input y Envío */
+}
+#ai-chat-window .chat-input-area {
+  background-color: #1f2937;
+  padding: 1rem;
+  border-top: 1px solid #374151;
+  display: flex;
+  gap: 0.5rem;
+}
+#ai-chat-window .chat-input-area input {
+  flex-grow: 1;
+  padding: 0.6rem;
+  background-color: #374151;
+  color: white;
+  border: 1px solid #4b5563;
+  border-radius: 0.5rem;
+  outline: none;
+}
+#ai-chat-window .chat-input-area input:focus {
+  border-color: #3b82f6;
+}
+#ai-chat-window .chat-input-area button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.6rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#ai-chat-window .chat-input-area button svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+#ai-chat-window .chat-input-area button:hover {
+  background-color: #1d4ed8;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/* Scrollbar Personalizada */
+#ai-chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+#ai-chat-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#ai-chat-messages::-webkit-scrollbar-thumb {
+  background-color: #4b5563;
+  border-radius: 3px;
+}
+
+/* Estilos para el contenido Markdown de la IA */
+.markdown-body p {
+  margin-bottom: 0.8rem;
+}
+.markdown-body p:last-child {
+  margin-bottom: 0;
+}
+.markdown-body strong {
+  color: #60a5fa;
+  font-weight: bold;
+}
+.markdown-body ul, .markdown-body ol {
+  margin-left: 1.2rem;
+  margin-bottom: 0.8rem;
+}
+.markdown-body li {
+  margin-bottom: 0.3rem;
+}
+
 .card {
   background: #ffffff;
   border-radius: 16px;
