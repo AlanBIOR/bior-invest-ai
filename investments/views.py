@@ -127,28 +127,23 @@ def get_cetes_rate(request):
     tasa = FinanceService.get_banxico_data(serie)
     return JsonResponse({'rate': tasa})
 
-def detalle_inversion(request, category_slug):
-    # Aseguramos el formato del slug para la DB
-    db_slug = category_slug.replace('_', '-') 
-    category = get_object_or_404(Category, slug=db_slug)
+def detalle_inversion(request, slug):
+    # 1. 'slug' recibe 'renta-variable'
+    category = get_object_or_404(Category, slug=slug)
     
-    # Preparamos el nombre del archivo (renta_variable.html)
-    template_name = db_slug.replace('-', '_')
-    template_path = f'detalles/{template_name}.html'
+    # 2. Convertimos el guion medio (-) en bajo (_) para el archivo
+    # Esto transforma 'renta-variable' en 'renta_variable'
+    nombre_archivo = slug.replace('-', '_')
+    
+    # 3. Ahora sí, la ruta coincide con tu VS Code
+    template_path = f'detalles/{nombre_archivo}.html'
     
     context = {
         'category': category,
-        # Evitamos errores si el usuario no está logueado al filtrar
         'activos': Investment.objects.filter(user=request.user, category=category) if request.user.is_authenticated else []
     }
     
-    try:
-        return render(request, template_path, context)
-    except Exception as e:
-        # Si DEBUG es True, esto imprimirá el error real en tu consola de SSH
-        print(f"Error renderizando {template_path}: {str(e)}")
-        # Si el archivo no existe o falla, cargamos el genérico
-        return render(request, 'pages/detalle_generic.html', context)
+    return render(request, template_path, context)
 
 @login_required
 def guardar_progreso(request):
