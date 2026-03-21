@@ -119,28 +119,35 @@ def portafolio(request):
     
     return render(request, 'pages/portafolio.html', context)
 
-@login_required
 # --- 3. FUNCIONES DE APOYO & DETALLE ---
+
+@login_required # Movido correctamente aquí
 def get_cetes_rate(request):
-    """Sustituye a get_cetes_rate.php"""
     serie = request.GET.get('series', 'SF43936')
     tasa = FinanceService.get_banxico_data(serie)
     return JsonResponse({'rate': tasa})
 
 def detalle_inversion(request, category_slug):
+    # Aseguramos el formato del slug para la DB
     db_slug = category_slug.replace('_', '-') 
     category = get_object_or_404(Category, slug=db_slug)
+    
+    # Preparamos el nombre del archivo (renta_variable.html)
     template_name = db_slug.replace('-', '_')
     template_path = f'detalles/{template_name}.html'
     
     context = {
         'category': category,
+        # Evitamos errores si el usuario no está logueado al filtrar
         'activos': Investment.objects.filter(user=request.user, category=category) if request.user.is_authenticated else []
     }
     
     try:
         return render(request, template_path, context)
-    except TemplateDoesNotExist:
+    except Exception as e:
+        # Si DEBUG es True, esto imprimirá el error real en tu consola de SSH
+        print(f"Error renderizando {template_path}: {str(e)}")
+        # Si el archivo no existe o falla, cargamos el genérico
         return render(request, 'pages/detalle_generic.html', context)
 
 @login_required
