@@ -128,15 +128,16 @@ def get_cetes_rate(request):
     return JsonResponse({'rate': tasa})
 
 def detalle_inversion(request, category_slug):
-    db_slug = category_slug.replace('_', '-')
+    db_slug = category_slug.replace('_', '-') 
     category = get_object_or_404(Category, slug=db_slug)
-    template_slug = db_slug.replace('-', '_')
-    template_path = f'detalles/{template_slug}.html'
+    template_name = db_slug.replace('-', '_')
+    template_path = f'detalles/{template_name}.html'
     
     context = {
         'category': category,
         'activos': Investment.objects.filter(user=request.user, category=category) if request.user.is_authenticated else []
     }
+    
     try:
         return render(request, template_path, context)
     except TemplateDoesNotExist:
