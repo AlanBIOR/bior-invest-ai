@@ -14,4 +14,5 @@ urlpatterns = [
     path('detalle/<str:category_slug>/', views.detalle_inversion, name='detalle_inversion'),
     path('guardar-progreso/', views.guardar_progreso, name='guardar_progreso'),
     path('eliminar-activo/<int:pk>/', views.eliminar_activo, name='eliminar_activo'),
+    path('api/v1/n8n-webhook/', views.n8n_webhook, name='n8n_webhook'),
 ]

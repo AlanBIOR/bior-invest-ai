@@ -12,6 +12,9 @@ from decimal import Decimal
 from .models import Investment, Category, Profile
 from .services import FinanceService
 
+from django.views.decorators.csrf import csrf_exempt
+from .core_ai import process_ai_request
+
 # --- 1. REGISTRO & DASHBOARD ---
 def registro(request):
     if request.method == 'POST':
@@ -58,15 +61,6 @@ def portafolio(request):
         
         if precio_actual_api:
             try:
-                # LÓGICA DE CONVERSIÓN REAL:
-                # 1. Obtenemos el precio al que estaba la moneda cuando el usuario registró (usando annual_yield como precio de entrada temporal)
-                # 2. O más simple: Si el 'amount_invested' es lo que gastó, y no tenemos 'quantity',
-                #    necesitamos que el usuario nos diga cuántas monedas compró.
-                
-                # PARCHE ACTUAL (Sin campo quantity):
-                # Si invertiste $80,000 y el precio base era $1,200,000, tienes 0.066 BTC.
-                # Valor Actual = (Inversión / Precio Entrada) * Precio Actual API
-                
                 precio_entrada_simulado = Decimal('1200000') # Esto debe ser el precio cuando compraste
                 if api_id == 'solana': precio_entrada_simulado = Decimal('2500')
                 if api_id == 'dogecoin': precio_entrada_simulado = Decimal('2.50')
@@ -177,3 +171,19 @@ def configuracion(request):
 def terminos(request): return render(request, 'pages/terminos.html')
 def privacidad(request): return render(request, 'pages/privacidad.html')
 def disclaimer(request): return render(request, 'pages/disclaimer.html')
+
+@csrf_exempt
+def n8n_webhook(request):
+    if request.method == 'POST':
+        try:
+            # 1. Recibimos el JSON de n8n
+            data = json.loads(request.body)
+            
+            # 2. Procesamos con la lógica de tu carpeta core_ai
+            result = process_ai_request(data)
+            
+            return JsonResponse(result)
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+            
+    return JsonResponse({"status": "error", "message": "Método no permitido"}, status=405)
