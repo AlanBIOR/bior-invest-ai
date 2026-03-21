@@ -13,4 +13,5 @@ urlpatterns = [
     # Ruta dinámica para los detalles (lo que tenías en PHP como detalle_inversion/)
     path('detalle/<str:category_slug>/', views.detalle_inversion, name='detalle_inversion'),
     path('guardar-progreso/', views.guardar_progreso, name='guardar_progreso'),
+    path('eliminar-activo/<int:pk>/', views.eliminar_activo, name='eliminar_activo'),
 ]

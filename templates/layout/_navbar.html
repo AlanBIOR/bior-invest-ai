@@ -8,19 +8,20 @@
         </li>
         
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle {% if category or request.resolver_match.url_name == 'detalle_inversion' %}active{% endif %}">
+            <a href="#" class="dropdown-toggle {% if request.resolver_match.url_name == 'detalle_inversion' %}active{% endif %}">
                 Activos de Inversión
                 <svg class="caret" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
             </a>
             <ul class="dropdown-menu">
-                <li><a href="{% url 'detalle_inversion' 'renta_variable' %}" class="{% if category == 'renta_variable' %}active{% endif %}">Renta Variable</a></li>
-                <li><a href="{% url 'detalle_inversion' 'inmuebles' %}" class="{% if category == 'inmuebles' %}active{% endif %}">Inmuebles</a></li>
-                <li><a href="{% url 'detalle_inversion' 'private_equity' %}" class="{% if category == 'private_equity' %}active{% endif %}">Private Equity</a></li>
-                <li><a href="{% url 'detalle_inversion' 'inversiones_alternativas' %}" class="{% if category == 'inversiones_alternativas' %}active{% endif %}">Inversiones Alternativas</a></li>
-                <li><a href="{% url 'detalle_inversion' 'efectivo' %}" class="{% if category == 'efectivo' %}active{% endif %}">Efectivo</a></li>
-                <li><a href="{% url 'detalle_inversion' 'renta_fija' %}" class="{% if category == 'renta_fija' %}active{% endif %}">Renta Fija</a></li>
+                {# IMPORTANTE: Usamos guiones medios como en la Base de Datos #}
+                <li><a href="{% url 'detalle_inversion' 'renta-variable' %}" class="{% if 'renta-variable' in request.path %}active{% endif %}">Renta Variable</a></li>
+                <li><a href="{% url 'detalle_inversion' 'inmuebles' %}" class="{% if 'inmuebles' in request.path %}active{% endif %}">Inmuebles</a></li>
+                <li><a href="{% url 'detalle_inversion' 'private-equity' %}" class="{% if 'private-equity' in request.path %}active{% endif %}">Private Equity</a></li>
+                <li><a href="{% url 'detalle_inversion' 'inversiones-alternativas' %}" class="{% if 'inversiones-alternativas' in request.path %}active{% endif %}">Inversiones Alternativas</a></li>
+                <li><a href="{% url 'detalle_inversion' 'efectivo' %}" class="{% if 'efectivo' in request.path %}active{% endif %}">Efectivo</a></li>
+                <li><a href="{% url 'detalle_inversion' 'renta-fija' %}" class="{% if 'renta-fija' in request.path %}active{% endif %}">Renta Fija</a></li>
             </ul>
         </li>
 
@@ -32,7 +33,7 @@
             </li>
             <li>
                 <a href="{% url 'admin:index' %}" target="_blank">
-                    </i> Panel de Control
+                    <i class="fas fa-cog"></i> Panel de Control
                 </a>
             </li>
             <li>

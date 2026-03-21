@@ -10,9 +10,16 @@
     <link rel="icon" type="image/svg+xml" href="{% static 'assets/img/favicon.svg' %}">
     <link rel="shortcut icon" href="{% static 'assets/img/favicon.ico' %}">
     
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+
+    <script>
+        window.BIOR_CONFIG = {
+            isLoggedIn: {% if user.is_authenticated %}true{% else %}false{% endif %},
+            username: "{{ user.username|default:'Invitado' }}"
+        };
+    </script>
+
     {% block extra_head %}{% endblock %}
 </head>
 <body class="{% if user.is_authenticated %}logged-in{% else %}guest{% endif %}">
@@ -40,10 +47,40 @@
     </main>
 
     {% include 'layout/_footer.html' %}
+    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <script src="{% static 'assets/js/main.js' %}" type="module"></script>
+    {% if messages %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            {% for message in messages %}
+                const text = "{{ message|escapejs }}";
+                let title = "¡Hecho!";
+                let icon = "success";
+
+                // Lógica de títulos según el tag o el contenido
+                if (text === 'added') title = "¡Activo Registrado!";
+                if (text === 'deleted') title = "¡Activo Eliminado!";
+                if ("{{ message.tags }}" === "error") icon = "error";
+
+                Swal.fire({
+                    icon: icon,
+                    title: title,
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    background: '#ffffff',
+                    iconColor: '#10B981'
+                });
+            {% endfor %}
+        });
+    </script>
+    {% endif %}
 
     {% block extra_scripts %}{% endblock %}
+
+    <script src="{% static 'assets/js/main.js' %}" type="module"></script>
 </body>
 </html>

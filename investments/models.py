@@ -1,69 +1,78 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
-# ==========================================================================
-# 1. USUARIO PERSONALIZADO (Mapeo de tabla 'usuarios')
-# ==========================================================================
-class User(AbstractUser):
-    # Campos adicionales de tu SQL original
-    capital = models.DecimalField(max_digits=15, decimal_places=2, default=0.00)
-    aportacion = models.DecimalField(max_digits=15, decimal_places=2, default=0.00)
-    ip_registro = models.GenericIPAddressField(null=True, blank=True)
-    
-    def __str__(self):
-        return f"{self.first_name} {self.last_name} ({self.username})"
-
-# ==========================================================================
-# 2. CATEGORÍAS (Mapeo de tabla 'investment_categories')
-# ==========================================================================
+# --- 1. CATEGORÍAS DE INVERSIÓN ---
 class Category(models.Model):
     name = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True)
+    description = models.TextField(blank=True)
     target_percentage = models.DecimalField(max_digits=5, decimal_places=2)
-    description = models.TextField(null=True, blank=True)
 
     class Meta:
         verbose_name_plural = "Categories"
 
     def __str__(self):
-        return f"{self.name} ({self.target_percentage}%)"
+        return self.name
 
-# ==========================================================================
-# 3. ACTIVOS GLOBALES (Mapeo de tabla 'global_assets')
-# ==========================================================================
+# --- 2. ACTIVOS GLOBALES (Para jalar precios de APIs) ---
 class GlobalAsset(models.Model):
-    name = models.CharField(max_length=100)
-    symbol = models.CharField(max_length=10)
-    default_category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    symbol = models.CharField(max_length=20, help_text="Ej: BTC, AAPL, AMZN")
+    api_id = models.CharField(max_length=100, blank=True, null=True, help_text="ID para CoinGecko")
+    current_price = models.DecimalField(max_digits=20, decimal_places=10, default=0.0)
+    last_api_update = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.name} [{self.symbol}]"
+        return f"{self.name} ({self.symbol})"
 
-# ==========================================================================
-# 4. INVERSIONES (Mapeo de tabla 'investments' - El Corazón)
-# ==========================================================================
+# --- 3. INVERSIONES DEL USUARIO (Activos Reales) ---
 class Investment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='investments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    global_asset = models.ForeignKey(GlobalAsset, on_delete=models.SET_NULL, null=True, blank=True)
     
-    asset_name = models.CharField(max_length=100)
-    api_id = models.CharField(max_length=50, null=True, blank=True, help_text="ID para CoinGecko/Yahoo Finance")
-    banxico_series = models.CharField(max_length=20, null=True, blank=True, help_text="Serie para consulta de CETES")
+    asset_name = models.CharField(max_length=255)
     
-    annual_yield = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
-    amount_invested = models.DecimalField(max_digits=15, decimal_places=2, default=0.00)
+    # Campo detectado en tu DB: Importante para criptos o acciones fraccionadas
+    quantity = models.DecimalField(max_digits=25, decimal_places=12, default=1.0)
     
-    # Precisión de 10 decimales para Cripto (Satoshi-ready)
-    quantity = models.DecimalField(max_digits=20, decimal_places=10, default=1.0000000000)
-    current_value = models.DecimalField(max_digits=15, decimal_places=2, default=0.00)
+    amount_invested = models.DecimalField(max_digits=15, decimal_places=2)
+    current_value = models.DecimalField(max_digits=15, decimal_places=2)
+    platform = models.CharField(max_length=100, blank=True)
     
-    # Cambiamos placeholder por help_text
-    platform = models.CharField(
-        max_length=50, 
-        null=True, 
-        blank=True, 
-        help_text="Ej: Bitso, Nu, GBM"
-    )
-    last_updated = models.DateTimeField(auto_now=True)
+    annual_yield = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
+    banxico_series = models.CharField(max_length=50, blank=True, null=True)
+    last_updated = models.DateTimeField(auto_now=True) 
+
+    @property
+    def rendimiento_porcentaje(self):
+        if self.amount_invested and self.amount_invested > 0:
+            diff = self.current_value - self.amount_invested
+            return (diff / self.amount_invested) * 100
+        return 0
+
+# --- 4. PERFIL DE USUARIO (Configuración de la Calculadora) ---
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    capital = models.DecimalField(max_digits=15, decimal_places=2, default=10000.00)
+    aportacion = models.DecimalField(max_digits=15, decimal_places=2, default=500.00)
 
     def __str__(self):
-        return f"{self.asset_name} ({self.user.username})"
+        return f"Perfil de {self.user.username}"
+
+# --- 5. AUTOMATIZACIÓN (SIGNALS) ---
+# Esto garantiza que cada AlanAdmin o usuario nuevo tenga su Perfil creado automáticamente
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.get_or_create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    # Usamos try/except por si el perfil fue borrado manualmente
+    try:
+        instance.profile.save()
+    except Profile.DoesNotExist:
+        Profile.objects.create(user=instance)

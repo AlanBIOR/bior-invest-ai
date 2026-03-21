@@ -1,13 +1,15 @@
-from django.http import JsonResponse
 import json
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.template import TemplateDoesNotExist
-from .models import Investment, Category
+from django.db.models import Sum
+from django.contrib import messages
+from .models import Investment, Category, Profile
 
-# 1. Registro (Abierto) - Vinculado al nuevo modelo User
+# 1. Registro
 def registro(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -21,21 +23,19 @@ def registro(request):
 
 # 2. Dashboard (Estrategia Sugerida)
 def dashboard(request):
-    # Traemos las 6 categorías del script de siembra
     categorias = Category.objects.all()
-    
-    # Preparamos los datos para Chart.js y la calculadora
     datos_lista = [
-        {
-            "name": cat.name,
-            "target_percentage": float(cat.target_percentage),
-            "description": cat.description
-        } for cat in categorias
+        {"name": cat.name, "target_percentage": float(cat.target_percentage), "description": cat.description} 
+        for cat in categorias
     ]
 
-    # Si el usuario está logueado, usamos sus preferencias; si no, valores default
-    capital_inicial = request.user.capital if request.user.is_authenticated else 10000
-    aportacion_mensual = request.user.aportacion if request.user.is_authenticated else 500
+    if request.user.is_authenticated:
+        profile, created = Profile.objects.get_or_create(user=request.user)
+        capital_inicial = profile.capital
+        aportacion_mensual = profile.aportacion
+    else:
+        capital_inicial = 10000
+        aportacion_mensual = 500
 
     context = {
         'categorias': categorias,
@@ -45,97 +45,129 @@ def dashboard(request):
     }
     return render(request, 'investments/dashboard.html', context)
 
-# 3. Portafolio (Gestión de Activos Reales)
+# 3. Portafolio (Actualizado para asegurar datos de gráfica)
 @login_required
 def portafolio(request):
     if request.method == 'POST':
+        # ... (toda tu lógica de guardado POST se mantiene igual, está perfecta)
         category_id = request.POST.get('category_id')
         asset_name = request.POST.get('asset_name')
-        amount = request.POST.get('amount')
+        amount = request.POST.get('amount_invested')
         platform = request.POST.get('platform')
+        yield_val = request.POST.get('annual_yield')
+        yield_val = float(yield_val) if yield_val and yield_val.strip() else 0.0
 
         if category_id and amount:
-            cat = get_object_or_404(Category, id=category_id)
-            Investment.objects.create(
-                user=request.user,
-                category=cat,
-                asset_name=asset_name,
-                amount_invested=amount,
-                current_value=amount, # Al inicio el valor actual es igual al invertido
-                platform=platform
-            )
-            return redirect('portafolio')
+            try:
+                cat = get_object_or_404(Category, id=category_id)
+                Investment.objects.create(
+                    user=request.user,
+                    category=cat,
+                    asset_name=asset_name,
+                    amount_invested=amount,
+                    current_value=amount, 
+                    annual_yield=yield_val,
+                    platform=platform
+                )
+                messages.success(request, 'added')
+                return redirect('portafolio')
+            except Exception as e:
+                messages.error(request, f"Error: {e}")
 
-    # Obtenemos los activos reales del usuario
+    # LÓGICA DE CONSULTA
     activos = Investment.objects.filter(user=request.user).select_related('category')
-    total_invertido = sum(asset.amount_invested for asset in activos)
-    valor_actual_total = sum(asset.current_value for asset in activos)
+    total_invertido = activos.aggregate(Sum('amount_invested'))['amount_invested__sum'] or 0
+    valor_actual_total = activos.aggregate(Sum('current_value'))['current_value__sum'] or 0
     
-    # Datos para la gráfica de dona del portafolio REAL
+    # Preparamos los datos para Chart.js
     datos_grafica = {}
     for asset in activos:
         nombre = asset.category.name
+        # Sumamos el valor actual por cada nombre de categoría
         datos_grafica[nombre] = datos_grafica.get(nombre, 0) + float(asset.current_value)
     
     context = {
         'activos': activos,
-        'categorias_list': Category.objects.all(), # Para el formulario de agregar
+        'categorias_list': Category.objects.all(),
         'total_invertido': total_invertido,
         'valor_actual': valor_actual_total,
         'ganancia': valor_actual_total - total_invertido,
+        # Filtramos para que si no hay activos, no mande una gráfica vacía que de error
         'nombres_categorias': json.dumps(list(datos_grafica.keys())),
         'valores_categorias': json.dumps(list(datos_grafica.values())),
     }
     return render(request, 'pages/portafolio.html', context)
 
-# 4. Configuración (Próximamente para editar capital/aportación)
-@login_required
-def configuracion(request):
-    return render(request, 'pages/configuracion.html')
+# NUEVA FUNCIÓN: API para que el JS no de error 404
+def get_cetes_rate(request):
+    # Aquí podrías conectar a Banxico en el futuro
+    # Por ahora devolvemos un valor base para que tu main.js funcione
+    return JsonResponse({'rate': 11.00})
 
-# 5. Páginas Legales
-def terminos(request):
-    return render(request, 'pages/terminos.html')
-
-def privacidad(request):
-    return render(request, 'pages/privacidad.html')
-
-def disclaimer(request):
-    return render(request, 'pages/disclaimer.html')
-
-# 6. Detalle de Inversión (Dinámico)
+# DETALLE INVERSION (Corregida la búsqueda en DB)
 def detalle_inversion(request, category_slug):
-    # Forzamos que el slug use guiones bajos para que coincida con tus archivos .html
-    slug_fijo = category_slug.replace('-', '_') 
+    # Normalizamos: si entra 'renta_variable' buscamos 'renta-variable'
+    db_slug = category_slug.replace('_', '-')
     
-    # Buscamos la categoría en la DB (ignorando si es guion medio o bajo)
-    nombre_busqueda = category_slug.replace('-', ' ').replace('_', ' ')
-    category = get_object_or_404(Category, name__iexact=nombre_busqueda)
+    # BUSCAMOS CON EL SLUG CORRECTO
+    category = get_object_or_404(Category, slug=db_slug)
     
-    # Intentamos cargar el archivo que tienes en la carpeta detalles/
-    template_path = f'detalles/{slug_fijo}.html'
+    # Cargamos el template usando guion bajo (como tus archivos reales)
+    template_slug = db_slug.replace('-', '_')
+    template_path = f'detalles/{template_slug}.html'
     
     context = {
         'category': category,
         'activos': Investment.objects.filter(user=request.user, category=category) if request.user.is_authenticated else []
     }
-
+    
     try:
         return render(request, template_path, context)
     except TemplateDoesNotExist:
         return render(request, 'pages/detalle_generic.html', context)
     
-
+# 4. Guardar Capital y Aportación (Dashboard AJAX)
 @login_required
 def guardar_progreso(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            user = request.user
-            user.capital = data.get('capital', user.capital)
-            user.aportacion = data.get('aportacion', user.aportacion)
-            user.save()
-            return JsonResponse({'status': 'success', 'message': 'Progreso guardado en BD'})
+            profile, created = Profile.objects.get_or_create(user=request.user)
+            profile.capital = data.get('capital')
+            profile.aportacion = data.get('aportacion')
+            profile.save()
+            return JsonResponse({'status': 'ok'})
         except Exception as e:
-            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
-    return JsonResponse({'status': 'invalid_method'}, status=405)
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    return JsonResponse({'status': 'invalid'}, status=400)
+
+# 5. Funciones de apoyo (Se mantienen igual)
+@login_required
+def eliminar_activo(request, pk):
+    activo = get_object_or_404(Investment, pk=pk, user=request.user)
+    activo.delete()
+    messages.success(request, 'deleted')
+    return redirect('portafolio')
+
+@login_required
+def configuracion(request):
+    return render(request, 'pages/configuracion.html')
+
+def detalle_inversion(request, category_slug):
+    db_slug = category_slug.replace('_', '-')
+    category = get_object_or_404(Category, slug=category_slug)
+    template_slug = category_slug.replace('-', '_')
+    template_path = f'detalles/{template_slug}.html'
+    context = {
+        'category': category,
+        'activos': Investment.objects.filter(user=request.user, category=category) if request.user.is_authenticated else []
+    }
+    try:
+        return render(request, template_path, context)
+    except TemplateDoesNotExist:
+        return render(request, 'pages/detalle_generic.html', context)
+
+# Rutas legales
+def terminos(request): return render(request, 'pages/terminos.html')
+def privacidad(request): return render(request, 'pages/privacidad.html')
+def disclaimer(request): return render(request, 'pages/disclaimer.html')
