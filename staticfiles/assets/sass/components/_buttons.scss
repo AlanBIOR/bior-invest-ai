@@ -1,0 +1,59 @@
+@use "sass:color"; 
+@use "../abstracts/variables" as *;
+
+.actions-container {
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px 0;
+    padding: 0 10px;
+}
+
+.btn-pdf {
+    background: $primary-color;
+    color: $white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    box-shadow: $shadow-sm;
+
+    &:hover {
+        background: color.adjust($primary-color, $lightness: -10%); 
+        transform: translateY(-2px);
+        box-shadow: $shadow-md;
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+
+    i { font-size: 1.1rem; }
+}
+
+// Botón de borrado (usado en tablas)
+.btn-delete {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    background: rgba($error-red, 0.08);
+    color: $error-red;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: $error-red;
+        color: $white;
+        box-shadow: 0 4px 8px rgba($error-red, 0.2);
+    }
+}

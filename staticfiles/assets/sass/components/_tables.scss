@@ -1,0 +1,66 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+@include mobile {
+    .portfolio-detailed-table {
+        display: block;
+        border: 0;
+
+        thead { display: none; }
+        tbody { display: block; }
+
+        tbody tr {
+            display: block;
+            background-color: $white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.25rem;
+            box-shadow: $shadow-sm;
+            border: 1px solid $border-color;
+        }
+
+        td.asset-cell {
+            display: block;
+            border-bottom: 1px solid rgba($border-color, 0.5);
+            padding: 0 0 1rem 0;
+            margin-bottom: 1rem;
+            
+            .asset-name {
+                font-size: 1.15rem;
+                font-weight: 700;
+                color: $primary-color;
+            }
+        }
+
+        td.actions-cell {
+            display: block;
+            padding: 1.25rem 0 0 0;
+            border-top: 1px solid rgba($border-color, 0.5);
+            margin-top: 1.25rem;
+            text-align: center;
+        }
+
+        td:not(.asset-cell):not(.actions-cell) {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 0;
+            border: 0;
+
+            &::before {
+                content: attr(data-label); // Usa el atributo data-label del HTML
+                font-weight: 700;
+                color: $text-muted;
+                font-size: 0.75rem;
+                text-transform: uppercase;
+            }
+        }
+
+        // Si prefieres hardcodear las etiquetas en lugar de data-label:
+        td.category-cell::before { content: "CATEGORÍA:"; }
+        td.platform-cell::before { content: "PLATAFORMA:"; }
+        td.invested-cell::before { content: "INVERTIDO:"; }
+        td.current-value-cell::before { content: "VALOR ACTUAL:"; }
+        td.performance-cell::before { content: "RENDIMIENTO:"; }
+    }
+}

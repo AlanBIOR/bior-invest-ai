@@ -1,0 +1,82 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+// Importamos los estilos de componentes específicos
+@forward "badges";
+@forward "buttons";
+@forward "cards";
+@forward "fintech";
+@forward "modals";
+@forward "tables";
+@forward "toasts";
+@forward "privacy";
+@forward "ai_chat";
+
+// Estilo Global de Tarjetas (The BIOR Card)
+.card {
+    background: $white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: $shadow-md;
+    border: 1px solid rgba($white, 0.8);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    overflow: hidden;
+
+    &:hover {
+        box-shadow: $shadow-lg;
+    }
+
+    &--accent {
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, $primary-color, $accent-color);
+        }
+    }
+
+    h3 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: $primary-color;
+        margin: 0 0 12px 0;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .porcentaje-display {
+        font-size: 2rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, $primary-color, #3a4ba0);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: $white; // Fallback
+        margin-bottom: 8px;
+    }
+
+    .monto-calculado-container {
+        background: rgba($success-green, 0.1);
+        padding: 8px 12px;
+        border-radius: 8px;
+        display: inline-block;
+        color: $success-green;
+        font-weight: 700;
+        font-size: 1.2rem;
+        margin: 10px 0;
+        
+        .monto-calculado {
+            font-family: 'Courier New', monospace;
+        }
+    }
+
+    small {
+        display: block;
+        color: $text-muted;
+        line-height: 1.5;
+        font-size: 0.85rem;
+    }
+}
