@@ -33,13 +33,13 @@
             </li>
             <li>
                 <a href="{% url 'admin:index' %}" target="_blank">
-                    <i class="fas fa-cog"></i> Panel de Control
+                    Panel de Control
                 </a>
             </li>
             <li>
                 <form method="post" action="{% url 'logout' %}" style="display:inline;">
                     {% csrf_token %}
-                    <button type="submit" class="logout-link" style="background:none; border:none; cursor:pointer; font:inherit; color:inherit; padding:0;">
+                    <button type="submit" class="logout-link" style="background:none; border:none; cursor:pointer; font:inherit; color:inherit;">
                         Cerrar Sesión
                     </button>
                 </form>

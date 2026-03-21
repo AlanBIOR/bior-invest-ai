@@ -879,6 +879,7 @@ body.is-masked .maskable {
 }
 .main-nav ul li .logout-link {
   color: #ff7675 !important;
+  padding: 10px 25px;
 }
 .main-nav ul li .logout-link:hover {
   background-color: rgba(255, 118, 117, 0.1) !important;
