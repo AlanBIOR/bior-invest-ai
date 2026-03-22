@@ -179,20 +179,29 @@ def disclaimer(request): return render(request, 'pages/disclaimer.html')
 def n8n_webhook(request):
     if request.method == 'POST':
         try:
-            # 1. Recibimos el JSON de n8n
-            data = json.loads(request.body)
-            
-            # 2. CAPTURAMOS EL TELÉFONO (viene por GET de la URL que pusimos en n8n)
+            # 1. Obtenemos el teléfono de la URL
             phone = request.GET.get('phone')
             
-            # 3. Se lo pasamos a tu lógica de IA junto con los datos
-            # Agregamos el phone al diccionario data para que process_ai_request lo use
-            data['whatsapp_phone'] = phone
+            # 2. Buscamos al usuario en la DB
+            from investments.models import Profile, Investment
+            profile = Profile.objects.get(whatsapp_number=phone)
+            user = profile.user
             
-            result = process_ai_request(data)
+            # 3. Traemos sus inversiones (Esto es lo que Gemini necesita saber)
+            investments = Investment.objects.filter(user=user)
+            inv_list = [{"asset": i.global_asset.name, "amount": str(i.amount)} for i in investments]
             
-            return JsonResponse(result)
+            # 4. Respondemos de inmediato a n8n
+            return JsonResponse({
+                "status": "success",
+                "nombre": user.username,
+                "capital": str(profile.capital),
+                "aportacion": str(profile.aportacion),
+                "inversiones": inv_list,
+                "response": f"El usuario {user.username} tiene un capital de {profile.capital} y estas inversiones: {inv_list}"
+            })
+            
+        except Profile.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Número no vinculado"}, status=200) # 200 para que n8n no explote
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)}, status=400)
-            
-    return JsonResponse({"status": "error", "message": "Método no permitido"}, status=405)
