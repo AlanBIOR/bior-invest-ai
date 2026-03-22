@@ -3,14 +3,23 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>{% block title %}BIOR Invest{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>{% block title %}BIOR Invest - Tu Asesor de Inversiones con IA{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Aprende a invertir en México con BIOR Invest. Estrategias para Cetes, Nu y Cripto con asesoría de IA gratuita. Haz crecer tu patrimonio de forma fácil.{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}inversiones México, Cetes, Nu México, criptomonedas, asesor financiero IA, educación financiera{% endblock %}">
+    <meta name="author" content="BIOR Invest">
 
-    <link rel="icon" type="image/png" href="{% static 'assets/img/favicon-96x96.png' %}" sizes="96x96">
+    <meta property="og:title" content="{% block og_title %}BIOR Invest - Tu Asesor de Inversiones con IA{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Domina tus finanzas. Estrategias personalizadas y asesoría con Inteligencia Artificial para principiantes y expertos.{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:image" content="{% static 'assets/img/og-image.png' %}"> <link rel="icon" type="image/png" href="{% static 'assets/img/favicon-96x96.png' %}" sizes="96x96">
     <link rel="icon" type="image/svg+xml" href="{% static 'assets/img/favicon.svg' %}">
     <link rel="shortcut icon" href="{% static 'assets/img/favicon.ico' %}">
     
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
 
     <script>
@@ -59,7 +68,6 @@
                 let title = "¡Hecho!";
                 let icon = "success";
 
-                // Lógica de títulos según el tag o el contenido
                 if (text === 'added') title = "¡Activo Registrado!";
                 if (text === 'deleted') title = "¡Activo Eliminado!";
                 if ("{{ message.tags }}" === "error") icon = "error";
