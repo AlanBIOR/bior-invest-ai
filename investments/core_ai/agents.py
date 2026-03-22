@@ -22,7 +22,7 @@ def ask_financial_agent(user_question, portfolio_context):
     
     try:
         # 2. Elegimos el modelo más moderno y rápido
-        model = genai.GenerativeModel('gemini-2.5-flash')
+        model = genai.GenerativeModel('models/gemini-2.5-flash')
         
         # 3. Hacemos la llamada a la inteligencia artificial
         response = model.generate_content(prompt_completo)

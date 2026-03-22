@@ -26,7 +26,7 @@ export function initAIChat() {
         chatWindow.classList.add('hidden');
     });
 
-    // 3. Función de envío a Gemini
+    // 3. Función de envío a la IA local de Django (NO a n8n)
     async function sendMessage() {
         const text = chatInput.value.trim();
         if (!text) return;
@@ -36,20 +36,25 @@ export function initAIChat() {
         showLoading();
 
         try {
-            const response = await fetch('/api/v1/n8n-webhook/', {
+            // CAMBIO CLAVE: Apuntamos a /api/v1/ai-chat/
+            // Ya no pasamos el ?phone= porque usaremos la sesión de Django
+            const response = await fetch('/api/v1/ai-chat/', {
                 method: 'POST',
-                headers: {
+                headers: { 
                     'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken') // Importante para POST en Django
                 },
-                body: JSON.stringify({ username: username, text: text }), 
+                body: JSON.stringify({ 
+                    text: text 
+                }), 
             });
 
-            if (!response.ok) throw new Error('Error en la comunicación.');
+            if (!response.ok) throw new Error('Error en la comunicación con el asesor.');
 
             const data = await response.json();
 
             if (data.status === 'success') {
-                appendAIMessage(data.response);
+                appendAIMessage(data.response); // Aquí llegará el texto de agents.py
             } else {
                 appendAIMessage("Error: " + data.message);
             }
@@ -60,6 +65,22 @@ export function initAIChat() {
         } finally {
             hideLoading();
         }
+    }
+
+    // Función auxiliar para el CSRF Token de Django
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
     }
 
     // Eventos

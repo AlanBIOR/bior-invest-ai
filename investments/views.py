@@ -14,6 +14,7 @@ from .services import FinanceService
 
 from django.views.decorators.csrf import csrf_exempt
 from .core_ai import process_ai_request
+from .core_ai.agents import ask_financial_agent  # Importamos tu agente de Gemini 2.5
 
 # --- 1. REGISTRO & DASHBOARD ---
 def registro(request):
@@ -219,3 +220,35 @@ def n8n_webhook(request):
     except Exception as e:
         # Esto nos dirá el error real en n8n en lugar de un 500 genérico
         return JsonResponse({"status": "error", "message": str(e)}, status=500)
+        
+@login_required # Quitamos csrf_exempt para usar la seguridad de la sesión de la web
+def ai_chat_webhook(request):
+    """Webhook para el chat web: Seguro, privado y conectado a Gemini 2.5"""
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            # Buscamos 'text' (de la web) o 'Body' (por si acaso)
+            user_question = data.get('text') or data.get('Body')
+            
+            if not user_question:
+                return JsonResponse({"status": "error", "message": "No enviaste una pregunta"}, status=400)
+            
+            # 1. Obtener contexto (Usamos get_or_create para evitar errores)
+            profile, _ = Profile.objects.get_or_create(user=request.user)
+            investments = Investment.objects.filter(user=request.user)
+            inv_list = [{"activo": i.asset_name, "valor": str(i.current_value)} for i in investments]
+            
+            contexto = f"Eres el asesor de BIOR Invest. Usuario: {request.user.username}. Capital: {profile.capital}. Inversiones: {inv_list}"
+            
+            # 2. LLAMAR A TU AGENTE (Asegúrate que en agents.py diga 'models/gemini-2.5-flash')
+            respuesta_ia = ask_financial_agent(user_question, contexto)
+            
+            return JsonResponse({
+                "status": "success",
+                "response": respuesta_ia
+            })
+        except Exception as e:
+            # Muy útil para debug: esto saldrá en la consola del navegador si falla
+            return JsonResponse({"status": "error", "message": str(e)}, status=500)
+            
+    return JsonResponse({"status": "error", "message": "Método no permitido"}, status=405)
