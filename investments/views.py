@@ -11,6 +11,7 @@ from django.contrib import messages
 from decimal import Decimal
 from .models import Investment, Category, Profile
 from .services import FinanceService
+from django.utils import timezone
 
 from django.views.decorators.csrf import csrf_exempt
 from .core_ai import process_ai_request
