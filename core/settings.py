@@ -134,23 +134,23 @@ LOGIN_REDIRECT_URL = 'dashboard'  # A donde vas al entrar
 LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = 'login'      # A donde vas al salir
 
+# Mueve estas dos líneas FUERA del "if not DEBUG" para que siempre funcionen
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = False 
+
 if not DEBUG:
-    # 1. Agregamos el dominio a la lista de confianza para formularios
+    # 1. Agregamos tu NUEVO dominio a la lista de confianza
     CSRF_TRUSTED_ORIGINS = [
+        'https://invest-ai.bior-studio.com',
         'http://vps22710.cubepath.net',
-        'http://vps22710.cubepath.net:8000',
         'http://157.254.174.144',
     ]
 
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    # 2. Como ya tenemos SSL real con Certbot, estos DEBEN ser True para seguridad
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
     
-    # 2. IMPORTANTE: Cambia estos a False mientras no tengamos HTTPS real (SSL)
-    # Si están en True y entras por el puerto 8000, siempre te dará error 403
-    SESSION_COOKIE_SECURE = False
-    CSRF_COOKIE_SECURE = False
-    SECURE_SSL_REDIRECT = False 
-    
-    # Configuración de HSTS (puedes dejarla o comentarla)
+    # Configuración de HSTS
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
