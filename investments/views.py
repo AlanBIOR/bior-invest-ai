@@ -1,6 +1,7 @@
 import json
 import requests  # Importante: para conectar con CoinGecko
 from django.http import JsonResponse
+from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
@@ -212,6 +213,16 @@ from investments.models import Profile, Investment  # <--- IMPORTANTE
 
 @csrf_exempt
 def n8n_webhook(request):
+    # --- VALIDACIÓN DE SEGURIDAD ---
+    # Verificamos que la llave en el Header coincida con la de settings.py
+    auth_header = request.headers.get('X-Api-Key')
+    if auth_header != settings.N8N_WEBHOOK_KEY:
+        return JsonResponse({
+            "status": "error", 
+            "message": "No autorizado: Llave de seguridad incorrecta o ausente."
+        }, status=403)
+    # -------------------------------
+
     try:
         # 1. Obtenemos el teléfono de la URL
         phone = request.GET.get('phone')
@@ -223,7 +234,7 @@ def n8n_webhook(request):
             profile = Profile.objects.get(whatsapp_number=phone)
             user = profile.user
             
-            # 3. Traemos sus inversiones (Asegúrate que el modelo Investment exista)
+            # 3. Traemos sus inversiones
             investments = Investment.objects.filter(user=user)
 
             # Usamos los nombres reales de tus campos: asset_name y current_value
@@ -249,7 +260,7 @@ def n8n_webhook(request):
     except Exception as e:
         # Esto nos dirá el error real en n8n en lugar de un 500 genérico
         return JsonResponse({"status": "error", "message": str(e)}, status=500)
-        
+
 @login_required # Quitamos csrf_exempt para usar la seguridad de la sesión de la web
 def ai_chat_webhook(request):
     """Webhook para el chat web: Seguro, privado y conectado a Gemini 2.5"""

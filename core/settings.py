@@ -130,21 +130,22 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-LOGIN_REDIRECT_URL = 'dashboard'  # A donde vas al entrar
+
+# --- Autenticación y Redirecciones ---
+LOGIN_REDIRECT_URL = 'dashboard'
 LOGIN_URL = 'login'
-LOGOUT_REDIRECT_URL = 'login'      # A donde vas al salir
+LOGOUT_REDIRECT_URL = 'login'
 
-# --- CONFIGURACIÓN DE SEGURIDAD PARA PROXY (PEGAR AL FINAL) ---
+# --- Seguridad de APIs Externas ---
+# Esta es la llave que inventaste en tu .env
+N8N_WEBHOOK_KEY = config('N8N_WEBHOOK_KEY', default='llave-temporal-de-seguridad')
 
-# Esto es VITAL: Le dice a Django que confíe en el encabezado de Nginx
+# --- Configuración de Proxy y SSL ---
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-# Forzamos que estas opciones estén en False para romper el bucle de redirección
 SECURE_SSL_REDIRECT = False
 SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
 
-# Agregamos tu dominio a la lista de confianza para evitar errores 403
 CSRF_TRUSTED_ORIGINS = [
     'https://invest-ai.bior-studio.com',
     'http://157.254.174.144',
