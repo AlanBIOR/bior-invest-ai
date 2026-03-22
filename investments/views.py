@@ -175,33 +175,37 @@ def terminos(request): return render(request, 'pages/terminos.html')
 def privacidad(request): return render(request, 'pages/privacidad.html')
 def disclaimer(request): return render(request, 'pages/disclaimer.html')
 
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from investments.models import Profile, Investment  # <--- IMPORTANTE
+
 @csrf_exempt
 def n8n_webhook(request):
-    if request.method == 'POST':
+    try:
+        # 1. Obtenemos el teléfono de la URL
+        phone = request.GET.get('phone')
+        if not phone:
+             return JsonResponse({"status": "error", "message": "No se recibió el teléfono"}, status=400)
+
+        # 2. Buscamos al usuario en la DB
         try:
-            # 1. Obtenemos el teléfono de la URL
-            phone = request.GET.get('phone')
-            
-            # 2. Buscamos al usuario en la DB
-            from investments.models import Profile, Investment
             profile = Profile.objects.get(whatsapp_number=phone)
             user = profile.user
             
-            # 3. Traemos sus inversiones (Esto es lo que Gemini necesita saber)
+            # 3. Traemos sus inversiones (Asegúrate que el modelo Investment exista)
             investments = Investment.objects.filter(user=user)
-            inv_list = [{"asset": i.global_asset.name, "amount": str(i.amount)} for i in investments]
+            inv_list = [{"asset": str(i.global_asset), "amount": str(i.amount)} for i in investments]
             
-            # 4. Respondemos de inmediato a n8n
             return JsonResponse({
                 "status": "success",
                 "nombre": user.username,
-                "capital": str(profile.capital),
-                "aportacion": str(profile.aportacion),
-                "inversiones": inv_list,
                 "response": f"El usuario {user.username} tiene un capital de {profile.capital} y estas inversiones: {inv_list}"
             })
             
         except Profile.DoesNotExist:
-            return JsonResponse({"status": "error", "message": "Número no vinculado"}, status=200) # 200 para que n8n no explote
-        except Exception as e:
-            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+            return JsonResponse({"status": "success", "response": "Número no vinculado. Por favor regístrate."}, status=200)
+
+    except Exception as e:
+        # Esto nos dirá el error real en n8n en lugar de un 500 genérico
+        return JsonResponse({"status": "error", "message": str(e)}, status=500)
