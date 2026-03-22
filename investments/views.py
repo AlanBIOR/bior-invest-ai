@@ -195,12 +195,22 @@ def n8n_webhook(request):
             
             # 3. Traemos sus inversiones (Asegúrate que el modelo Investment exista)
             investments = Investment.objects.filter(user=user)
-            inv_list = [{"asset": str(i.global_asset), "amount": str(i.amount)} for i in investments]
+
+            # Usamos los nombres reales de tus campos: asset_name y current_value
+            inv_list = [
+                {
+                    "activo": i.asset_name, 
+                    "valor_actual": str(i.current_value),
+                    "invertido": str(i.amount_invested)
+                } for i in investments
+            ]
             
             return JsonResponse({
                 "status": "success",
                 "nombre": user.username,
-                "response": f"El usuario {user.username} tiene un capital de {profile.capital} y estas inversiones: {inv_list}"
+                "capital_disponible": str(profile.capital),
+                "inversiones": inv_list,
+                "response": f"Hola {user.username}, tienes {profile.capital} de capital libre. Tus inversiones actuales son: {inv_list}."
             })
             
         except Profile.DoesNotExist:
