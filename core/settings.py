@@ -134,23 +134,18 @@ LOGIN_REDIRECT_URL = 'dashboard'  # A donde vas al entrar
 LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = 'login'      # A donde vas al salir
 
-# Mueve estas dos líneas FUERA del "if not DEBUG" para que siempre funcionen
+# --- CONFIGURACIÓN DE SEGURIDAD PARA PROXY (PEGAR AL FINAL) ---
+
+# Esto es VITAL: Le dice a Django que confíe en el encabezado de Nginx
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_SSL_REDIRECT = False 
 
-if not DEBUG:
-    # 1. Agregamos tu NUEVO dominio a la lista de confianza
-    CSRF_TRUSTED_ORIGINS = [
-        'https://invest-ai.bior-studio.com',
-        'http://vps22710.cubepath.net',
-        'http://157.254.174.144',
-    ]
+# Forzamos que estas opciones estén en False para romper el bucle de redirección
+SECURE_SSL_REDIRECT = False
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
 
-    # 2. Como ya tenemos SSL real con Certbot, estos DEBEN ser True para seguridad
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    
-    # Configuración de HSTS
-    SECURE_HSTS_SECONDS = 31536000
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
+# Agregamos tu dominio a la lista de confianza para evitar errores 403
+CSRF_TRUSTED_ORIGINS = [
+    'https://invest-ai.bior-studio.com',
+    'http://157.254.174.144',
+]
