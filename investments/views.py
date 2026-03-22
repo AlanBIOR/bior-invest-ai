@@ -97,13 +97,19 @@ def portafolio(request):
 
     for asset in todos_los_activos:
         try:
+            # CASO A: CRIPTOS
             if asset.category_id == 4:
                 api_id = asset.asset_name.lower().strip().replace(" ", "-")
                 precio = FinanceService.get_crypto_price_mxn(api_id)
-                if precio and asset.quantity > 0:
+                # AGREGAMOS: validación de que quantity no sea None o 0
+                if precio and asset.quantity and asset.quantity > 0:
                     asset.current_value = asset.quantity * Decimal(str(precio))
+                    # Recalcular rendimiento para la DB
+                    diff = asset.current_value - asset.amount_invested
+                    asset.annual_yield = (diff / asset.amount_invested) * 100
             
-            elif asset.annual_yield > 0:
+            # CASO B: RENTA FIJA / EFECTIVO
+            elif asset.annual_yield and asset.annual_yield > 0:
                 dias_pasados = (ahora - asset.last_updated).days
                 if dias_pasados > 0:
                     tasa_diaria = (Decimal(str(asset.annual_yield)) / 100) / 365
@@ -111,7 +117,9 @@ def portafolio(request):
             
             asset.save()
         except Exception as e:
-            print(f"Error updating {asset.asset_name}: {e}")
+            # Si un activo falla, imprimimos el error en consola pero NO matamos la página
+            print(f"Error crítico en activo {asset.id} ({asset.asset_name}): {e}")
+            continue
 
     activos = Investment.objects.filter(user=request.user).select_related('category')
     agg = activos.aggregate(total_inv=Sum('amount_invested'), total_cur=Sum('current_value'))
