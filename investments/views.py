@@ -55,7 +55,6 @@ def dashboard(request):
 # --- 2. PORTAFOLIO CON ACTUALIZACIÓN DE PRECIOS ---
 @login_required
 def portafolio(request):
-    # 1. PROCESAR FORMULARIO (POST) PRIMERO PARA ACTUALIZAR TASAS
     if request.method == 'POST':
         category_id = request.POST.get('category_id')
         asset_name = request.POST.get('asset_name')
@@ -69,19 +68,18 @@ def portafolio(request):
                 cat = get_object_or_404(Category, id=category_id)
                 new_yield = float(yield_input) if yield_input and yield_input.strip() else 0.0
                 
-                # Sincronizar rendimiento en toda la plataforma/activo para el usuario
                 Investment.objects.filter(
                     user=request.user, 
                     platform=platform, 
                     asset_name=asset_name
                 ).update(annual_yield=new_yield)
 
-                # Calcular cantidad inicial si es Cripto
                 qty = Decimal('1.0')
                 if category_id == "4":
                     api_id = asset_name.lower().strip().replace(" ", "-")
                     p_hoy = FinanceService.get_crypto_price_mxn(api_id)
-                    if p_hoy: qty = amount / Decimal(str(p_hoy))
+                    if p_hoy: 
+                        qty = amount / Decimal(str(p_hoy))
 
                 Investment.objects.create(
                     user=request.user, category=cat, asset_name=asset_name,
@@ -93,29 +91,28 @@ def portafolio(request):
             except Exception as e:
                 messages.error(request, f"Error: {e}")
 
-    # 2. ACTUALIZACIÓN DINÁMICA DE VALORES (AL RECARGAR)
     todos_los_activos = Investment.objects.filter(user=request.user)
     ahora = timezone.now()
+    usd_mxn_rate = Decimal(str(FinanceService.get_usd_mxn_rate() or '18.50'))
 
     for asset in todos_los_activos:
-        # CASO A: CRIPTOS (Basado en API)
-        if asset.category_id == 4:
-            api_id = asset.asset_name.lower().strip().replace(" ", "-")
-            precio = FinanceService.get_crypto_price_mxn(api_id)
-            if precio and asset.quantity > 0:
-                asset.current_value = asset.quantity * Decimal(str(precio))
-        
-        # CASO B: RENTA FIJA / EFECTIVO (Basado en Annual Yield y Tiempo)
-        elif asset.annual_yield > 0:
-            dias_pasados = (ahora - asset.last_updated).days
-            if dias_pasados > 0:
-                # Interés simple diario: Valor * (1 + (tasa * dias / 365))
-                tasa_diaria = (Decimal(str(asset.annual_yield)) / 100) / 365
-                asset.current_value = asset.current_value * (1 + (tasa_diaria * dias_pasados))
-        
-        asset.save() # Actualiza last_updated automáticamente
+        try:
+            if asset.category_id == 4:
+                api_id = asset.asset_name.lower().strip().replace(" ", "-")
+                precio = FinanceService.get_crypto_price_mxn(api_id)
+                if precio and asset.quantity > 0:
+                    asset.current_value = asset.quantity * Decimal(str(precio))
+            
+            elif asset.annual_yield > 0:
+                dias_pasados = (ahora - asset.last_updated).days
+                if dias_pasados > 0:
+                    tasa_diaria = (Decimal(str(asset.annual_yield)) / 100) / 365
+                    asset.current_value = asset.current_value * (1 + (tasa_diaria * dias_pasados))
+            
+            asset.save()
+        except Exception as e:
+            print(f"Error updating {asset.asset_name}: {e}")
 
-    # 3. CÁLCULOS PARA VISTA
     activos = Investment.objects.filter(user=request.user).select_related('category')
     agg = activos.aggregate(total_inv=Sum('amount_invested'), total_cur=Sum('current_value'))
     
@@ -133,6 +130,7 @@ def portafolio(request):
         'total_invertido': total_inv,
         'valor_actual': total_cur,
         'ganancia': total_cur - total_inv,
+        'usd_mxn': usd_mxn_rate,
         'nombres_categorias': json.dumps(list(datos_grafica.keys())),
         'valores_categorias': json.dumps(list(datos_grafica.values())),
     }
