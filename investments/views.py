@@ -55,24 +55,21 @@ def dashboard(request):
 # --- 2. PORTAFOLIO CON ACTUALIZACIÓN DE PRECIOS ---
 @login_required
 def portafolio(request):
+    # --- 1. PROCESAR FORMULARIO (POST) ---
     if request.method == 'POST':
-        category_id = request.POST.get('category_id')
-        asset_name = request.POST.get('asset_name')
-        amount_raw = request.POST.get('amount_invested')
-        platform = request.POST.get('platform')
-        yield_input = request.POST.get('annual_yield')
+        try:
+            category_id = request.POST.get('category_id')
+            asset_name = request.POST.get('asset_name')
+            amount_raw = request.POST.get('amount_invested')
+            platform = request.POST.get('platform')
+            yield_input = request.POST.get('annual_yield')
 
-        if category_id and amount_raw:
-            try:
+            if category_id and amount_raw:
                 amount = Decimal(amount_raw)
                 cat = get_object_or_404(Category, id=category_id)
                 new_yield = float(yield_input) if yield_input and yield_input.strip() else 0.0
                 
-                Investment.objects.filter(
-                    user=request.user, 
-                    platform=platform, 
-                    asset_name=asset_name
-                ).update(annual_yield=new_yield)
+                Investment.objects.filter(user=request.user, platform=platform, asset_name=asset_name).update(annual_yield=new_yield)
 
                 qty = Decimal('1.0')
                 if category_id == "4":
@@ -88,28 +85,33 @@ def portafolio(request):
                 )
                 messages.success(request, 'Portafolio actualizado')
                 return redirect('portafolio')
-            except Exception as e:
-                messages.error(request, f"Error: {e}")
+        except Exception as e:
+            print(f"Error en POST: {e}")
+            messages.error(request, f"Error al guardar: {e}")
 
+    # --- 2. ACTUALIZACIÓN DINÁMICA (Aquí suele estar el 500) ---
     todos_los_activos = Investment.objects.filter(user=request.user)
     ahora = timezone.now()
-    usd_mxn_rate = Decimal(str(FinanceService.get_usd_mxn_rate() or '18.50'))
+
+    # Blindaje para el tipo de cambio
+    try:
+        usd_rate_data = FinanceService.get_usd_mxn_rate()
+        usd_mxn_rate = Decimal(str(usd_rate_data)) if usd_rate_data else Decimal('18.50')
+    except:
+        usd_mxn_rate = Decimal('18.50')
 
     for asset in todos_los_activos:
         try:
-            # CASO A: CRIPTOS
-            if asset.category_id == 4:
+            if asset.category_id == 4: # Criptos
                 api_id = asset.asset_name.lower().strip().replace(" ", "-")
                 precio = FinanceService.get_crypto_price_mxn(api_id)
-                # AGREGAMOS: validación de que quantity no sea None o 0
                 if precio and asset.quantity and asset.quantity > 0:
                     asset.current_value = asset.quantity * Decimal(str(precio))
-                    # Recalcular rendimiento para la DB
+                    # Recalcular rendimiento
                     diff = asset.current_value - asset.amount_invested
                     asset.annual_yield = (diff / asset.amount_invested) * 100
             
-            # CASO B: RENTA FIJA / EFECTIVO
-            elif asset.annual_yield and asset.annual_yield > 0:
+            elif asset.annual_yield and asset.annual_yield > 0: # Renta Fija / Efectivo
                 dias_pasados = (ahora - asset.last_updated).days
                 if dias_pasados > 0:
                     tasa_diaria = (Decimal(str(asset.annual_yield)) / 100) / 365
@@ -117,33 +119,35 @@ def portafolio(request):
             
             asset.save()
         except Exception as e:
-            # Si un activo falla, imprimimos el error en consola pero NO matamos la página
-            print(f"Error crítico en activo {asset.id} ({asset.asset_name}): {e}")
-            continue
+            print(f"Error actualizando activo {asset.asset_name}: {e}")
 
-    activos = Investment.objects.filter(user=request.user).select_related('category')
-    agg = activos.aggregate(total_inv=Sum('amount_invested'), total_cur=Sum('current_value'))
-    
-    total_inv = agg['total_inv'] or 0
-    total_cur = agg['total_cur'] or 0
-    
-    datos_grafica = {}
-    for a in activos:
-        n = a.category.name
-        datos_grafica[n] = datos_grafica.get(n, 0) + float(a.current_value)
-    
-    context = {
-        'activos': activos,
-        'categorias_list': Category.objects.all(),
-        'total_invertido': total_inv,
-        'valor_actual': total_cur,
-        'ganancia': total_cur - total_inv,
-        'usd_mxn': usd_mxn_rate,
-        'nombres_categorias': json.dumps(list(datos_grafica.keys())),
-        'valores_categorias': json.dumps(list(datos_grafica.values())),
-    }
-    
-    return render(request, 'pages/portafolio.html', context)
+    # --- 3. CÁLCULOS PARA VISTA (Aggregations) ---
+    try:
+        activos = Investment.objects.filter(user=request.user).select_related('category')
+        agg = activos.aggregate(total_inv=Sum('amount_invested'), total_cur=Sum('current_value'))
+        
+        total_inv = agg['total_inv'] or Decimal('0.00')
+        total_cur = agg['total_cur'] or Decimal('0.00')
+        
+        datos_grafica = {}
+        for a in activos:
+            n = a.category.name
+            datos_grafica[n] = datos_grafica.get(n, 0) + float(a.current_value)
+        
+        context = {
+            'activos': activos,
+            'categorias_list': Category.objects.all(),
+            'total_invertido': total_inv,
+            'valor_actual': total_cur,
+            'ganancia': total_cur - total_inv,
+            'usd_mxn': usd_mxn_rate,
+            'nombres_categorias': json.dumps(list(datos_grafica.keys())),
+            'valores_categorias': json.dumps(list(datos_grafica.values())),
+        }
+        return render(request, 'pages/portafolio.html', context)
+    except Exception as e:
+        print(f"Error en renderizado: {e}")
+        return render(request, 'pages/portafolio.html', {'error': True})
 
 # --- 3. FUNCIONES DE APOYO & DETALLE ---
 
