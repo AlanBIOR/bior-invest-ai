@@ -13,6 +13,8 @@ export function initAIChat() {
 
     const username = chatWindow.dataset.username;
 
+    loadChatHistory();
+
     // 2. Funciones de apertura/cierre
     chatToggle.addEventListener('click', () => {
         chatWindow.classList.toggle('hidden');
@@ -32,29 +34,28 @@ export function initAIChat() {
         if (!text) return;
 
         appendUserMessage(text);
+        saveMessage('user', text); // <-- NUEVO: Guardar mensaje del usuario
+        
         chatInput.value = ''; 
         showLoading();
 
         try {
-            // CAMBIO CLAVE: Apuntamos a /api/v1/ai-chat/
-            // Ya no pasamos el ?phone= porque usaremos la sesión de Django
             const response = await fetch('/api/v1/ai-chat/', {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': getCookie('csrftoken') // Importante para POST en Django
+                    'X-CSRFToken': getCookie('csrftoken')
                 },
-                body: JSON.stringify({ 
-                    text: text 
-                }), 
+                body: JSON.stringify({ text: text }), 
             });
 
-            if (!response.ok) throw new Error('Error en la comunicación con el asesor.');
+            if (!response.ok) throw new Error('Error en la comunicación.');
 
             const data = await response.json();
 
             if (data.status === 'success') {
-                appendAIMessage(data.response); // Aquí llegará el texto de agents.py
+                appendAIMessage(data.response);
+                saveMessage('ai', data.response); // <-- NUEVO: Guardar mensaje de IA
             } else {
                 appendAIMessage("Error: " + data.message);
             }
@@ -65,6 +66,26 @@ export function initAIChat() {
         } finally {
             hideLoading();
         }
+    }
+
+    // --- NUEVAS FUNCIONES DE PERSISTENCIA ---
+
+    function saveMessage(role, text) {
+        // Obtenemos lo que ya hay o un array vacío
+        const history = JSON.parse(sessionStorage.getItem('chat_history') || '[]');
+        history.push({ role, text });
+        sessionStorage.setItem('chat_history', JSON.stringify(history));
+    }
+
+    function loadChatHistory() {
+        const history = JSON.parse(sessionStorage.getItem('chat_history') || '[]');
+        history.forEach(msg => {
+            if (msg.role === 'user') {
+                appendUserMessage(msg.text);
+            } else {
+                appendAIMessage(msg.text);
+            }
+        });
     }
 
     // Función auxiliar para el CSRF Token de Django

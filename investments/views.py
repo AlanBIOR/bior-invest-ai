@@ -54,66 +54,84 @@ def dashboard(request):
 # --- 2. PORTAFOLIO CON ACTUALIZACIÓN DE PRECIOS ---
 @login_required
 def portafolio(request):
-    activos_alternativos = Investment.objects.filter(user=request.user, category_id=4)
-    
-    for asset in activos_alternativos:
-        api_id = asset.asset_name.lower().strip().replace(" ", "-")
-        precio_actual_api = FinanceService.get_crypto_price_mxn(api_id)
-        
-        if precio_actual_api:
-            try:
-                precio_entrada_simulado = Decimal('1200000') # Esto debe ser el precio cuando compraste
-                if api_id == 'solana': precio_entrada_simulado = Decimal('2500')
-                if api_id == 'dogecoin': precio_entrada_simulado = Decimal('2.50')
-
-                unidades_poseidas = asset.amount_invested / precio_entrada_simulado
-                asset.current_value = unidades_poseidas * Decimal(str(precio_actual_api))
-                
-                asset.save()
-            except Exception as e:
-                print(f"Error: {e}")
-
+    # 1. PROCESAR FORMULARIO (POST) PRIMERO PARA ACTUALIZAR TASAS
     if request.method == 'POST':
         category_id = request.POST.get('category_id')
         asset_name = request.POST.get('asset_name')
-        amount = Decimal(request.POST.get('amount_invested'))
+        amount_raw = request.POST.get('amount_invested')
         platform = request.POST.get('platform')
-        yield_val = request.POST.get('annual_yield')
-        
-        yield_val = float(yield_val) if yield_val and yield_val.strip() else 0.0
+        yield_input = request.POST.get('annual_yield')
 
-        if category_id and amount:
+        if category_id and amount_raw:
             try:
+                amount = Decimal(amount_raw)
                 cat = get_object_or_404(Category, id=category_id)
-                Investment.objects.create(
+                new_yield = float(yield_input) if yield_input and yield_input.strip() else 0.0
+                
+                # Sincronizar rendimiento en toda la plataforma/activo para el usuario
+                Investment.objects.filter(
                     user=request.user, 
-                    category=cat, 
-                    asset_name=asset_name,
-                    amount_invested=amount, 
-                    current_value=amount, 
-                    annual_yield=yield_val, 
-                    platform=platform
+                    platform=platform, 
+                    asset_name=asset_name
+                ).update(annual_yield=new_yield)
+
+                # Calcular cantidad inicial si es Cripto
+                qty = Decimal('1.0')
+                if category_id == "4":
+                    api_id = asset_name.lower().strip().replace(" ", "-")
+                    p_hoy = FinanceService.get_crypto_price_mxn(api_id)
+                    if p_hoy: qty = amount / Decimal(str(p_hoy))
+
+                Investment.objects.create(
+                    user=request.user, category=cat, asset_name=asset_name,
+                    amount_invested=amount, current_value=amount,
+                    quantity=qty, annual_yield=new_yield, platform=platform
                 )
-                messages.success(request, 'added')
+                messages.success(request, 'Portafolio actualizado')
                 return redirect('portafolio')
             except Exception as e:
                 messages.error(request, f"Error: {e}")
 
+    # 2. ACTUALIZACIÓN DINÁMICA DE VALORES (AL RECARGAR)
+    todos_los_activos = Investment.objects.filter(user=request.user)
+    ahora = timezone.now()
+
+    for asset in todos_los_activos:
+        # CASO A: CRIPTOS (Basado en API)
+        if asset.category_id == 4:
+            api_id = asset.asset_name.lower().strip().replace(" ", "-")
+            precio = FinanceService.get_crypto_price_mxn(api_id)
+            if precio and asset.quantity > 0:
+                asset.current_value = asset.quantity * Decimal(str(precio))
+        
+        # CASO B: RENTA FIJA / EFECTIVO (Basado en Annual Yield y Tiempo)
+        elif asset.annual_yield > 0:
+            dias_pasados = (ahora - asset.last_updated).days
+            if dias_pasados > 0:
+                # Interés simple diario: Valor * (1 + (tasa * dias / 365))
+                tasa_diaria = (Decimal(str(asset.annual_yield)) / 100) / 365
+                asset.current_value = asset.current_value * (1 + (tasa_diaria * dias_pasados))
+        
+        asset.save() # Actualiza last_updated automáticamente
+
+    # 3. CÁLCULOS PARA VISTA
     activos = Investment.objects.filter(user=request.user).select_related('category')
-    total_invertido = activos.aggregate(Sum('amount_invested'))['amount_invested__sum'] or 0
-    valor_actual_total = activos.aggregate(Sum('current_value'))['current_value__sum'] or 0
+    agg = activos.aggregate(total_inv=Sum('amount_invested'), total_cur=Sum('current_value'))
+    
+    total_inv = agg['total_inv'] or 0
+    total_cur = agg['total_cur'] or 0
     
     datos_grafica = {}
-    for asset in activos:
-        nombre = asset.category.name
-        datos_grafica[nombre] = datos_grafica.get(nombre, 0) + float(asset.current_value)
+    for a in activos:
+        n = a.category.name
+        datos_grafica[n] = datos_grafica.get(n, 0) + float(a.current_value)
     
     context = {
         'activos': activos,
         'categorias_list': Category.objects.all(),
-        'total_invertido': total_invertido,
-        'valor_actual': valor_actual_total,
-        'ganancia': valor_actual_total - total_invertido,
+        'total_invertido': total_inv,
+        'valor_actual': total_cur,
+        'ganancia': total_cur - total_inv,
         'nombres_categorias': json.dumps(list(datos_grafica.keys())),
         'valores_categorias': json.dumps(list(datos_grafica.values())),
     }
