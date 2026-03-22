@@ -76,3 +76,15 @@ def save_user_profile(sender, instance, **kwargs):
         instance.profile.save()
     except Profile.DoesNotExist:
         Profile.objects.create(user=instance)
+
+# --- 4. PERFIL DE USUARIO ---
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    capital = models.DecimalField(max_digits=15, decimal_places=2, default=10000.00)
+    aportacion = models.DecimalField(max_digits=15, decimal_places=2, default=500.00)
+    
+    # AGREGA ESTA LÍNEA:
+    whatsapp_number = models.CharField(max_length=20, unique=True, null=True, blank=True, help_text="Ej: 5215512345678")
+
+    def __str__(self):
+        return f"Perfil de {self.user.username}"

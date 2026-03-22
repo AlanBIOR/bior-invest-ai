@@ -182,7 +182,13 @@ def n8n_webhook(request):
             # 1. Recibimos el JSON de n8n
             data = json.loads(request.body)
             
-            # 2. Procesamos con la lógica de tu carpeta core_ai
+            # 2. CAPTURAMOS EL TELÉFONO (viene por GET de la URL que pusimos en n8n)
+            phone = request.GET.get('phone')
+            
+            # 3. Se lo pasamos a tu lógica de IA junto con los datos
+            # Agregamos el phone al diccionario data para que process_ai_request lo use
+            data['whatsapp_phone'] = phone
+            
             result = process_ai_request(data)
             
             return JsonResponse(result)
