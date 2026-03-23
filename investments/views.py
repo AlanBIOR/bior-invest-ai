@@ -287,6 +287,7 @@ def ai_chat_webhook(request):
     """Webhook para el chat web: Seguro, privado y conectado a Gemini 2.5"""
     if request.method == 'POST':
         try:
+            print(f"BODY RECIBIDO: {request.body}")
             data = json.loads(request.body)
             # Buscamos 'text' (de la web) o 'Body' (por si acaso)
             user_question = data.get('text') or data.get('Body')
