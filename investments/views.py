@@ -259,16 +259,18 @@ def n8n_webhook(request):
                 # --- 5. LLAMAR A GEMINI (Inyección de Datos Directa) ---
                 if user_question:
                     # Este es el bloque que ya tienes, está excelente
-                    prompt_con_autoridad = f"""
-                    [ACCESO AUTORIZADO - REPORTE DE USUARIO: {user.username}]
-                    A continuación tienes los datos REALES de la base de datos de BIOR Invest. 
-                    TIENES PERMISO para usarlos en esta respuesta específica.
-
-                    CAPITAL LIBRE: ${profile.capital} MXN
-                    INVERSIONES REGISTRADAS:
+                    prompt_final = f"""
+                    FICHA TÉCNICA DEL USUARIO {user.username}:
+                    - SALDO EN EFECTIVO: ${profile.capital} MXN
+                    - PORTAFOLIO DETALLADO:
                     {lista_formateada}
 
-                    PREGUNTA DEL USUARIO: "{user_question}"
+                    INSTRUCCIÓN OBLIGATORIA: Eres el asistente personal de {user.username}. 
+                    Acabas de leer su base de datos privada (los datos de arriba). 
+                    USA ESOS DATOS para responder su pregunta. 
+                    NUNCA digas que no tienes acceso, porque el sistema ya te los dio.
+
+                    PREGUNTA DEL USUARIO: {user_question}
 
                     INSTRUCCIÓN: Responde basándote ÚNICAMENTE en los datos de arriba. 
                     Si los datos muestran montos, dáselos al usuario de forma clara. 
@@ -276,7 +278,7 @@ def n8n_webhook(request):
                     """
                     
                     # Mandamos el bloque con autoridad
-                    respuesta_final = ask_financial_agent(prompt_con_autoridad) 
+                    respuesta_final = ask_financial_agent(prompt_final)
                 
                 else:
                     # Esto es lo que debes poner en el 'else'
