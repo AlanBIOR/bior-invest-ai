@@ -281,14 +281,28 @@ def ai_chat_webhook(request):
             if not user_question:
                 return JsonResponse({"status": "error", "message": "No enviaste una pregunta"}, status=400)
             
-            # 1. Obtener contexto (Usamos get_or_create para evitar errores)
+            # --- 1. Obtener contexto con Estructura de Autoridad ---
             profile, _ = Profile.objects.get_or_create(user=request.user)
             investments = Investment.objects.filter(user=request.user)
-            inv_list = [{"activo": i.asset_name, "valor": str(i.current_value)} for i in investments]
-            
-            contexto = f"Eres el asesor de BIOR Invest. Usuario: {request.user.username}. Capital: {profile.capital}. Inversiones: {inv_list}"
-            
-            # 2. LLAMAR A TU AGENTE (Asegúrate que en agents.py diga 'models/gemini-2.5-flash')
+
+            # Creamos una lista más descriptiva para la IA
+            inv_list = [f"- {i.asset_name}: ${i.current_value} MXN (Plataforma: {i.platform})" for i in investments]
+            lista_formateada = "\n".join(inv_list)
+
+            # ESTO es lo que obliga a la IA a no alucinar:
+            contexto = f"""
+            [REPORTE OFICIAL DE BASE DE DATOS - BIOR INVEST]
+            USUARIO LOGUEADO: {request.user.username}
+            CAPITAL DISPONIBLE (EFECTIVO): ${profile.capital} MXN
+
+            INVERSIONES REGISTRADAS:
+            {lista_formateada if inv_list else "Sin inversiones registradas aún."}
+
+            INSTRUCCIÓN: Analiza EXCLUSIVAMENTE estos montos reales para responder al usuario. 
+            Si el usuario pregunta por 'llegar al Long Angle', compáralo contra los porcentajes de la estrategia usando ESTOS valores.
+            """
+
+            # 2. LLAMAR A TU AGENTE
             respuesta_ia = ask_financial_agent(user_question, contexto)
             
             return JsonResponse({

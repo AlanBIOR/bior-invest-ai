@@ -49,10 +49,29 @@ def ask_financial_agent(user_question, portfolio_context):
     MODELO_FLASH = 'gemini-2.5-flash'
 
     try:
+        # Ponemos los datos como PRIORIDAD MÁXIMA
+        header_contexto = f"""
+        DATOS REALES DEL USUARIO (BASE DE DATOS):
+        {portfolio_context}
+        ------------------------------------------
+        """
+
         if quiere_analisis:
-            # 🧠 CASO 1: Análisis Estratégico (Usa el Pro - El Cerebro)
-            print(f"🧠 Razonando estrategia con {MODELO_PRO}...")
-            prompt_final = f"{SYSTEM_PROMPT}\n\n[DATOS DEL USUARIO]:\n{portfolio_context}\n\n[PREGUNTA ESTRATÉGICA]: {user_question}"
+            # FLUJO ESTRATÉGICO (Reforzado)
+            print(f"Análisis profundo activado...")
+            # Aquí le decimos EXPLÍCITAMENTE que use los datos adjuntos y no definiciones externas
+            prompt_final = f"""
+            {SYSTEM_PROMPT}
+            
+            INSTRUCCIÓN CRÍTICA: El usuario te está pidiendo analizar SU PORTAFOLIO REAL basado en los datos adjuntos abajo. 
+            NO hables de comunidades externas o clubes privados. 
+            Usa exclusivamente estos datos para calcular los porcentajes:
+            
+            [DATOS DEL PORTAFOLIO DEL USUARIO]:
+            {portfolio_context}
+            
+            [PREGUNTA]: {user_question}
+            """
             modelo_a_usar = MODELO_PRO
         else:
             # ⚡ CASO 2: Respuesta Rápida (Usa el Flash - El Veloz)
