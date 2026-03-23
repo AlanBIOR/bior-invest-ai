@@ -8,47 +8,59 @@ from investments.models import Profile
 
 @csrf_exempt 
 def process_ai_request(request): 
-    # 1. Validar Seguridad (Candado compartido para n8n y JS)
+    # 1. Validar Seguridad (X-Api-Key)
     auth_header = request.headers.get('X-Api-Key')
-    print(f"--- NUEVA PETICIÓN ---")
-    print(f"Header Recibido: {auth_header}")
-    print(f"Llave Esperada: {settings.N8N_WEBHOOK_KEY}")
+    
+    # Logs para depuración en terminal (nohup.out)
+    print(f"\n--- NUEVA PETICIÓN RECIBIDA ---")
+    print(f"Método: {request.method}")
+    print(f"Content-Type: {request.content_type}")
+    print(f"Header API Key: {auth_header}")
+
     if auth_header != settings.N8N_WEBHOOK_KEY:
+        print("❌ ERROR: Llave de API no coincide")
         return JsonResponse({"status": "error", "message": "No autorizado"}, status=403)
 
-    # 2. Captura de datos inteligente
+    # 2. Solo aceptamos POST para procesar mensajes
     if request.method == 'POST':
         try:
-            # --- SOPORTE PARA JS (JSON) ---
-            if request.content_type == 'application/json':
+            # --- CAPTURA DE DATOS MULTIFORMATO ---
+            if 'application/json' in request.content_type:
+                # Caso: Chat Web (JSON)
                 data = json.loads(request.body)
-            # --- SOPORTE PARA n8n (FORM DATA) ---
             else:
+                # Caso: n8n / Twilio (Form Data)
                 data = request.POST
 
-            # Buscamos el teléfono probando todas las llaves posibles de ambos sistemas
+            # Mapeo flexible de variables (Soporta: whatsapp_phone, phone, From, text, Body)
             phone = data.get('whatsapp_phone') or data.get('phone') or data.get('From')
-            # Buscamos el texto probando llaves de JS y de n8n/Twilio
             user_text = data.get('text') or data.get('body') or data.get('Body')
 
-            if not phone or not user_text:
-                return JsonResponse({"status": "error", "message": "Datos incompletos"}, status=400)
+            print(f"📱 Teléfono: {phone} | 💬 Texto: {user_text}")
 
-            # Limpiar el teléfono de prefijos de Twilio si vienen de n8n
+            if not phone or not user_text:
+                return JsonResponse({
+                    "status": "error", 
+                    "message": f"Datos incompletos. Recibido: {list(data.keys())}"
+                }, status=400)
+
+            # Limpiar prefijo de Twilio si viene de WhatsApp
             if isinstance(phone, str) and "whatsapp:" in phone:
                 phone = phone.replace("whatsapp:", "")
 
-            # 3. Lógica de negocio (Buscar usuario y llamar a Gemini)
+            # 3. Lógica de Negocio (Base de Datos + IA)
             try:
+                # Buscar perfil por número de WhatsApp
                 profile = Profile.objects.get(whatsapp_number=phone)
                 user = profile.user
                 
-                # Obtener contexto financiero real
+                # Obtener contexto financiero (activos, rendimientos, etc.)
                 portfolio_context = get_portfolio_context(user)
                 
-                # Llamada a la IA (Gemini 2.5/3)
+                # Llamada al Agente Financiero (Gemini)
                 ai_response = ask_financial_agent(user_text, portfolio_context)
                 
+                print(f"✅ Respuesta enviada a {user.username}")
                 return JsonResponse({
                     "status": "success",
                     "nombre": user.first_name or user.username,
@@ -56,13 +68,15 @@ def process_ai_request(request):
                 })
 
             except Profile.DoesNotExist:
+                print(f"⚠️ Número no registrado: {phone}")
                 return JsonResponse({
                     "status": "error", 
-                    "response": "Lo siento, este número no está vinculado. Por favor, regístrate en BIOR Invest."
-                }, status=200)
+                    "response": "Lo siento, este número no está vinculado a ninguna cuenta de BIOR Invest. Por favor, regístrate en la plataforma primero."
+                }, status=200) # Devolvemos 200 para que el mensaje llegue al usuario en WhatsApp
 
         except Exception as e:
+            print(f"🔥 ERROR INTERNO: {str(e)}")
             return JsonResponse({"status": "error", "message": str(e)}, status=500)
 
-    # Si intentan entrar por navegador (GET)
+    # Si intentan entrar por GET u otro método
     return JsonResponse({"status": "error", "message": "Método no permitido"}, status=405)
