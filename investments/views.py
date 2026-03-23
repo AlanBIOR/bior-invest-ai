@@ -259,11 +259,22 @@ def n8n_webhook(request):
 
                 # --- 5. LLAMAR A GEMINI ---
                 if user_question:
-                    # Intenta pasar el contexto como parte del mensaje para que no lo ignore
-                    pregunta_con_datos = f"{contexto_ia}\n\nPregunta del usuario: {user_question}"
-                    respuesta_final = ask_financial_agent(pregunta_con_datos, contexto_ia) # Quitamos el segundo parámetro si tu función solo acepta uno
+                    # Creamos un mensaje que incluya los datos y la pregunta en uno solo
+                    mensaje_para_ia = f"""
+                    USUARIO: {user.username}
+                    REPORTE ACTUAL DE SU PORTAFOLIO:
+                    {contexto_ia}
+                    
+                    PREGUNTA DEL USUARIO: {user_question}
+                    
+                    INSTRUCCIÓN: Usa los montos del REPORTE ACTUAL para responder. 
+                    Si el usuario pregunta por su balance o inversiones, dáselos basado en el reporte de arriba.
+                    """
+                    
+                    # Pasamos todo el bloque como la pregunta principal
+                    respuesta_final = ask_financial_agent(mensaje_para_ia) 
                 else:
-                    respuesta_final = f"Hola {user.username}, detecté tu mensaje pero no una pregunta clara. Tu capital es ${profile.capital} MXN. ¿En qué te ayudo?"
+                    respuesta_final = f"Hola {user.username}, ¿en qué puedo ayudarte hoy con tu portafolio?"
 
                 return JsonResponse({
                     "status": "success",
