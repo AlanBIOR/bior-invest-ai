@@ -221,54 +221,65 @@ from investments.models import Profile, Investment  # <--- IMPORTANTE
 
 @csrf_exempt
 def n8n_webhook(request):
-    # --- VALIDACIÓN DE SEGURIDAD ---
-    # Verificamos que la llave en el Header coincida con la de settings.py
+    # --- 1. VALIDACIÓN DE SEGURIDAD ---
     auth_header = request.headers.get('X-Api-Key')
     if auth_header != settings.N8N_WEBHOOK_KEY:
-        return JsonResponse({
-            "status": "error", 
-            "message": "No autorizado: Llave de seguridad incorrecta o ausente."
-        }, status=403)
-    # -------------------------------
+        return JsonResponse({"status": "error", "message": "No autorizado"}, status=403)
 
-    try:
-        # 1. Obtenemos el teléfono de la URL
-        phone = request.GET.get('phone')
-        if not phone:
-             return JsonResponse({"status": "error", "message": "No se recibió el teléfono"}, status=400)
-
-        # 2. Buscamos al usuario en la DB
+    if request.method == 'POST':
         try:
-            profile = Profile.objects.get(whatsapp_number=phone)
-            user = profile.user
-            
-            # 3. Traemos sus inversiones
-            investments = Investment.objects.filter(user=user)
+            # --- 2. LEER DATOS (JSON) ---
+            data = json.loads(request.body)
+            phone = data.get('phone')
+            user_question = data.get('pregunta') # Aquí llega lo de Whisper o texto
 
-            # Usamos los nombres reales de tus campos: asset_name y current_value
-            inv_list = [
-                {
-                    "activo": i.asset_name, 
-                    "valor_actual": str(i.current_value),
-                    "invertido": str(i.amount_invested)
-                } for i in investments
-            ]
-            
-            return JsonResponse({
-                "status": "success",
-                "nombre": user.username,
-                "capital_disponible": str(profile.capital),
-                "inversiones": inv_list,
-                "response": f"Hola {user.username}, tienes {profile.capital} de capital libre. Tus inversiones actuales son: {inv_list}."
-            })
-            
-        except Profile.DoesNotExist:
-            return JsonResponse({"status": "success", "response": "Número no vinculado. Por favor regístrate."}, status=200)
+            if not phone:
+                return JsonResponse({"status": "error", "message": "Falta el teléfono"}, status=400)
 
-    except Exception as e:
-        # Esto nos dirá el error real en n8n en lugar de un 500 genérico
-        return JsonResponse({"status": "error", "message": str(e)}, status=500)
+            # --- 3. BUSCAR PERFIL Y DATOS ---
+            try:
+                profile = Profile.objects.get(whatsapp_number=phone)
+                user = profile.user
+                investments = Investment.objects.filter(user=user)
 
+                # Formatear inversiones para el contexto de la IA
+                inv_list = [f"- {i.asset_name}: ${i.current_value} MXN" for i in investments]
+                lista_formateada = "\n".join(inv_list) if inv_list else "Sin inversiones aún."
+
+                # --- 4. CREAR CONTEXTO PARA GEMINI ---
+                contexto_ia = f"""
+                [DATOS REALES DEL USUARIO: {user.username}]
+                Capital Libre: ${profile.capital} MXN
+                Inversiones:
+                {lista_formateada}
+                
+                INSTRUCCIÓN: Responde de forma breve y profesional por WhatsApp. 
+                Usa los datos de arriba para contestar la pregunta del usuario.
+                """
+
+                # --- 5. LLAMAR A GEMINI (TU AGENTE) ---
+                # Si no hay pregunta, damos un saludo con su saldo
+                if user_question:
+                    respuesta_final = ask_financial_agent(user_question, contexto_ia)
+                else:
+                    respuesta_final = f"Hola {user.username}, detecté tu mensaje pero no una pregunta clara. Tu capital es ${profile.capital} MXN. ¿En qué te ayudo?"
+
+                return JsonResponse({
+                    "status": "success",
+                    "nombre": user.username,
+                    "response": respuesta_final
+                })
+
+            except Profile.DoesNotExist:
+                return JsonResponse({
+                    "status": "success", 
+                    "response": "Hola! No encontré tu número vinculado a BIOR Invest. Regístrate en la web para ayudarte."
+                })
+
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=500)
+
+    return JsonResponse({"status": "error", "message": "Método no permitido"}, status=405)
 @login_required # Quitamos csrf_exempt para usar la seguridad de la sesión de la web
 def ai_chat_webhook(request):
     """Webhook para el chat web: Seguro, privado y conectado a Gemini 2.5"""
