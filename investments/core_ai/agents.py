@@ -1,33 +1,30 @@
 import os
-from dotenv import load_dotenv  # <-- LÍNEA NUEVA 1
-import google.generativeai as genai
+from google import genai  # <-- CAMBIO: Nueva librería oficial 2026
+from dotenv import load_dotenv
 
-# Cargar las variables del archivo .env a nuestro entorno
-load_dotenv()  # <-- LÍNEA NUEVA 2
+load_dotenv()
 
-# 1. Configuración de la API Key
+# 1. Configuración del Cliente
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 
 if not GEMINI_API_KEY:
     raise ValueError("¡Falta la GEMINI_API_KEY en el archivo .env!")
 
-# Inicializamos la configuración de Google
-genai.configure(api_key=GEMINI_API_KEY)
+# Inicializamos el cliente moderno
+client = genai.Client(api_key=GEMINI_API_KEY)
 
 def ask_financial_agent(user_question, portfolio_context):
-    """Envía la pregunta del usuario y su contexto financiero a la API de Gemini."""
+    """Envía la pregunta y el contexto usando el SDK moderno."""
     
-    # Unimos tu mega-prompt (el contexto fiscal y financiero) con la pregunta del usuario
     prompt_completo = f"{portfolio_context}\n\nPregunta del usuario por chat: {user_question}"
     
     try:
-        # 2. Elegimos el modelo más moderno y rápido
-        model = genai.GenerativeModel('models/gemini-2.5-flash')
+        # 2. Llamada al modelo 2.5-flash (el que confirmamos en tu lista)
+        response = client.models.generate_content(
+            model='gemini-2.5-flash', 
+            contents=prompt_completo
+        )
         
-        # 3. Hacemos la llamada a la inteligencia artificial
-        response = model.generate_content(prompt_completo)
-        
-        # Devolvemos solo el texto de la respuesta
         return response.text
         
     except Exception as e:

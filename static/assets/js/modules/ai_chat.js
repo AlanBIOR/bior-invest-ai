@@ -13,6 +13,9 @@ export function initAIChat() {
 
     const username = chatWindow.dataset.username;
 
+    // --- NUEVO: CARGAR HISTORIAL AL INICIAR ---
+    loadChatFromLocal();
+
     // 2. Funciones de apertura/cierre
     chatToggle.addEventListener('click', () => {
         chatWindow.classList.toggle('hidden');
@@ -31,7 +34,6 @@ export function initAIChat() {
         const text = chatInput.value.trim();
         if (!text) return;
 
-        // 1. Extraemos los datos del HTML de forma segura
         const phone = chatWindow.dataset.whatsappPhone;
         const apiKey = chatWindow.dataset.apiKey; 
 
@@ -40,13 +42,12 @@ export function initAIChat() {
         showLoading();
 
         try {
-            // 🚨 CAMBIO DE RUTA: Apuntamos a tu lógica interna de IA, no al webhook de n8n
             const response = await fetch('/api/v1/ai-chat/', { 
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-Api-Key': apiKey, // Seguridad: El candado que pusimos
-                    'X-CSRFToken': getCookie('csrftoken'), // Importante en Django para POST internos
+                    'X-Api-Key': apiKey,
+                    'X-CSRFToken': getCookie('csrftoken'),
                 },
                 body: JSON.stringify({ 
                     whatsapp_phone: phone, 
@@ -62,7 +63,6 @@ export function initAIChat() {
             if (data.status === 'success') {
                 appendAIMessage(data.response);
             } else {
-                // Si el perfil no existe o hay error de IA
                 appendAIMessage(data.response || data.message);
             }
 
@@ -74,7 +74,55 @@ export function initAIChat() {
         }
     }
 
-    // Función auxiliar para el CSRF de Django (Cópiala también)
+    // Eventos
+    chatSend.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+
+    // 4. Funciones auxiliares
+    function appendUserMessage(text) {
+        const div = document.createElement('div');
+        div.className = 'user-message flex justify-end mb-4';
+        div.innerHTML = `<div class="bg-blue-600 p-3 rounded-t-xl rounded-l-xl max-w-[85%] text-white shadow-lg"><p>${escapeHTML(text)}</p></div>`;
+        chatMessages.appendChild(div);
+        saveChatToLocal(); // 💾 Guardar en local
+        scrollToBottom();
+    }
+
+    function appendAIMessage(text) {
+        const div = document.createElement('div');
+        div.className = 'ai-message flex justify-start mb-4';
+        const htmlContent = marked.parse(text);
+
+        div.innerHTML = `
+            <div class="bg-gray-800 p-3 rounded-t-xl rounded-r-xl max-w-[85%] border border-gray-700 text-white shadow-lg">
+                <div class="markdown-body text-sm">${htmlContent}</div>
+            </div>
+        `;
+        chatMessages.appendChild(div);
+        saveChatToLocal(); // 💾 Guardar en local
+        scrollToBottom();
+    }
+
+    // --- NUEVAS FUNCIONES DE PERSISTENCIA ---
+    function saveChatToLocal() {
+        // Usamos una llave única por usuario para evitar mezclar chats si cambian de cuenta
+        localStorage.setItem(`bior_chat_${username}`, chatMessages.innerHTML);
+    }
+
+    function loadChatFromLocal() {
+        const savedChat = localStorage.getItem(`bior_chat_${username}`);
+        if (savedChat) {
+            chatMessages.innerHTML = savedChat;
+            scrollToBottom();
+        }
+    }
+
+    // Auxiliares estándar
     function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -88,41 +136,6 @@ export function initAIChat() {
             }
         }
         return cookieValue;
-    }
-
-    // Eventos
-    chatSend.addEventListener('click', sendMessage);
-    chatInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            sendMessage();
-        }
-    });
-
-    // 4. Funciones auxiliares (Burbujas con Soporte Markdown)
-    function appendUserMessage(text) {
-        const div = document.createElement('div');
-        div.className = 'user-message flex justify-end';
-        // Para el usuario seguimos escapando por seguridad
-        div.innerHTML = `<div class="bg-blue-600 p-3 rounded-t-xl rounded-l-xl max-w-[85%] text-white shadow-lg"><p>${escapeHTML(text)}</p></div>`;
-        chatMessages.appendChild(div);
-        scrollToBottom();
-    }
-
-    function appendAIMessage(text) {
-        const div = document.createElement('div');
-        div.className = 'ai-message flex justify-start';
-        
-        // 🎨 Procesamos el texto con Marked.js para renderizar negritas, listas, etc.
-        const htmlContent = marked.parse(text);
-
-        div.innerHTML = `
-            <div class="bg-gray-800 p-3 rounded-t-xl rounded-r-xl max-w-[85%] border border-gray-700 text-white shadow-lg">
-                <div class="markdown-body">${htmlContent}</div>
-            </div>
-        `;
-        chatMessages.appendChild(div);
-        scrollToBottom();
     }
 
     function showLoading() { chatLoading.classList.remove('hidden'); }
