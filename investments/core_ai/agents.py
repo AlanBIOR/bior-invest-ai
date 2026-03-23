@@ -51,34 +51,51 @@ Incluye siempre de forma sutil que esto es educación financiera y análisis est
 
 def ask_financial_agent(user_question, portfolio_context):
     """
-    Decide si usar Gemini (rápido) o Claude (estratégico) 
-    dependiendo de la complejidad.
+    Asesor BIOR: Usa el cerebro 'Pro' para análisis estratégico
+    y el cerebro 'Flash' para respuestas rápidas o fallos de cuota.
     """
     
-    # Si la pregunta es sobre "mejorar", "analizar" o "estrategia", usamos CLAUDE
-    es_estrategico = any(word in user_question.lower() for word in ['mejorar', 'analizar', 'portafolio', 'estrategia', 'invertir'])
+    # Identificamos si la pregunta requiere el "Cerebro Grande" (Pro)
+    palabras_clave = ['mejorar', 'analizar', 'portafolio', 'estrategia', 'invertir', 'fiscal', 'rebalancear']
+    es_estrategico = any(word in user_question.lower() for word in palabras_clave)
+
+    # Definimos nuestros modelos confirmados
+    MODELO_PRO = 'gemini-2.5-pro'
+    MODELO_FLASH = 'gemini-2.5-flash'
 
     try:
-        if es_estrategico and CLAUDE_API_KEY:
-            print("🧠 Usando Claude 3.5 (OpenClaw) para análisis estratégico...")
-            response = client_claude.messages.create(
-                model="claude-3-5-sonnet-20240620",
-                max_tokens=1024,
-                system=SYSTEM_PROMPT,
-                messages=[
-                    {"role": "user", "content": f"Contexto de Portafolio: {portfolio_context}\n\nPregunta: {user_question}"}
-                ]
-            )
-            return response.content[0].text
-        else:
-            print("⚡ Usando Gemini 2.5 para respuesta rápida...")
-            prompt_completo = f"{SYSTEM_PROMPT}\n\nContexto: {portfolio_context}\n\nUsuario: {user_question}"
+        # 🧠 CASO 1: Análisis Estratégico (Usa el Pro)
+        if es_estrategico:
+            print(f"🧠 Razonando estrategia con {MODELO_PRO}...")
+            # En el SDK moderno 'contents' es el estándar
+            prompt_completo = f"{SYSTEM_PROMPT}\n\n[CONTEXTO PATRIMONIAL]:\n{portfolio_context}\n\n[PREGUNTA]: {user_question}"
+            
             response = client_gemini.models.generate_content(
-                model='gemini-2.5-flash', 
+                model=MODELO_PRO,
                 contents=prompt_completo
             )
             return response.text
+
+        # ⚡ CASO 2: Respuesta Rápida / Chat General (Usa el Flash)
+        else:
+            print(f"⚡ Respuesta rápida con {MODELO_FLASH}...")
+            prompt_completo = f"{SYSTEM_PROMPT}\n\nContexto: {portfolio_context}\n\nUsuario: {user_question}"
             
+            response = client_gemini.models.generate_content(
+                model=MODELO_FLASH,
+                contents=prompt_completo
+            )
+            return response.text
+
     except Exception as e:
-        print(f"Error en Agentes IA: {e}")
-        return "Lo siento, el asesor de BIOR Invest AI está recalibrando sus algoritmos. Intenta de nuevo en un momento."
+        print(f"⚠️ Error en modelo principal: {e}. Intentando rescate con Flash...")
+        try:
+            # Plan de Rescate: Si el Pro falla por límites de cuota, el Flash entra al quite
+            response = client_gemini.models.generate_content(
+                model=MODELO_FLASH,
+                contents=f"{SYSTEM_PROMPT}\n\nContexto: {portfolio_context}\n\nUsuario: {user_question}"
+            )
+            return response.text
+        except Exception as last_error:
+            print(f"🔥 Error Crítico Total: {last_error}")
+            return "Lo siento, el asesor de BIOR Invest AI está recalibrando sus algoritmos financieros. Por favor, intenta de nuevo en unos segundos."
