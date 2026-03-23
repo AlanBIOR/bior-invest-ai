@@ -1,0 +1,51 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.main-header {
+    background-color: $primary-color;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: $shadow-md;
+
+    .header-wrapper {
+        max-width: $bp-desktop;
+        margin: 0 auto;
+        padding: 12px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+
+        .logo h2 {
+            margin: 0;
+            color: $white;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        // Hamburguesa
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 28px;
+            height: 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+
+            @include tablet { display: none; }
+
+            .bar {
+                width: 100%;
+                height: 2px;
+                background-color: $white;
+                transition: all 0.3s ease;
+            }
+        }
+    }
+}

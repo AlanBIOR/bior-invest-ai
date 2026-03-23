@@ -1,0 +1,163 @@
+@use "sass:color";
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.main-footer {
+    padding: 4rem 1.5rem 2rem;
+    background-color: #f1f4f8; 
+    border-top: 1px solid $border-color;
+    font-family: $roboto-font;
+
+    .footer-container {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    .footer-grid {
+        display: grid;
+        grid-template-columns: 1.8fr 1fr 1.2fr;
+        gap: 4rem;
+        margin-bottom: 3rem;
+
+        @media (max-width: $bp-tablet-horizontal) {
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        @include mobile {
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+            text-align: center;
+        }
+    }
+
+    .footer-brand {
+        h3 {
+            color: $primary-color;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 1.2rem;
+            letter-spacing: -0.5px;
+        }
+        p { 
+            color: $text-muted; 
+            line-height: 1.7;
+            max-width: 400px;
+            @include mobile { margin: 0 auto; }
+        }
+    }
+
+    .footer-links {
+        h4 {
+            color: $primary-color;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 1.8rem;
+            font-weight: 700;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+
+            li {
+                margin-bottom: 12px;
+
+                a, summary {
+                    color: $text-muted;
+                    text-decoration: none;
+                    font-weight: 500;
+                    transition: all 0.3s ease;
+                    display: inline-block;
+                    padding: 5px 0;
+                    border-left: 3px solid transparent;
+
+                    &.active {
+                        color: $accent-color !important;
+                        padding-left: 12px;
+                        border-left: 3px solid $accent-color;
+                        font-weight: 700;
+                    }
+
+                    &:hover:not(.active) {
+                        color: $primary-color;
+                        padding-left: 10px;
+                        border-left: 3px solid rgba($accent-color, 0.4);
+                    }
+                }
+            }
+        }
+    }
+
+    .footer-dropdown {
+        summary {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: fit-content;
+            outline: none;
+            @include mobile { margin: 0 auto; }
+
+            i { 
+                margin-left: 12px; 
+                font-size: 0.8rem;
+                transition: transform 0.3s ease; 
+            }
+            &::-webkit-details-marker { display: none; }
+        }
+
+        &[open] summary {
+            color: $primary-color;
+            i { transform: rotate(180deg); color: $accent-color; }
+        }
+
+        .footer-sub-menu {
+            margin-top: 10px;
+            border-left: 1px solid $border-color;
+            margin-left: 5px;
+            
+            li a { 
+                font-size: 0.85rem; 
+                padding-left: 15px; 
+                border-left: none;
+                
+                &.active { color: $accent-color !important; font-weight: 600; }
+                &:hover { padding-left: 20px; color: $accent-color; }
+            }
+        }
+    }
+
+    .footer-disclaimer {
+        font-size: 0.8rem;
+        color: #7f8c8d;
+        line-height: 1.8;
+        padding-top: 2.5rem;
+        border-top: 1px solid $border-color;
+        margin-bottom: 2.5rem;
+        text-align: justify;
+
+        @include mobile { text-align: center; padding-top: 2rem; }
+        strong { color: $text-muted; }
+    }
+
+    .footer-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.85rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba($border-color, 0.5);
+
+        @include mobile { flex-direction: column; gap: 1.2rem; text-align: center; }
+        .copy strong { color: $primary-color; }
+        .developer-credit a {
+            color: $primary-color;
+            font-weight: 700;
+            text-decoration: none;
+            transition: color 0.3s;
+            &:hover { color: $accent-color; }
+        }
+    }
+}

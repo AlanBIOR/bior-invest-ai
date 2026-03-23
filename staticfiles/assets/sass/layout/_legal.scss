@@ -1,0 +1,85 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.legal-container {
+    max-width: 850px;
+    margin: 2rem auto;
+    background: $white;
+    border-radius: 16px;
+    padding: 4rem;
+    box-shadow: $shadow-md;
+    font-family: $roboto-font;
+    color: $text-color;
+    transition: transform 0.3s ease;
+
+    @include mobile { padding: 2rem; margin: 1rem; border-radius: 12px; }
+
+    .legal-header {
+        text-align: center;
+        border-bottom: 2px solid $bg-color;
+        padding-bottom: 2rem;
+        margin-bottom: 3rem;
+
+        .disclaimer-icon {
+            font-size: 3rem;
+            color: $accent-color;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        h1 {
+            color: $primary-color;
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+            @include mobile { font-size: 1.8rem; }
+        }
+
+        p { color: $text-muted; font-size: 1rem; }
+    }
+
+    .legal-content {
+        line-height: 1.8;
+
+        h2 {
+            color: $primary-color;
+            font-size: 1.4rem;
+            margin-top: 3rem;
+            margin-bottom: 1.2rem;
+            border-left: 4px solid $primary-color;
+            padding-left: 15px;
+            font-weight: 700;
+        }
+
+        p { margin-bottom: 1.2rem; text-align: justify; @include mobile { text-align: left; } }
+
+        ul {
+            margin: 1.5rem 0;
+            padding-left: 0;
+            list-style: none;
+
+            li {
+                margin-bottom: 0.8rem;
+                position: relative;
+                padding-left: 1.5rem;
+                &::before {
+                    content: "•";
+                    color: $primary-color;
+                    position: absolute;
+                    left: 0;
+                    font-size: 1.2rem;
+                }
+            }
+        }
+
+        strong { color: $primary-color; font-weight: 700; }
+
+        a {
+            color: $primary-color;
+            text-decoration: none;
+            border-bottom: 1px dotted transparent;
+            transition: all 0.3s ease;
+            &:hover { color: $success-green; border-bottom-color: $success-green; }
+        }
+    }
+}

@@ -1,0 +1,31 @@
+@use "variables" as *;
+
+// Mixin específico para móviles (Mobile First invertido o ajustes específicos)
+@mixin mobile {
+  @media (max-width: #{$bp-tablet - 1px}) { @content; }
+}
+
+@mixin breakpoint($bp) {
+  @if $bp == tablet {
+    @media (min-width: $bp-tablet) { @content; }
+  }
+  @if $bp == tablethorizontal {
+    @media (min-width: $bp-tablet-horizontal) { @content; }
+  }
+  @if $bp == desktop {
+    @media (min-width: $bp-desktop) { @content; }
+  }
+  @if $bp == desktopxl {
+    @media (min-width: $bp-desktop-xl) { @content; }
+  }
+}
+
+// Atajos útiles para complementar tu flujo
+@mixin tablet { @include breakpoint(tablet) { @content; } }
+@mixin desktop { @include breakpoint(desktop) { @content; } }
+
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
