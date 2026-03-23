@@ -256,10 +256,9 @@ def n8n_webhook(request):
                 INSTRUCCIÓN: Responde de forma breve y profesional por WhatsApp. 
                 Usa los datos de arriba para contestar la pregunta del usuario.
                 """
-
                 # --- 5. LLAMAR A GEMINI (Inyección de Datos Directa) ---
                 if user_question:
-                    # Creamos un bloque de texto que la IA no pueda ignorar
+                    # Este es el bloque que ya tienes, está excelente
                     prompt_con_autoridad = f"""
                     [ACCESO AUTORIZADO - REPORTE DE USUARIO: {user.username}]
                     A continuación tienes los datos REALES de la base de datos de BIOR Invest. 
@@ -272,14 +271,21 @@ def n8n_webhook(request):
                     PREGUNTA DEL USUARIO: "{user_question}"
 
                     INSTRUCCIÓN: Responde basándote ÚNICAMENTE en los datos de arriba. 
-                    Si los datos muestran montos, dáselos al usuario. No digas que no tienes acceso.
+                    Si los datos muestran montos, dáselos al usuario de forma clara. 
+                    No digas que no tienes acceso, porque los datos están en este mensaje.
                     """
                     
-                    # IMPORTANTE: Mandamos todo este bloque como un solo mensaje
+                    # Mandamos el bloque con autoridad
                     respuesta_final = ask_financial_agent(prompt_con_autoridad) 
-                else:
-                    respuesta_final = f"Hola {user.username}, ¿en qué puedo ayudarte hoy?"
                 
+                else:
+                    # Esto es lo que debes poner en el 'else'
+                    respuesta_final = (
+                        f"Hola {user.username}, recibí tu mensaje pero no pude entender la pregunta. "
+                        f"Te confirmo que tu capital disponible es de ${profile.capital} MXN. "
+                        "¿En qué más te puedo ayudar?"
+                    )                
+
                 return JsonResponse({
                     "status": "success",
                     "nombre": user.username,
