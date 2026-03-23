@@ -34,19 +34,22 @@ export function initAIChat() {
         const text = chatInput.value.trim();
         if (!text) return;
 
-        const apiKey = "BIOR_Secure_v1_20370519_xYz-NumAPI"; 
+        // 🚨 CAMBIO DE SEGURIDAD: 
+        // Primero intentamos leer del HTML, si no existe, usamos la llave fija
         const phone = chatWindow.dataset.whatsappPhone;
+        const apiKey = chatWindow.dataset.apiKey || "BIOR_Secure_v1_20370519_xYz-NumAPI"; 
 
         appendUserMessage(text);
         chatInput.value = ''; 
         showLoading();
 
         try {
+            // 🚨 FORZAMOS LA RUTA CORRECTA
             const response = await fetch('/api/v1/ai-chat/', { 
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-Api-Key': apiKey,
+                    'X-Api-Key': apiKey, 
                     'X-CSRFToken': getCookie('csrftoken'),
                 },
                 body: JSON.stringify({ 
@@ -55,7 +58,11 @@ export function initAIChat() {
                 }), 
             });
 
-            if (response.status === 403) throw new Error('No autorizado');
+            if (response.status === 403) {
+                console.error("Error 403: La llave enviada fue:", apiKey);
+                throw new Error('No autorizado (Llave incorrecta)');
+            }
+            
             if (!response.ok) throw new Error('Error en la respuesta del servidor');
 
             const data = await response.json();
@@ -73,7 +80,6 @@ export function initAIChat() {
             hideLoading();
         }
     }
-
     // Eventos
     chatSend.addEventListener('click', sendMessage);
     chatInput.addEventListener('keypress', (e) => {
