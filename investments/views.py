@@ -231,7 +231,9 @@ def n8n_webhook(request):
             # --- 2. LEER DATOS (JSON) ---
             data = json.loads(request.body)
             phone = data.get('phone')
-            user_question = data.get('pregunta') # Aquí llega lo de Whisper o texto
+            user_question = data.get('pregunta') or data.get('text') or data.get('Body')
+
+            print(f"📱 Teléfono: {phone} | 💬 Texto: {user_question}")
 
             if not phone:
                 return JsonResponse({"status": "error", "message": "Falta el teléfono"}, status=400)
