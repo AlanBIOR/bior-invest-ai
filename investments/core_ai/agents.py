@@ -91,13 +91,18 @@ def ask_financial_agent(user_question, portfolio_context):
         return response.text
 
     except Exception as e:
-        print(f"⚠️ Error: {e}")
-        # Plan de Rescate
-        try:
-            res_backup = client.models.generate_content(
-                model=MODELO_FLASH,
-                contents=f"Responde de forma sencilla: {user_question}"
-            )
-            return res_backup.text
-        except:
-            return "BIOR Invest AI está recalibrando sus algoritmos financieros."
+        print(f"⚠️ Error de Cuota o API: {e}")
+        
+        # SI EL ERROR ES "RESOURCE_EXHAUSTED", intentamos con el modelo 1.5
+        if "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
+            print("🔄 Agotado 2.5, intentando con Gemini 1.5 Flash (Respaldo)...")
+            try:
+                res_rescue = client.models.generate_content(
+                    model='gemini-1.5-flash', # <--- Este casi nunca se agota
+                    contents=f"Responde brevemente: {user_question}"
+                )
+                return res_rescue.text
+            except:
+                return "Estamos recibiendo muchas consultas. Por favor, espera 15 segundos y vuelve a preguntar. 🚀"
+        
+        return "BIOR Invest AI está recalibrando sus algoritmos."
