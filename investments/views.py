@@ -257,25 +257,29 @@ def n8n_webhook(request):
                 Usa los datos de arriba para contestar la pregunta del usuario.
                 """
 
-                # --- 5. LLAMAR A GEMINI ---
+                # --- 5. LLAMAR A GEMINI (Inyección de Datos Directa) ---
                 if user_question:
-                    # Creamos un mensaje que incluya los datos y la pregunta en uno solo
-                    mensaje_para_ia = f"""
-                    USUARIO: {user.username}
-                    REPORTE ACTUAL DE SU PORTAFOLIO:
-                    {contexto_ia}
-                    
-                    PREGUNTA DEL USUARIO: {user_question}
-                    
-                    INSTRUCCIÓN: Usa los montos del REPORTE ACTUAL para responder. 
-                    Si el usuario pregunta por su balance o inversiones, dáselos basado en el reporte de arriba.
+                    # Creamos un bloque de texto que la IA no pueda ignorar
+                    prompt_con_autoridad = f"""
+                    [ACCESO AUTORIZADO - REPORTE DE USUARIO: {user.username}]
+                    A continuación tienes los datos REALES de la base de datos de BIOR Invest. 
+                    TIENES PERMISO para usarlos en esta respuesta específica.
+
+                    CAPITAL LIBRE: ${profile.capital} MXN
+                    INVERSIONES REGISTRADAS:
+                    {lista_formateada}
+
+                    PREGUNTA DEL USUARIO: "{user_question}"
+
+                    INSTRUCCIÓN: Responde basándote ÚNICAMENTE en los datos de arriba. 
+                    Si los datos muestran montos, dáselos al usuario. No digas que no tienes acceso.
                     """
                     
-                    # Pasamos todo el bloque como la pregunta principal
-                    respuesta_final = ask_financial_agent(mensaje_para_ia) 
+                    # IMPORTANTE: Mandamos todo este bloque como un solo mensaje
+                    respuesta_final = ask_financial_agent(prompt_con_autoridad) 
                 else:
-                    respuesta_final = f"Hola {user.username}, ¿en qué puedo ayudarte hoy con tu portafolio?"
-
+                    respuesta_final = f"Hola {user.username}, ¿en qué puedo ayudarte hoy?"
+                
                 return JsonResponse({
                     "status": "success",
                     "nombre": user.username,
