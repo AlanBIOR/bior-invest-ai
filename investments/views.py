@@ -280,6 +280,8 @@ def n8n_webhook(request):
             return JsonResponse({"status": "error", "message": str(e)}, status=500)
 
     return JsonResponse({"status": "error", "message": "Método no permitido"}, status=405)
+
+
 @login_required # Quitamos csrf_exempt para usar la seguridad de la sesión de la web
 def ai_chat_webhook(request):
     """Webhook para el chat web: Seguro, privado y conectado a Gemini 2.5"""
