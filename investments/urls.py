@@ -21,6 +21,6 @@ urlpatterns = [
     
     # APIs (Asegúrate de que views.get_cetes_rate exista en views.py)
     path('api/get-cetes-rate/', views.get_cetes_rate, name='get_cetes_rate'),
-    path('api/v1/n8n-webhook/', views.n8n_webhook, name='n8n_webhook'),
+    path('api/v1/n8n-webhook/', webhooks.process_ai_request, name='n8n_webhook_bridge'),
     path('api/v1/ai-chat/', views.ai_chat_webhook, name='ai_chat_webhook'),
 ]
