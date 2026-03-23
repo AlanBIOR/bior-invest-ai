@@ -233,8 +233,6 @@ def n8n_webhook(request):
             phone = data.get('phone')
             user_question = data.get('pregunta') or data.get('text') or data.get('Body')
 
-            print(f"📱 Teléfono: {phone} | 💬 Texto: {user_question}")
-
             if not phone:
                 return JsonResponse({"status": "error", "message": "Falta el teléfono"}, status=400)
 
@@ -259,10 +257,11 @@ def n8n_webhook(request):
                 Usa los datos de arriba para contestar la pregunta del usuario.
                 """
 
-                # --- 5. LLAMAR A GEMINI (TU AGENTE) ---
-                # Si no hay pregunta, damos un saludo con su saldo
+                # --- 5. LLAMAR A GEMINI ---
                 if user_question:
-                    respuesta_final = ask_financial_agent(user_question, contexto_ia)
+                    # Intenta pasar el contexto como parte del mensaje para que no lo ignore
+                    pregunta_con_datos = f"{contexto_ia}\n\nPregunta del usuario: {user_question}"
+                    respuesta_final = ask_financial_agent(pregunta_con_datos, contexto_ia) # Quitamos el segundo parámetro si tu función solo acepta uno
                 else:
                     respuesta_final = f"Hola {user.username}, detecté tu mensaje pero no una pregunta clara. Tu capital es ${profile.capital} MXN. ¿En qué te ayudo?"
 
