@@ -1,101 +1,81 @@
 import os
 from google import genai 
-from anthropic import Anthropic  # <-- Nueva integración para Claude
 from dotenv import load_dotenv
 
 load_dotenv()
 
-# 1. Configuración de Clientes
+# 1. Configuración del Cliente
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
-CLAUDE_API_KEY = os.environ.get("GEMINI_API_KEY") # <-- Asegúrate de tenerla en tu .env
+if not GEMINI_API_KEY:
+    raise ValueError("⚠️ Falta la GEMINI_API_KEY en el archivo .env")
 
-client_gemini = genai.Client(api_key=GEMINI_API_KEY)
-client_claude = Anthropic(api_key=GEMINI_API_KEY)
+client = genai.Client(api_key=GEMINI_API_KEY)
 
-# 2. El "System Prompt" Maestro (La esencia de BIOR)
+# 2. SYSTEM_PROMPT Optimizado (Menos "rollo", más precisión)
 SYSTEM_PROMPT = """
-# IDENTIDAD Y ROL
-Eres BIOR Invest AI, el Agente de Inteligencia Financiera Patrimonial líder en México. No eres un chatbot genérico; eres un estratega de gestión de riqueza diseñado para optimizar el capital de inversionistas mexicanos bajo la metodología "Long Angle".
+# ROL: BIOR Invest AI - Estratega Patrimonial México.
 
-# LA ESTRATEGIA "LONG ANGLE" (NUESTRA BIBLIA)
-Tu análisis debe forzar el rebalanceo del portafolio hacia estos pesos objetivos:
-1. RENTA VARIABLE (ETFs Globales como VOO, VT, QQQ): 47% - El motor de crecimiento.
-2. BIENES RAÍCES (FIBRAS como Monterrey, Danhos, Prologis o Inmuebles): 17% - Estabilidad y flujo.
-3. PRIVATE EQUITY (Startups, Negocios Propios, Fondos de Capital): 15% - Multiplicadores de valor.
-4. ALTERNATIVAS (Bitcoin y Ethereum principalmente): 8% - Asimetría de riesgo.
-5. EFECTIVO / RENTA FIJA (CETES, SOFIPOS como Nu/Kubo, Bonddia): 13% - Liquidez y protección.
+# ESTRATEGIA LONG ANGLE (PESOS OBJETIVO):
+- Renta Variable (ETFs: VOO, VT): 47%
+- Bienes Raíces (FIBRAS): 17%
+- Private Equity: 15%
+- Alternativas (Cripto): 8%
+- Efectivo/Renta Fija (CETES, Nu): 13%
 
-# CONTEXTO FISCAL MEXICANO (VITAL)
-Debes integrar consejos de optimización fiscal en cada respuesta:
-- Beneficios de las SOFIPOS (Exención de ISR hasta 5 UMAs anuales bajo el Art. 93).
-- Estrategia de PPR (Plan Personal de Retiro) para deducibilidad inmediata (Art. 151).
-- Diferencia de impuestos entre dividendos y ganancia de capital en la BMV/SIC.
-- Importancia de la declaración anual en abril para recuperar saldos a favor.
+# REGLAS DE ORO DE RESPUESTA:
+1. BREVEDAD: No des introducciones largas. Ve al grano.
+2. RELEVANCIA: Si el usuario pregunta por un dato externo (ej. tasas de CETES), responde ESO y no analices su portafolio a menos que él lo pida o sea necesario para comparar.
+3. ESTILO: Máximo 3 párrafos por respuesta, a menos que sea un análisis solicitado. Usa bullets.
+4. TAX-SMART: Siempre que menciones Renta Fija o SOFIPOS, recuerda la exención del Art. 93 (5 UMAs) y el PPR (Art. 151).
+5. TASA CETES (MARZO 2026): Si te preguntan tasas, menciona que rondan el 10.00% - 10.50% anual, pero deben validar en CetesDirecto.
 
-# REGLAS DE ANÁLISIS DE DATOS
-Cuando recibas el 'portfolio_context':
-1. Calcula los porcentajes REALES actuales del usuario.
-2. Identifica el "Gáp" (la brecha) entre su portafolio actual y la estrategia Long Angle.
-3. Prioriza la recomendación: Si le falta Renta Variable, ese es tu primer punto a atacar.
-4. Si tiene exceso de Cripto (>8%), advierte sobre el riesgo de volatilidad sin ser alarmista.
+# LÓGICA DE ANÁLISIS:
+- Solo si detectas intención de "revisar mi dinero", calcula porcentajes reales del 'portfolio_context', detecta el GAP vs Long Angle y prioriza la Renta Variable.
+- Si hay exceso de Cripto (>8%), menciónalo como riesgo de volatilidad.
 
-# TONO Y PERSONALIDAD
-- Directo, sofisticado y minimalista.
-- Usa terminología financiera mexicana correcta (UMAs, ISR, RFC, CETES, FIBRAS).
-- Evita frases de relleno como "Espero que esto te ayude".
-- Empoderador: No digas "deberías", di "La estrategia Long Angle sugiere...".
-
-# RESTRICCIÓN LEGAL
-Incluye siempre de forma sutil que esto es educación financiera y análisis estratégico, no asesoría financiera personalizada regulada por la CNBV.
+# CIERRE:
+- Finaliza siempre con una frase corta de exención legal: "Educación estratégica, no asesoría regulada por CNBV."
 """
-
 def ask_financial_agent(user_question, portfolio_context):
     """
-    Asesor BIOR: Usa el cerebro 'Pro' para análisis estratégico
-    y el cerebro 'Flash' para respuestas rápidas o fallos de cuota.
+    Asesor BIOR: Inteligencia selectiva para evitar textos largos innecesarios.
     """
-    
-    # Identificamos si la pregunta requiere el "Cerebro Grande" (Pro)
-    palabras_clave = ['mejorar', 'analizar', 'portafolio', 'estrategia', 'invertir', 'fiscal', 'rebalancear']
-    es_estrategico = any(word in user_question.lower() for word in palabras_clave)
+    # 1. Definimos disparadores de análisis profundo
+    palabras_analisis = ['mi portafolio', 'mis inversiones', 'como voy', 'mejorar', 'rebalancear', 'que hago', 'analiza']
+    quiere_analisis = any(word in user_question.lower() for word in palabras_analisis)
 
-    # Definimos nuestros modelos confirmados
+    # 2. Modelos (Asegúrate que 'client' es tu cliente de genai)
     MODELO_PRO = 'gemini-2.5-pro'
     MODELO_FLASH = 'gemini-2.5-flash'
 
     try:
-        # 🧠 CASO 1: Análisis Estratégico (Usa el Pro)
-        if es_estrategico:
+        if quiere_analisis:
+            # 🧠 CASO 1: Análisis Estratégico (Usa el Pro - El Cerebro)
             print(f"🧠 Razonando estrategia con {MODELO_PRO}...")
-            # En el SDK moderno 'contents' es el estándar
-            prompt_completo = f"{SYSTEM_PROMPT}\n\n[CONTEXTO PATRIMONIAL]:\n{portfolio_context}\n\n[PREGUNTA]: {user_question}"
-            
-            response = client_gemini.models.generate_content(
-                model=MODELO_PRO,
-                contents=prompt_completo
-            )
-            return response.text
-
-        # ⚡ CASO 2: Respuesta Rápida / Chat General (Usa el Flash)
+            prompt_final = f"{SYSTEM_PROMPT}\n\n[DATOS DEL USUARIO]:\n{portfolio_context}\n\n[PREGUNTA ESTRATÉGICA]: {user_question}"
+            modelo_a_usar = MODELO_PRO
         else:
+            # ⚡ CASO 2: Respuesta Rápida (Usa el Flash - El Veloz)
             print(f"⚡ Respuesta rápida con {MODELO_FLASH}...")
-            prompt_completo = f"{SYSTEM_PROMPT}\n\nContexto: {portfolio_context}\n\nUsuario: {user_question}"
-            
-            response = client_gemini.models.generate_content(
-                model=MODELO_FLASH,
-                contents=prompt_completo
-            )
-            return response.text
+            prompt_final = f"{SYSTEM_PROMPT}\n\nPregunta rápida (responde breve, sin analizar portafolio): {user_question}"
+            modelo_a_usar = MODELO_FLASH
+
+        # 3. Ejecución de la llamada (Usamos 'client' que es el estándar)
+        response = client.models.generate_content(
+            model=modelo_a_usar,
+            contents=prompt_final
+        )
+        return response.text
 
     except Exception as e:
-        print(f"⚠️ Error en modelo principal: {e}. Intentando rescate con Flash...")
+        print(f"⚠️ Error en modelo principal: {e}. Intentando rescate...")
         try:
-            # Plan de Rescate: Si el Pro falla por límites de cuota, el Flash entra al quite
-            response = client_gemini.models.generate_content(
+            # Plan de Rescate con el modelo más estable
+            response_backup = client.models.generate_content(
                 model=MODELO_FLASH,
-                contents=f"{SYSTEM_PROMPT}\n\nContexto: {portfolio_context}\n\nUsuario: {user_question}"
+                contents=f"Responde de forma sencilla: {user_question}"
             )
-            return response.text
+            return response_backup.text
         except Exception as last_error:
-            print(f"🔥 Error Crítico Total: {last_error}")
-            return "Lo siento, el asesor de BIOR Invest AI está recalibrando sus algoritmos financieros. Por favor, intenta de nuevo en unos segundos."
+            print(f"🔥 Error Crítico: {last_error}")
+            return "BIOR Invest AI está recalibrando sus algoritmos. Intenta de nuevo en un momento."
