@@ -10,6 +10,9 @@ from investments.models import Profile
 def process_ai_request(request): 
     # 1. Validar Seguridad (Candado compartido para n8n y JS)
     auth_header = request.headers.get('X-Api-Key')
+    print(f"--- NUEVA PETICIÓN ---")
+    print(f"Header Recibido: {auth_header}")
+    print(f"Llave Esperada: {settings.N8N_WEBHOOK_KEY}")
     if auth_header != settings.N8N_WEBHOOK_KEY:
         return JsonResponse({"status": "error", "message": "No autorizado"}, status=403)
 
