@@ -4,8 +4,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# 1. Configuración del Cliente
+# 1. Configuración del Cliente - USAREMOS 'client' COMO ESTÁNDAR
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+client = genai.Client(api_key=GEMINI_API_KEY)
+
 if not GEMINI_API_KEY:
     raise ValueError("⚠️ Falta la GEMINI_API_KEY en el archivo .env")
 
@@ -36,50 +38,52 @@ SYSTEM_PROMPT = """
 # CIERRE:
 - Finaliza siempre con una frase corta de exención legal: "Educación estratégica, no asesoría regulada por CNBV."
 """
+
 def ask_financial_agent(user_question, portfolio_context):
     """
-    Asesor BIOR: Inteligencia selectiva para evitar textos largos innecesarios.
+    Asesor BIOR: Inteligencia selectiva con prioridad absoluta en datos reales.
     """
     # 1. Definimos disparadores de análisis profundo
     palabras_analisis = ['mi portafolio', 'mis inversiones', 'como voy', 'mejorar', 'rebalancear', 'que hago', 'analiza']
     quiere_analisis = any(word in user_question.lower() for word in palabras_analisis)
 
-    # 2. Modelos (Asegúrate que 'client' es tu cliente de genai)
+    # 2. Modelos
     MODELO_PRO = 'gemini-2.5-pro'
     MODELO_FLASH = 'gemini-2.5-flash'
 
     try:
-        # Ponemos los datos como PRIORIDAD MÁXIMA
-        header_contexto = f"""
-        DATOS REALES DEL USUARIO (BASE DE DATOS):
-        {portfolio_context}
-        ------------------------------------------
-        """
-
+        # --- CASO A: Análisis Profundo ---
         if quiere_analisis:
-            # FLUJO ESTRATÉGICO (Reforzado)
-            print(f"Análisis profundo activado...")
-            # Aquí le decimos EXPLÍCITAMENTE que use los datos adjuntos y no definiciones externas
+            print(f"🧠 Modo Estratégico activado ({MODELO_PRO})...")
+            
+            # Forzamos los datos AL PRINCIPIO del prompt
+            prompt_final = f"""
+            [DATOS REALES DEL USUARIO - PRIORIDAD MÁXIMA]:
+            {portfolio_context}
+            
+            [INSTRUCCIONES DE SISTEMA]:
+            {SYSTEM_PROMPT}
+            
+            [ORDEN]: Analiza el portafolio real arriba descrito. 
+            NO menciones clubes privados ni definiciones externas de 'Long Angle'. 
+            Compáralo exclusivamente contra los porcentajes de la estrategia BIOR.
+            
+            [PREGUNTA DEL USUARIO]: {user_question}
+            """
+            modelo_a_usar = MODELO_PRO
+
+        # --- CASO B: Respuesta Rápida ---
+        else:
+            print(f"⚡ Modo Consulta Rápida ({MODELO_FLASH})...")
             prompt_final = f"""
             {SYSTEM_PROMPT}
             
-            INSTRUCCIÓN CRÍTICA: El usuario te está pidiendo analizar SU PORTAFOLIO REAL basado en los datos adjuntos abajo. 
-            NO hables de comunidades externas o clubes privados. 
-            Usa exclusivamente estos datos para calcular los porcentajes:
-            
-            [DATOS DEL PORTAFOLIO DEL USUARIO]:
-            {portfolio_context}
-            
-            [PREGUNTA]: {user_question}
+            Pregunta rápida: {user_question}
+            (Responde de forma concisa. No analices el portafolio a menos que sea necesario).
             """
-            modelo_a_usar = MODELO_PRO
-        else:
-            # ⚡ CASO 2: Respuesta Rápida (Usa el Flash - El Veloz)
-            print(f"⚡ Respuesta rápida con {MODELO_FLASH}...")
-            prompt_final = f"{SYSTEM_PROMPT}\n\nPregunta rápida (responde breve, sin analizar portafolio): {user_question}"
             modelo_a_usar = MODELO_FLASH
 
-        # 3. Ejecución de la llamada (Usamos 'client' que es el estándar)
+        # 3. Llamada a la API
         response = client.models.generate_content(
             model=modelo_a_usar,
             contents=prompt_final
@@ -87,14 +91,13 @@ def ask_financial_agent(user_question, portfolio_context):
         return response.text
 
     except Exception as e:
-        print(f"⚠️ Error en modelo principal: {e}. Intentando rescate...")
+        print(f"⚠️ Error: {e}")
+        # Plan de Rescate
         try:
-            # Plan de Rescate con el modelo más estable
-            response_backup = client.models.generate_content(
+            res_backup = client.models.generate_content(
                 model=MODELO_FLASH,
                 contents=f"Responde de forma sencilla: {user_question}"
             )
-            return response_backup.text
-        except Exception as last_error:
-            print(f"🔥 Error Crítico: {last_error}")
-            return "BIOR Invest AI está recalibrando sus algoritmos. Intenta de nuevo en un momento."
+            return res_backup.text
+        except:
+            return "BIOR Invest AI está recalibrando sus algoritmos financieros."
