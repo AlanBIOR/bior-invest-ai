@@ -34,8 +34,8 @@ export function initAIChat() {
         const text = chatInput.value.trim();
         if (!text) return;
 
+        const apiKey = "BIOR_Secure_v1_20370519_xYz-NumAPI"; 
         const phone = chatWindow.dataset.whatsappPhone;
-        const apiKey = chatWindow.dataset.apiKey; 
 
         appendUserMessage(text);
         chatInput.value = ''; 
