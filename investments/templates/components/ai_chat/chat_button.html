@@ -7,9 +7,9 @@
 </button>
 
 <div id="ai-chat-window" 
-     data-username="{{ request.user.username }}" 
-     data-phone="{{ request.user.profile.whatsapp_number }}" 
-     class="hidden fixed bottom-24 right-6 w-80 md:w-96 bg-gray-900 ...">
+    data-username="{{ request.user.username }}" 
+    data-whatsapp-phone="{{ request.user.profile.whatsapp_number }}"
+    class="hidden fixed bottom-24 right-6 w-80 md:w-96 bg-gray-900 ...">
          
     <div class="chat-header">
         <div class="chat-title">

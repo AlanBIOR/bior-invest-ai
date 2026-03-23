@@ -33,7 +33,11 @@ def registro(request):
 def dashboard(request):
     categorias = Category.objects.all()
     datos_lista = [
-        {"name": cat.name, "target_percentage": float(cat.target_percentage), "description": cat.description} 
+        {
+            "name": cat.name, 
+            "target_percentage": float(cat.target_percentage), 
+            "description": cat.description
+        } 
         for cat in categorias
     ]
 
@@ -42,6 +46,7 @@ def dashboard(request):
         capital_inicial = profile.capital
         aportacion_mensual = profile.aportacion
     else:
+        # Valores por defecto para usuarios no logueados (opcional)
         capital_inicial = 10000
         aportacion_mensual = 500
 
@@ -50,7 +55,10 @@ def dashboard(request):
         'datos_js': json.dumps(datos_lista),
         'capital_inicial': capital_inicial,
         'aportacion_mensual': aportacion_mensual,
+        # Pasamos la llave de n8n/webhook desde el .env al HTML de forma dinámica
+        'n8n_key': settings.N8N_WEBHOOK_KEY, 
     }
+    
     return render(request, 'investments/dashboard.html', context)
 
 # --- 2. PORTAFOLIO CON ACTUALIZACIÓN DE PRECIOS ---

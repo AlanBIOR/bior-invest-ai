@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .core_ai import webhooks
 
 urlpatterns = [
     path('', views.dashboard, name='dashboard'),

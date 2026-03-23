@@ -31,35 +31,63 @@ export function initAIChat() {
         const text = chatInput.value.trim();
         if (!text) return;
 
+        // 1. Extraemos los datos del HTML de forma segura
+        const phone = chatWindow.dataset.whatsappPhone;
+        const apiKey = chatWindow.dataset.apiKey; 
+
         appendUserMessage(text);
         chatInput.value = ''; 
         showLoading();
 
         try {
-            const response = await fetch('/api/v1/n8n-webhook/', {
+            // 🚨 CAMBIO DE RUTA: Apuntamos a tu lógica interna de IA, no al webhook de n8n
+            const response = await fetch('/api/v1/ai-chat/', { 
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'X-Api-Key': apiKey, // Seguridad: El candado que pusimos
+                    'X-CSRFToken': getCookie('csrftoken'), // Importante en Django para POST internos
                 },
-                body: JSON.stringify({ username: username, text: text }), 
+                body: JSON.stringify({ 
+                    whatsapp_phone: phone, 
+                    text: text 
+                }), 
             });
 
-            if (!response.ok) throw new Error('Error en la comunicación.');
+            if (response.status === 403) throw new Error('No autorizado');
+            if (!response.ok) throw new Error('Error en la respuesta del servidor');
 
             const data = await response.json();
 
             if (data.status === 'success') {
                 appendAIMessage(data.response);
             } else {
-                appendAIMessage("Error: " + data.message);
+                // Si el perfil no existe o hay error de IA
+                appendAIMessage(data.response || data.message);
             }
 
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Error en el Chatbot:', error);
             appendAIMessage("Disculpa, el asesor está experimentando problemas técnicos.");
         } finally {
             hideLoading();
         }
+    }
+
+    // Función auxiliar para el CSRF de Django (Cópiala también)
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
     }
 
     // Eventos
