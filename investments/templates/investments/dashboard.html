@@ -67,20 +67,19 @@ Bienvenido a tu dashboard de BIOR Invest. Monitorea tu patrimonio, analiza tus e
 
 <section class="investment-grid">
     {% for cat in categorias %}
-        <div class="card investment-card" data-category="{{ cat.name }}">
+        <div class="card investment-card {% if cat.slug == 'inmuebles' %}card--warning{% endif %}" data-category="{{ cat.name }}">
             <div class="card-header">
                 <div class="card-content">
                     <h3>{{ cat.name }}</h3>
-                    <p class="porcentaje-display">{{ cat.target_percentage }}%</p>
+                    <p class="porcentaje-display">{{ cat.target_percentage|floatformat:2 }}%</p>
                     
                     <p class="monto-calculado-container">
                         $ <span class="monto-calculado" data-porcentaje="{{ cat.target_percentage }}">0.00</span>
                     </p>
                     
-                    <small>{{ cat.description }}</small>
+                    <small>{{ cat.description|safe }}</small>
                 </div>
 
-                {# Generamos la URL amigable basada en el nombre #}
                 <a href="{% url 'detalle_inversion' cat.slug %}" class="btn-text-cta">
                     Saber más <span class="arrow">→</span>
                 </a>
