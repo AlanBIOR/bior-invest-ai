@@ -32,31 +32,34 @@ def registro(request):
 
 def dashboard(request):
     categorias = Category.objects.all()
+    
+    # Creamos la lista asegurándonos de que los números sean tipos básicos (float/int)
     datos_lista = [
         {
             "name": cat.name, 
-            "target_percentage": float(cat.target_percentage), 
-            "description": cat.description
+            "target_percentage": float(cat.target_percentage), # Forzamos float para JSON
+            "description": cat.description,
+            "slug": cat.slug  # Agregamos el slug por si lo necesitas en el JS
         } 
         for cat in categorias
     ]
 
     if request.user.is_authenticated:
+        # Usamos get_or_create por seguridad
         profile, created = Profile.objects.get_or_create(user=request.user)
-        capital_inicial = profile.capital
-        aportacion_mensual = profile.aportacion
+        # Aseguramos que si son None en la DB, tengan un valor por defecto para el JS
+        capital_inicial = float(profile.capital or 0)
+        aportacion_mensual = float(profile.aportacion or 0)
     else:
-        # Valores por defecto para usuarios no logueados (opcional)
-        capital_inicial = 10000
-        aportacion_mensual = 500
+        capital_inicial = 10000.0
+        aportacion_mensual = 500.0
 
     context = {
         'categorias': categorias,
-        'datos_js': json.dumps(datos_lista),
+        'datos_js': json.dumps(datos_lista), # Ahora sí funcionará sin errores
         'capital_inicial': capital_inicial,
         'aportacion_mensual': aportacion_mensual,
-        # Pasamos la llave de n8n/webhook desde el .env al HTML de forma dinámica
-        'n8n_key': settings.N8N_WEBHOOK_KEY, 
+        'n8n_key': getattr(settings, 'N8N_WEBHOOK_KEY', ''), # Evita error si no existe la llave
     }
     
     return render(request, 'investments/dashboard.html', context)
