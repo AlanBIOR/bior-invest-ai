@@ -26,7 +26,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-o5ez9j86(!n1l!zn_uchv_vkwjahxk2kvmh(jo$o0s9_=ei1yn')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
+#DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = True
 
 ALLOWED_HOSTS = ['invest-ai.bior-studio.com', '157.254.174.144', 'localhost']
 # Application definition
