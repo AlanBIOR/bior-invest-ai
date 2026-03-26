@@ -1,3 +1,13 @@
+import os
+import django
+
+# 1. Configurar el entorno de Django (esto debe ir PRIMERO)
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
+django.setup()
+
+# 2. AHORA SI, importar el modelo (después de django.setup())
+from investments.models import Category  # <--- REVISA QUE ESTA RUTA SEA CORRECTA
+
 def seed_categories():
     categories = [
         {
@@ -38,22 +48,22 @@ def seed_categories():
         },
     ]
 
-    print("🌱 Actualizando estrategia Long Angle en BIOR Invest...")
+    print("🌱 Sincronizando descripciones y porcentajes...")
     
     for cat_data in categories:
-        # update_or_create es más rudo: si existe, LO CAMBIA. Si no, LO CREA.
+        # update_or_create es la clave aquí
         obj, created = Category.objects.update_or_create(
-            name=cat_data['name'], # Busca por nombre
+            slug=cat_data['slug'], # Busca por slug para no fallar
             defaults={
-                'slug': cat_data['slug'],
+                'name': cat_data['name'],
                 'target_percentage': cat_data['target_percentage'], 
-                'description': cat_data['description']
+                'description': cat_data['description'] # Esto llenará el <small>
             }
         )
-        
         if created:
             print(f"✅ Creada: {obj.name}")
         else:
-            print(f"🔄 Sobreescrita: {obj.name} -> {obj.target_percentage}%")
+            print(f"🔄 Actualizada: {obj.name}")
 
-    print("\n🚀 ¡Base de datos sincronizada con la estrategia oficial!")
+if __name__ == '__main__':
+    seed_categories()
