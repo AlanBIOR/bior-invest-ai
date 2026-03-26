@@ -77,7 +77,7 @@ Bienvenido a tu dashboard de BIOR Invest. Monitorea tu patrimonio, analiza tus e
                         $ <span class="monto-calculado" data-porcentaje="{{ cat.target_percentage }}">0.00</span>
                     </p>
                     
-                    <small class="card-description">{{ cat.description|safe }}</small>
+                    <small class="card-description">{{ cat.description }}</small>
                 </div>
 
                 <a href="{% url 'detalle_inversion' cat.slug %}" class="btn-text-cta">
@@ -86,9 +86,7 @@ Bienvenido a tu dashboard de BIOR Invest. Monitorea tu patrimonio, analiza tus e
             </div>
         </div>
     {% empty %}
-        <div class="card">
-            <p>No hay categorías registradas. Ejecuta el script de siembra.</p>
-        </div>
+        <p>No hay datos. Ejecuta: python seed_data.py</p>
     {% endfor %}
 </section>
 
