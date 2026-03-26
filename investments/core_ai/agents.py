@@ -63,18 +63,17 @@ def ask_financial_agent(user_question, portfolio_context):
     quiere_analisis = any(word in user_question.lower() for word in palabras_analisis)
 
     # 3. Lista de Prioridad (Redundancia de 10 niveles)
-    # Ordenamos desde los más inteligentes/nuevos hasta los más ligeros y estables
     MODELOS_HIERARCHY = [
-        'models/gemini-2.5-pro',            # 1. El cerebro máximo
-        'models/gemini-2.5-flash',           # 2. El rápido más nuevo
-        'models/gemini-2.0-flash',           # 3. El balanceado (más estable)
-        'models/gemini-2.0-flash-lite',      # 4. Versión optimizada
-        'models/gemini-1.5-pro',             # 5. El pro de generación anterior
-        'models/gemini-1.5-flash',           # 6. El caballo de batalla (muy difícil que falle)
-        'models/gemini-flash-latest',        # 7. Alias de la última versión estable
-        'models/gemini-pro-latest',          # 8. Alias del pro estable
-        'models/gemini-2.0-flash-001',       # 9. Versión específica
-        'models/gemini-1.5-flash-8b'         # 10. El más pequeño (último recurso)
+        'models/gemini-2.5-pro',
+        'models/gemini-2.5-flash',
+        'models/gemini-2.0-flash',
+        'models/gemini-2.0-flash-lite',
+        'models/gemini-1.5-pro',
+        'models/gemini-1.5-flash',
+        'models/gemini-flash-latest',
+        'models/gemini-pro-latest',
+        'models/gemini-2.0-flash-001',
+        'models/gemini-1.5-flash-8b'
     ]
 
     # Preparación del Prompt
@@ -98,20 +97,21 @@ def ask_financial_agent(user_question, portfolio_context):
                 contents=prompt_final
             )
             
+            # --- LIMPIEZA DE FORMATO PARA WHATSAPP ---
+            # Guardamos la respuesta y forzamos el reemplazo de Markdown doble (**) a simple (*)
+            respuesta_final = response.text.replace("**", "*")
+            
             # Si llegamos aquí, la respuesta fue exitosa
-            return response.text
+            return respuesta_final
 
         except Exception as e:
             error_str = str(e).upper()
             print(f"❌ Falló {modelo}: {e}")
             
-            # Si no es un error de cuota (ej. error de red), intentamos el siguiente de todos modos
-            # Pero si es 429 o RESOURCE_EXHAUSTED, es señal clara de saltar al siguiente nivel
             if "429" in error_str or "RESOURCE_EXHAUSTED" in error_str:
                 print(f"🔄 Cuota agotada en {modelo}. Saltando al siguiente nivel...")
                 continue
             else:
-                # Si es otro tipo de error, también intentamos con el siguiente para no dejar al usuario solo
                 continue
 
     # 5. Si después de recorrer los 10 modelos nada funcionó

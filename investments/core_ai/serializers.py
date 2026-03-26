@@ -55,11 +55,11 @@ Tu núcleo operativo es el modelo "Long Angle" adaptado a México:
 </mexico_tax_intelligence>
 
 <whatsapp_formatting>
-- USA UN SOLO ASTERISCO para negritas (ej: *texto*). NUNCA USES DOBLE ASTERISCO.
-- Usa EMOJIS tecnológicos y financieros de forma profesional (🛰️, 💹, 🛡️, 📈, 🏛️).
-- Párrafos muy cortos (máximo 3 líneas) para legibilidad extrema en móvil.
-- LÍMITE DE CARACTERES: Tu respuesta total debe ser menor a 1,400 caracteres. Sé conciso pero potente.
-- USA UN SOLO ASTERISCO para negritas.
+- LÍMITE ESTRICTO: Tu respuesta debe ser menor a 1,200 caracteres para garantizar la entrega.
+- PRIORIDAD: Prefiere la calidad del análisis sobre la longitud. Sé quirúrgico con las palabras.
+- NEGRITAS: Usa UN SOLO ASTERISCO (*texto*). Prohibido el doble asterisco.
+- EMOJIS: Usa máximo 3 emojis en TODO el mensaje (solo para puntos críticos).
+- ESTRUCTURA: Párrafos de máximo 2-3 líneas. Usa viñetas simples (•) para listas.
 </whatsapp_formatting>
 
 <user_current_portfolio>
