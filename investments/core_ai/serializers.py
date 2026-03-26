@@ -4,19 +4,25 @@ from decimal import Decimal
 def get_portfolio_context(user):
     from investments.models import Investment
     
+    # 1. Traemos todos tus activos detallados (los de la tabla que me mostraste)
     activos = Investment.objects.filter(user=user).select_related('category')
-    total_actual = activos.aggregate(Sum('current_value'))['current_value__sum'] or 0
     
-    # 1. Agrupamos los activos por categoría para sacar porcentajes
+    # 2. Calculamos el valor actual total
+    total_actual = activos.aggregate(Sum('current_value'))['current_value__sum'] or 0
+    total_actual = Decimal(str(total_actual))
+
     resumen_categorias = {}
     for asset in activos:
         cat_name = asset.category.name
         if cat_name not in resumen_categorias:
             resumen_categorias[cat_name] = {'total': Decimal('0'), 'activos': []}
-        resumen_categorias[cat_name]['total'] += Decimal(str(asset.current_value))
+        
+        # Sumamos el valor actual de cada activo
+        valor_v = Decimal(str(asset.current_value or 0))
+        resumen_categorias[cat_name]['total'] += valor_v
         resumen_categorias[cat_name]['activos'].append(asset)
 
-    # 2. Construimos el Mega-Prompt de Contexto para Claude
+    # 3. Construimos el Mega-Prompt
     prompt = f"""
 <role>
 Eres BIOR Invest AI, el asesor financiero privado y patrimonial de {user.username}. Tu objetivo es proteger su capital, maximizar rendimientos y optimizar su carga fiscal en México.
@@ -47,18 +53,16 @@ Distribución actual:
 """
 
     if not activos.exists():
-        prompt += "- El portafolio está vacío. El usuario necesita empezar desde cero. Sugiérele abrir cuenta en CetesDirecto o Nu para su fondo de emergencia.\n"
+        prompt += "- El portafolio está vacío. Dile que registre sus compras en el dashboard.\n"
     else:
         for cat_name, data in resumen_categorias.items():
-            porcentaje = (data['total'] / Decimal(str(total_actual))) * 100 if total_actual > 0 else 0
-            prompt += f"\n[{cat_name.upper()}] - Total: ${data['total']:,.2f} MXN ({porcentaje:.1f}% del portafolio)\n"
+            porcentaje = (data['total'] / total_actual) * 100 if total_actual > 0 else 0
+            prompt += f"\n[{cat_name.upper()}] - ${data['total']:,.2f} ({porcentaje:.1f}%)\n"
             for asset in data['activos']:
-                # Calcular rendimiento simple
-                invertido = Decimal(str(asset.amount_invested))
-                actual = Decimal(str(asset.current_value))
-                rendimiento_pct = ((actual - invertido) / invertido) * 100 if invertido > 0 else 0
-                
-                prompt += f"  • {asset.asset_name} (en {asset.platform}): Invirtió ${invertido:,.2f} | Vale ${actual:,.2f} | Rendimiento: {rendimiento_pct:+.2f}%\n"
+                invertido = Decimal(str(asset.amount_invested or 0))
+                actual = Decimal(str(asset.current_value or 0))
+                rendimiento = ((actual - invertido) / invertido * 100) if invertido > 0 else 0
+                prompt += f"  • {asset.asset_name} ({asset.platform}): Invertido ${invertido:,.2f} | Valor Actual ${actual:,.2f} | Rendimiento: {rendimiento:+.2f}%\n"
 
     prompt += """
 </user_current_portfolio>
