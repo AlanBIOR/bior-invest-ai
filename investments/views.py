@@ -31,8 +31,7 @@ def registro(request):
     return render(request, 'auth/registro.html', {'form': form})
 
 def dashboard(request):
-    # Asumo que el modelo se llama Category según tu código actual
-    categorias = Category.objects.all() 
+    categorias = Category.objects.all().order_by('-target_percentage')
     
     datos_lista = [
         {
@@ -45,12 +44,10 @@ def dashboard(request):
     ]
 
     if request.user.is_authenticated:
-        # get_or_create está perfecto, evita errores de perfiles inexistentes
         profile, created = Profile.objects.get_or_create(user=request.user)
-        capital_inicial = float(profile.capital or 0)
-        aportacion_mensual = float(profile.aportacion or 0)
+        capital_inicial = float(profile.capital or 10000.0)
+        aportacion_mensual = float(profile.aportacion or 500.0)
     else:
-        # Valores por defecto para el modo "Guest"
         capital_inicial = 10000.0
         aportacion_mensual = 500.0
 

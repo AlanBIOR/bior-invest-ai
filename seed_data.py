@@ -1,15 +1,4 @@
-import os
-import django
-from django.utils.text import slugify # Útil para generar slugs automáticamente
-
-# Configuramos el entorno de Django
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
-django.setup()
-
-from investments.models import Category
-
 def seed_categories():
-    # Añadimos el campo 'slug' a cada diccionario
     categories = [
         {
             'name': 'Renta Variable', 
@@ -49,30 +38,22 @@ def seed_categories():
         },
     ]
 
-    print("🌱 Sembrando categorías estratégicas en BIOR Invest...")
+    print("🌱 Actualizando estrategia Long Angle en BIOR Invest...")
     
     for cat_data in categories:
-        # Usamos name para buscar, pero incluimos el slug en los defaults para la creación
-        obj, created = Category.objects.get_or_create(
-            name=cat_data['name'],
+        # update_or_create es más rudo: si existe, LO CAMBIA. Si no, LO CREA.
+        obj, created = Category.objects.update_or_create(
+            name=cat_data['name'], # Busca por nombre
             defaults={
-                'slug': cat_data['slug'], # <--- El nuevo campo requerido
+                'slug': cat_data['slug'],
                 'target_percentage': cat_data['target_percentage'], 
                 'description': cat_data['description']
             }
         )
         
         if created:
-            print(f"✅ Categoría creada: {obj.name} (slug: {obj.slug})")
+            print(f"✅ Creada: {obj.name}")
         else:
-            # Si ya existe, podemos aprovechar para actualizar el slug o la descripción por si acaso
-            obj.slug = cat_data['slug']
-            obj.target_percentage = cat_data['target_percentage']
-            obj.description = cat_data['description']
-            obj.save()
-            print(f"🟡 Categoría actualizada: {obj.name}")
+            print(f"🔄 Sobreescrita: {obj.name} -> {obj.target_percentage}%")
 
-    print("\n🚀 ¡Configuración estratégica completada!")
-
-if __name__ == '__main__':
-    seed_categories()
+    print("\n🚀 ¡Base de datos sincronizada con la estrategia oficial!")
