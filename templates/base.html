@@ -22,6 +22,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}?v=1.5">
 
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/img/apple-touch-icon.png' %}">
+    <meta name="apple-mobile-web-app-title" content="BIOR Invest">
+
     <script>
         window.BIOR_CONFIG = {
             isLoggedIn: {% if user.is_authenticated %}true{% else %}false{% endif %},

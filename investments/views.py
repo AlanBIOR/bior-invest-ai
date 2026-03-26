@@ -31,38 +31,40 @@ def registro(request):
     return render(request, 'auth/registro.html', {'form': form})
 
 def dashboard(request):
-    categorias = Category.objects.all()
+    # Asumo que el modelo se llama Category según tu código actual
+    categorias = Category.objects.all() 
     
-    # Creamos la lista asegurándonos de que los números sean tipos básicos (float/int)
     datos_lista = [
         {
             "name": cat.name, 
-            "target_percentage": float(cat.target_percentage), # Forzamos float para JSON
+            "target_percentage": float(cat.target_percentage), 
             "description": cat.description,
-            "slug": cat.slug  # Agregamos el slug por si lo necesitas en el JS
+            "slug": cat.slug 
         } 
         for cat in categorias
     ]
 
     if request.user.is_authenticated:
-        # Usamos get_or_create por seguridad
+        # get_or_create está perfecto, evita errores de perfiles inexistentes
         profile, created = Profile.objects.get_or_create(user=request.user)
-        # Aseguramos que si son None en la DB, tengan un valor por defecto para el JS
         capital_inicial = float(profile.capital or 0)
         aportacion_mensual = float(profile.aportacion or 0)
     else:
+        # Valores por defecto para el modo "Guest"
         capital_inicial = 10000.0
         aportacion_mensual = 500.0
 
     context = {
         'categorias': categorias,
-        'datos_js': json.dumps(datos_lista), # Ahora sí funcionará sin errores
+        'datos_js': json.dumps(datos_lista), 
         'capital_inicial': capital_inicial,
         'aportacion_mensual': aportacion_mensual,
-        'n8n_key': getattr(settings, 'N8N_WEBHOOK_KEY', ''), # Evita error si no existe la llave
+        'n8n_key': getattr(settings, 'N8N_WEBHOOK_KEY', ''), 
     }
     
     return render(request, 'investments/dashboard.html', context)
+
+
 
 # --- 2. PORTAFOLIO CON ACTUALIZACIÓN DE PRECIOS ---
 @login_required
