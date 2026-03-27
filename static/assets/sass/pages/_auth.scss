@@ -4,7 +4,7 @@
 
 .auth-container {
     min-height: 100vh;
-    @include flex-center; // Mixin BIOR
+    @include flex-center; 
     padding: 20px;
     font-family: $roboto-font;
     background-color: $bg-color;
@@ -38,7 +38,7 @@
         width: 100%;
         display: flex;
         flex-direction: column;
-        gap: 1.2rem; // Reducido ligeramente para balance visual
+        gap: 1.2rem;
 
         .input-group {
             display: flex;
@@ -46,7 +46,6 @@
             text-align: left;
             gap: 6px;
 
-            // Soporte para fila doble (Nombre/Apellido)
             &.row-group {
                 flex-direction: row;
                 gap: 15px;
@@ -61,10 +60,35 @@
 
             label {
                 font-weight: 600;
-                color: $text-muted; // Usamos muted para estado base
+                color: $text-muted;
                 font-size: 0.85rem;
                 padding-left: 4px;
                 transition: color 0.3s ease;
+            }
+
+            // NUEVO: Contenedor para el input + icono del ojo
+            .password-wrapper {
+                position: relative;
+                display: flex;
+                align-items: center;
+
+                input {
+                    padding-right: 45px; // Espacio extra para que el texto no tape el ojo
+                }
+
+                .toggle-password {
+                    position: absolute;
+                    right: 16px;
+                    color: $text-muted;
+                    cursor: pointer;
+                    font-size: 1rem;
+                    transition: color 0.3s ease;
+                    z-index: 10;
+
+                    &:hover {
+                        color: $primary-color;
+                    }
+                }
             }
 
             input {
@@ -83,11 +107,16 @@
                     background-color: $white;
                     box-shadow: 0 0 0 4px rgba($primary-color, 0.1);
                     
-                    // Efecto en el label hermano
-                    & ~ label { color: $primary-color; }
+                    // Mantiene el efecto del label si el input está dentro de password-wrapper o no
                 }
 
                 &::placeholder { color: #cbd5e1; }
+            }
+            
+            // Selector para iluminar el label cuando el input (dentro o fuera del wrapper) tiene focus
+            input:focus ~ label,
+            .password-wrapper:focus-within ~ label {
+                color: $primary-color;
             }
 
             .text-error {
@@ -161,7 +190,6 @@
     }
 }
 
-// Responsive usando tu Mixin
 @include mobile {
     .auth-container {
         padding: 15px;
