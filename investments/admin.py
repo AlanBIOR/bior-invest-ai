@@ -1,12 +1,33 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from .models import Category, GlobalAsset, Investment, Profile
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
+from decimal import Decimal
+
+# --- 0. SEGURIDAD DE USUARIOS (Solo ver su propio User en el Admin) ---
+admin.site.unregister(User)
+
+@admin.register(User)
+class MyUserAdmin(UserAdmin):
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        # Los usuarios que no son superuser solo se ven a sí mismos
+        return qs.filter(id=request.user.id)
 
 # --- 1. GESTIÓN DE PERFIL (Dashboard Settings) ---
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'capital', 'aportacion')
     search_fields = ('user__username',)
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(user=request.user)
 
 # --- 2. CATEGORÍAS (Estrategia Sugerida) ---
 @admin.register(Category)
@@ -45,10 +66,19 @@ class InvestmentAdmin(admin.ModelAdmin):
     search_fields = ('asset_name', 'platform')
     readonly_fields = ('last_updated',)
 
+    def get_queryset(self, request):
+        """Filtro de privacidad: Solo ver inversiones propias"""
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(user=request.user)
+
     def performance_display(self, obj):
-        """Calcula ganancia/pérdida con formato de color blindado"""
+        """Calcula ganancia/pérdida con formato de color blindado y protección contra nulos"""
         if obj.amount_invested and obj.amount_invested > 0:
-            diff = obj.current_value - obj.amount_invested
+            # CORRECCIÓN DE ERROR: Usamos 'or 0' para evitar InvalidOperation si current_value es None
+            val_actual = obj.current_value or Decimal('0')
+            diff = val_actual - obj.amount_invested
             porcentaje = (diff / obj.amount_invested) * 100
             
             # Lógica visual
