@@ -13,6 +13,7 @@ from decimal import Decimal
 from .models import Investment, Category, Profile
 from .services import FinanceService
 from django.utils import timezone
+from .forms import RegistroForm
 
 from django.views.decorators.csrf import csrf_exempt
 from .core_ai import process_ai_request
@@ -21,13 +22,23 @@ from .core_ai.agents import ask_financial_agent  # Importamos tu agente de Gemin
 # --- 1. REGISTRO & DASHBOARD ---
 def registro(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = RegistroForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('dashboard')
+            # 1. Guardar el usuario (El Signal creará el Profile en automático)
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password1'])
+            user.save()
+
+            # 2. Actualizar el Profile que el Signal acaba de crear
+            perfil = user.profile
+            perfil.whatsapp_number = form.cleaned_data['whatsapp_number']
+            perfil.save()
+
+            messages.success(request, f'¡Bienvenido {user.username}! Ya puedes iniciar sesión.')
+            return redirect('login')
     else:
-        form = UserCreationForm()
+        form = RegistroForm()
+    
     return render(request, 'auth/registro.html', {'form': form})
 
 def dashboard(request):

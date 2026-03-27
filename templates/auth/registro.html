@@ -1,54 +1,50 @@
 {% extends 'base.html' %}
-{% load static %}
-
-{% block title %}Crear Cuenta | BIOR Invest{% endblock %}
-
 {% block content %}
 <section class="auth-container">
     <div class="auth-card">
         <h2>Únete a BIOR Invest</h2>
-        <p>Comienza a gestionar tu futuro financiero hoy mismo.</p>
-
         <form method="POST" class="auth-form">
             {% csrf_token %}
             
             {% if form.errors %}
-                <div class="error-banner" style="color: #e60017; margin-bottom: 15px; font-size: 0.85rem;">
-                    <p><i class="fas fa-exclamation-circle"></i> Por favor, revisa los datos ingresados.</p>
+                <div class="error-banner" style="color: #ff4d4d;">
+                    <p>Revisa los errores en el formulario.</p>
                 </div>
             {% endif %}
 
             <div class="input-group">
-                <label for="id_username">Nombre de Usuario</label>
-                <input type="text" name="username" id="id_username" placeholder="Elige un usuario" required
-                       value="{{ form.username.value|default:'' }}">
-                {% if form.username.errors %}
-                    <small class="text-error">{{ form.username.errors.0 }}</small>
-                {% endif %}
+                <label>Nombre de Usuario</label>
+                <input type="text" name="username" required value="{{ form.username.value|default:'' }}">
+            </div>
+
+            <div class="input-group" style="display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label>Nombre</label>
+                    <input type="text" name="first_name" required value="{{ form.first_name.value|default:'' }}">
+                </div>
+                <div style="flex: 1;">
+                    <label>Apellidos</label>
+                    <input type="text" name="last_name" required value="{{ form.last_name.value|default:'' }}">
+                </div>
             </div>
 
             <div class="input-group">
-                <label for="id_password1">Contraseña</label>
-                <input type="password" name="password1" id="id_password1" placeholder="Mínimo 8 caracteres" required>
-                {% if form.password1.errors %}
-                    <small class="text-error">{{ form.password1.errors.0 }}</small>
-                {% endif %}
+                <label>WhatsApp (con código de país)</label>
+                <input type="text" name="whatsapp_number" placeholder="Ej: 5212411234567" required value="{{ form.whatsapp_number.value|default:'' }}">
             </div>
 
             <div class="input-group">
-                <label for="id_password2">Confirmar Contraseña</label>
-                <input type="password" name="password2" id="id_password2" placeholder="Repite tu contraseña" required>
+                <label>Contraseña</label>
+                <input type="password" name="password1" required>
             </div>
 
-            <button type="submit" class="btn-auth">
-                Crear mi cuenta
-            </button>
+            <div class="input-group">
+                <label>Confirmar Contraseña</label>
+                <input type="password" name="password2" required>
+            </div>
+
+            <button type="submit" class="btn-auth">Crear mi cuenta</button>
         </form>
-
-        <div class="auth-footer">
-            <p>¿Ya tienes cuenta? <a href="{% url 'login' %}">Inicia sesión</a></p>
-            <p><a href="{% url 'dashboard' %}">← Volver al Dashboard</a></p>
-        </div>
     </div>
 </section>
 {% endblock %}
