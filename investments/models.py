@@ -22,7 +22,7 @@ class GlobalAsset(models.Model):
     name = models.CharField(max_length=255)
     symbol = models.CharField(max_length=20, help_text="Ej: BTC, AAPL, AMZN")
     api_id = models.CharField(max_length=100, blank=True, null=True, help_text="ID para CoinGecko")
-    current_price = models.DecimalField(max_digits=20, decimal_places=10, default=0.0)
+    current_price = models.DecimalField(max_digits=20, decimal_places=10, default=Decimal('0.0'))
     last_api_update = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -35,83 +35,46 @@ class Investment(models.Model):
     global_asset = models.ForeignKey(GlobalAsset, on_delete=models.SET_NULL, null=True, blank=True)
     
     asset_name = models.CharField(max_length=255)
-    
-    # Cantidad: Aumentamos precisión para criptos y forzamos Decimal en default
-    quantity = models.DecimalField(
-        max_digits=25, 
-        decimal_places=12, 
-        default=Decimal('1.0')
-    )
-    
-    # Campos de Moneda: Forzamos Decimal('0.00') para evitar errores de tipo en SQLite
-    amount_invested = models.DecimalField(
-        max_digits=15, 
-        decimal_places=2, 
-        default=Decimal('0.00')
-    )
-    current_value = models.DecimalField(
-        max_digits=15, 
-        decimal_places=2, 
-        default=Decimal('0.00')
-    )
-    
+    quantity = models.DecimalField(max_digits=25, decimal_places=12, default=Decimal('1.0'))
+    amount_invested = models.DecimalField(max_digits=15, decimal_places=2, default=Decimal('0.00'))
+    current_value = models.DecimalField(max_digits=15, decimal_places=2, default=Decimal('0.00'))
     platform = models.CharField(max_length=100, blank=True)
-    
-    # Tasa anual: Blindada con Decimal
-    annual_yield = models.DecimalField(
-        max_digits=5, 
-        decimal_places=2, 
-        default=Decimal('0.0')
-    )
-    
+    annual_yield = models.DecimalField(max_digits=5, decimal_places=2, default=Decimal('0.0'))
     banxico_series = models.CharField(max_length=50, blank=True, null=True)
     last_updated = models.DateTimeField(auto_now=True) 
 
     @property
     def rendimiento_porcentaje(self):
-        """Calcula el rendimiento con protección total contra Nulos y División por Cero"""
-        # Aseguramos que los valores sean Decimal incluso si vienen corruptos de la BD
         inv = self.amount_invested or Decimal('0.00')
         cur = self.current_value or Decimal('0.00')
-        
         if inv > 0:
             diff = cur - inv
-            # Python 3 maneja la división de Decimal correctamente si ambos lo son
             return (diff / inv) * 100
         return 0
 
-# --- 4. PERFIL DE USUARIO (Configuración de la Calculadora) ---
+# --- 4. PERFIL DE USUARIO ---
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    capital = models.DecimalField(max_digits=15, decimal_places=2, default=10000.00)
-    aportacion = models.DecimalField(max_digits=15, decimal_places=2, default=500.00)
+    capital = models.DecimalField(max_digits=15, decimal_places=2, default=Decimal('10000.00'))
+    aportacion = models.DecimalField(max_digits=15, decimal_places=2, default=Decimal('500.00'))
+    whatsapp_number = models.CharField(
+        max_length=20, 
+        unique=True, 
+        null=True, 
+        blank=True, 
+        help_text="Ej: 5215512345678"
+    )
 
     def __str__(self):
         return f"Perfil de {self.user.username}"
 
 # --- 5. AUTOMATIZACIÓN (SIGNALS) ---
-# Esto garantiza que cada AlanAdmin o usuario nuevo tenga su Perfil creado automáticamente
 @receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
+def manage_user_profile(sender, instance, created, **kwargs):
+    """Crea o guarda el perfil automáticamente al manejar el modelo User"""
     if created:
-        Profile.objects.get_or_create(user=instance)
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    # Usamos try/except por si el perfil fue borrado manualmente
-    try:
-        instance.profile.save()
-    except Profile.DoesNotExist:
         Profile.objects.create(user=instance)
-
-# --- 4. PERFIL DE USUARIO ---
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    capital = models.DecimalField(max_digits=15, decimal_places=2, default=10000.00)
-    aportacion = models.DecimalField(max_digits=15, decimal_places=2, default=500.00)
-    
-    # AGREGA ESTA LÍNEA:
-    whatsapp_number = models.CharField(max_length=20, unique=True, null=True, blank=True, help_text="Ej: 5215512345678")
-
-    def __str__(self):
-        return f"Perfil de {self.user.username}"
+    else:
+        # Usamos get_or_create por si el perfil fue borrado manualmente
+        Profile.objects.get_or_create(user=instance)
+        instance.profile.save()

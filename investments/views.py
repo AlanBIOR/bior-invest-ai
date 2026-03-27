@@ -76,7 +76,7 @@ def portafolio(request):
             yield_input = request.POST.get('annual_yield')
 
             if category_id and amount_raw:
-                amount = Decimal(str(amount_raw)) # Blindaje str
+                amount = Decimal(str(amount_raw))
                 cat = get_object_or_404(Category, id=category_id)
                 new_yield = float(yield_input) if yield_input and yield_input.strip() else 0.0
                 
@@ -100,7 +100,7 @@ def portafolio(request):
             print(f"Error en POST: {e}")
             messages.error(request, f"Error al guardar: {e}")
 
-    # --- 2. ACTUALIZACIÓN DINÁMICA ---
+    # --- 2. ACTUALIZACIÓN DINÁMICA (OPTIMIZADA) ---
     todos_los_activos = Investment.objects.filter(user=request.user)
     ahora = timezone.now()
 
@@ -112,27 +112,29 @@ def portafolio(request):
 
     for asset in todos_los_activos:
         try:
-            # Protegemos valores nulos antes de operar
-            asset_inv = Decimal(str(asset.amount_invested or '0'))
-            asset_qty = Decimal(str(asset.quantity or '0'))
-            asset_cur = Decimal(str(asset.current_value or '0'))
+            # Solo actualizar si el dato tiene más de 5 minutos de antigüedad
+            # Esto evita saturar APIs y base de datos en cada refresh
+            if (ahora - asset.last_updated).total_seconds() > 300:
+                asset_inv = Decimal(str(asset.amount_invested or '0'))
+                asset_qty = Decimal(str(asset.quantity or '0'))
+                asset_cur = Decimal(str(asset.current_value or '0'))
 
-            if asset.category_id == 4: # Criptos
-                api_id = asset.asset_name.lower().strip().replace(" ", "-")
-                precio = FinanceService.get_crypto_price_mxn(api_id)
-                if precio and asset_qty > 0:
-                    asset.current_value = asset_qty * Decimal(str(precio))
-                    if asset_inv > 0:
-                        diff = asset.current_value - asset_inv
-                        asset.annual_yield = (diff / asset_inv) * 100
-            
-            elif asset.annual_yield and asset.annual_yield > 0: # Renta Fija
-                dias_pasados = (ahora - asset.last_updated).days
-                if dias_pasados > 0:
-                    tasa_diaria = (Decimal(str(asset.annual_yield)) / 100) / 365
-                    asset.current_value = asset_cur * (1 + (tasa_diaria * dias_pasados))
-            
-            asset.save()
+                if asset.category_id == 4: # Criptos
+                    api_id = asset.asset_name.lower().strip().replace(" ", "-")
+                    precio = FinanceService.get_crypto_price_mxn(api_id)
+                    if precio and asset_qty > 0:
+                        asset.current_value = asset_qty * Decimal(str(precio))
+                        if asset_inv > 0:
+                            diff = asset.current_value - asset_inv
+                            asset.annual_yield = (diff / asset_inv) * 100
+                
+                elif asset.annual_yield and asset.annual_yield > 0: # Renta Fija
+                    dias_pasados = (ahora - asset.last_updated).days
+                    if dias_pasados > 0:
+                        tasa_diaria = (Decimal(str(asset.annual_yield)) / 100) / 365
+                        asset.current_value = asset_cur * (1 + (tasa_diaria * dias_pasados))
+                
+                asset.save()
         except Exception as e:
             print(f"Error actualizando activo {asset.asset_name}: {e}")
 
@@ -141,7 +143,6 @@ def portafolio(request):
         activos = Investment.objects.filter(user=request.user).select_related('category')
         agg = activos.aggregate(total_inv=Sum('amount_invested'), total_cur=Sum('current_value'))
         
-        # Corrección crítica para InvalidOperation: asegurar Decimal('0') si es None
         total_inv = Decimal(str(agg['total_inv'] or '0.00'))
         total_cur = Decimal(str(agg['total_cur'] or '0.00'))
         
@@ -164,7 +165,6 @@ def portafolio(request):
         return render(request, 'pages/portafolio.html', context)
     except Exception as e:
         print(f"Error en renderizado: {e}")
-        # Retornamos valores en cero para que la página cargue aunque el usuario sea nuevo
         return render(request, 'pages/portafolio.html', {
             'categorias_list': Category.objects.all(),
             'total_invertido': Decimal('0'),
@@ -172,7 +172,6 @@ def portafolio(request):
             'ganancia': Decimal('0'),
             'error': True
         })
-
 # --- 3. FUNCIONES DE APOYO & DETALLE ---
 
 @login_required # Movido correctamente aquí
