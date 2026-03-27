@@ -14,8 +14,26 @@ class MyUserAdmin(UserAdmin):
         qs = super().get_queryset(request)
         if request.user.is_superuser:
             return qs
-        # Los usuarios que no son superuser solo se ven a sí mismos
         return qs.filter(id=request.user.id)
+
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = super().get_fieldsets(request, obj)
+        
+        # Si NO es superusuario, quitamos los bloques de "Permisos" y "Fechas importantes"
+        if not request.user.is_superuser:
+            # Solo dejamos 'Nombre de usuario/Password' e 'Información Personal'
+            fieldsets = (
+                (None, {'fields': ('username', 'password')}),
+                ('Información personal', {'fields': ('first_name', 'last_name', 'email')}),
+            )
+        return fieldsets
+
+    def get_readonly_fields(self, request, obj=None):
+        # Si no es superusuario, el nombre de usuario es de solo lectura 
+        # para evitar que se cambien el nombre y causen conflictos
+        if not request.user.is_superuser:
+            return ('username',)
+        return super().get_readonly_fields(request, obj)
 
 # --- 1. GESTIÓN DE PERFIL (Dashboard Settings) ---
 @admin.register(Profile)

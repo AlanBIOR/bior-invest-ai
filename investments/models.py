@@ -69,26 +69,36 @@ class Profile(models.Model):
         return f"Perfil de {self.user.username}"
 
 # --- 5. AUTOMATIZACIÓN (SIGNALS) ---
-
 @receiver(post_save, sender=User)
 def manage_user_profile(sender, instance, created, **kwargs):
-    """Crea perfil y asigna grupo automáticamente"""
+    """
+    Automatización Total:
+    1. Crea el Perfil del usuario.
+    2. Lo convierte en Staff (para que pueda entrar al /admin/).
+    3. Lo une al grupo 'Inversionistas' (para restringir lo que ve).
+    """
     if created:
-        # Creamos el perfil
+        # 1. Crear el Perfil (Trigger del OneToOne)
         Profile.objects.create(user=instance)
         
-        # Asignamos staff para que puedan entrar al admin limitado
-        instance.is_staff = True 
+        # 2. Convertirlo en Staff
+        # Esto le permite pasar la puerta de /admin/
+        instance.is_staff = True
         
+        # 3. Asignar el Grupo de Permisos
         try:
-            grupo = Group.objects.get(name='Inversionistas')
-            instance.groups.add(grupo)
+            # Buscamos el grupo por nombre
+            grupo_inversionistas = Group.objects.get(name='Inversionistas')
+            instance.groups.add(grupo_inversionistas)
         except Group.DoesNotExist:
-            pass 
-            
-        instance.save() # Guardamos los cambios de is_staff
+            # Si el grupo no existe, podrías loguear un error o crearlo aquí
+            print("⚠️ Advertencia: El grupo 'Inversionistas' no existe en la base de datos.")
+        
+        # Guardamos los cambios de is_staff
+        instance.save()
+        
     else:
-        # Aseguramos que el perfil exista si se actualiza el usuario
+        # Si el usuario ya existe pero se actualizó, aseguramos que tenga Perfil
         Profile.objects.get_or_create(user=instance)
         if hasattr(instance, 'profile'):
             instance.profile.save()
