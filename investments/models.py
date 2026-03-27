@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from decimal import Decimal
@@ -69,12 +69,26 @@ class Profile(models.Model):
         return f"Perfil de {self.user.username}"
 
 # --- 5. AUTOMATIZACIÓN (SIGNALS) ---
+
 @receiver(post_save, sender=User)
 def manage_user_profile(sender, instance, created, **kwargs):
-    """Crea o guarda el perfil automáticamente al manejar el modelo User"""
+    """Crea perfil y asigna grupo automáticamente"""
     if created:
+        # Creamos el perfil
         Profile.objects.create(user=instance)
+        
+        # Asignamos staff para que puedan entrar al admin limitado
+        instance.is_staff = True 
+        
+        try:
+            grupo = Group.objects.get(name='Inversionistas')
+            instance.groups.add(grupo)
+        except Group.DoesNotExist:
+            pass 
+            
+        instance.save() # Guardamos los cambios de is_staff
     else:
-        # Usamos get_or_create por si el perfil fue borrado manualmente
+        # Aseguramos que el perfil exista si se actualiza el usuario
         Profile.objects.get_or_create(user=instance)
-        instance.profile.save()
+        if hasattr(instance, 'profile'):
+            instance.profile.save()
