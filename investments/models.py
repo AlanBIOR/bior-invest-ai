@@ -35,22 +35,48 @@ class Investment(models.Model):
     
     asset_name = models.CharField(max_length=255)
     
-    # Campo detectado en tu DB: Importante para criptos o acciones fraccionadas
-    quantity = models.DecimalField(max_digits=25, decimal_places=12, default=1.0)
+    # Cantidad: Aumentamos precisión para criptos y forzamos Decimal en default
+    quantity = models.DecimalField(
+        max_digits=25, 
+        decimal_places=12, 
+        default=Decimal('1.0')
+    )
     
-    amount_invested = models.DecimalField(max_digits=15, decimal_places=2)
-    current_value = models.DecimalField(max_digits=15, decimal_places=2)
+    # Campos de Moneda: Forzamos Decimal('0.00') para evitar errores de tipo en SQLite
+    amount_invested = models.DecimalField(
+        max_digits=15, 
+        decimal_places=2, 
+        default=Decimal('0.00')
+    )
+    current_value = models.DecimalField(
+        max_digits=15, 
+        decimal_places=2, 
+        default=Decimal('0.00')
+    )
+    
     platform = models.CharField(max_length=100, blank=True)
     
-    annual_yield = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
+    # Tasa anual: Blindada con Decimal
+    annual_yield = models.DecimalField(
+        max_digits=5, 
+        decimal_places=2, 
+        default=Decimal('0.0')
+    )
+    
     banxico_series = models.CharField(max_length=50, blank=True, null=True)
     last_updated = models.DateTimeField(auto_now=True) 
 
     @property
     def rendimiento_porcentaje(self):
-        if self.amount_invested and self.amount_invested > 0:
-            diff = self.current_value - self.amount_invested
-            return (diff / self.amount_invested) * 100
+        """Calcula el rendimiento con protección total contra Nulos y División por Cero"""
+        # Aseguramos que los valores sean Decimal incluso si vienen corruptos de la BD
+        inv = self.amount_invested or Decimal('0.00')
+        cur = self.current_value or Decimal('0.00')
+        
+        if inv > 0:
+            diff = cur - inv
+            # Python 3 maneja la división de Decimal correctamente si ambos lo son
+            return (diff / inv) * 100
         return 0
 
 # --- 4. PERFIL DE USUARIO (Configuración de la Calculadora) ---
