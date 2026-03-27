@@ -17,15 +17,14 @@
                 <input type="text" name="username" required value="{{ form.username.value|default:'' }}">
             </div>
 
-            <div class="input-group" style="display: flex; gap: 10px;">
-                <div style="flex: 1;">
-                    <label>Nombre</label>
-                    <input type="text" name="first_name" required value="{{ form.first_name.value|default:'' }}">
-                </div>
-                <div style="flex: 1;">
-                    <label>Apellidos</label>
-                    <input type="text" name="last_name" required value="{{ form.last_name.value|default:'' }}">
-                </div>
+            <div class="input-group">
+                <label>Nombre</label>
+                <input type="text" name="first_name" required value="{{ form.first_name.value|default:'' }}">
+            </div>
+
+            <div class="input-group">
+                <label>Apellidos</label>
+                <input type="text" name="last_name" required value="{{ form.last_name.value|default:'' }}">
             </div>
 
             <div class="input-group">
