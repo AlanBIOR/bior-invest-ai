@@ -114,7 +114,6 @@ export function initTablePagination() {
         if (totalPages > 1) {
             const container = document.createElement('div');
             container.className = 'table-pagination';
-            container.style.cssText = 'display:flex; justify-content:center; gap:15px; padding:20px; align-items:center;';
             container.innerHTML = `
                 <button id="prevP" class="btn-page">&laquo;</button>
                 <span id="pageI">Pág. ${currentPage}/${totalPages}</span>
