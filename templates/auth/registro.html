@@ -50,6 +50,11 @@
 
             <button type="submit" class="btn-auth">Crear mi cuenta</button>
         </form>
+
+        <div class="auth-footer">
+            <p>¿No tienes cuenta? <a href="{% url 'registro' %}">Regístrate aquí</a></p>
+            <p><a href="{% url 'dashboard' %}">← Volver al Dashboard</a></p>
+        </div>
     </div>
 </section>
 {% endblock %}

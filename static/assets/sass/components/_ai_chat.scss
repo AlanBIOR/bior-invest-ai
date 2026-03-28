@@ -20,8 +20,22 @@
     align-items: center;
     justify-content: center;
 
-    svg { width: 2rem; height: 2rem; }
-    &:hover { background-color: #1d4ed8; transform: scale(1.1); }
+    svg { 
+        width: 2rem; 
+        height: 2rem; 
+    }
+    
+    &:hover { 
+        background-color: #1d4ed8; 
+        transform: scale(1.1); 
+    }
+
+    // --- Nueva clase para ocultarlo suavemente al darle clic ---
+    &.hidden {
+        opacity: 0;
+        transform: scale(0.8);
+        pointer-events: none; // Evita clics fantasmas
+    }
 }
 
 /* --- 2. Ventana de Chat --- */

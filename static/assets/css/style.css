@@ -599,6 +599,31 @@ body.is-masked .maskable {
   pointer-events: none; /* Evita que le den clic a cosas ocultas por accidente */
 }
 
+.title-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.title-container h1 {
+  margin: 0;
+}
+.title-container #privacy-toggle {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #64748b;
+  font-size: 1.2rem;
+  padding: 5px;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+.title-container #privacy-toggle:hover {
+  color: #58a6ff;
+  transform: scale(1.1);
+}
+.title-container #privacy-toggle:focus {
+  outline: none;
+}
+
 /* =========================================
    CHAT DE IA FLOTANTE (BIOR Invest)
    ========================================= */
@@ -627,6 +652,11 @@ body.is-masked .maskable {
 #ai-chat-toggle:hover {
   background-color: #1d4ed8;
   transform: scale(1.1);
+}
+#ai-chat-toggle.hidden {
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
 }
 
 /* --- 2. Ventana de Chat --- */

@@ -3,6 +3,22 @@ export function initAIChat() {
     const chatToggle = document.getElementById('ai-chat-toggle');
     const chatWindow = document.getElementById('ai-chat-window');
     
+    // Elementos del ojo de privacidad
+    const privacyBtn = document.getElementById('privacy-toggle');
+
+    // Lógica para el ojo de privacidad (independiente del chat)
+    if (privacyBtn) {
+        privacyBtn.addEventListener('click', function() {
+            // Cambia el ícono de ojo abierto a cerrado
+            const icon = this.querySelector('i');
+            if (icon.classList.contains('fa-eye')) {
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        });
+    }
+
     if (!chatToggle || !chatWindow) return; 
 
     const chatClose = document.getElementById('ai-chat-close');
@@ -17,8 +33,12 @@ export function initAIChat() {
     loadChatFromLocal();
 
     // 2. Funciones de apertura/cierre
-    chatToggle.addEventListener('click', () => {
+    chatToggle.addEventListener('click', function() {
         chatWindow.classList.toggle('hidden');
+        
+        // --- NUEVO: Ocultar el botón flotante ---
+        this.classList.add('hidden'); 
+
         if (!chatWindow.classList.contains('hidden')) {
             chatInput.focus();
             scrollToBottom();
@@ -27,6 +47,9 @@ export function initAIChat() {
 
     chatClose.addEventListener('click', () => {
         chatWindow.classList.add('hidden');
+        
+        // --- NUEVO: Volver a mostrar el botón flotante ---
+        chatToggle.classList.remove('hidden');
     });
 
     // 3. Función de envío a Gemini
@@ -80,6 +103,7 @@ export function initAIChat() {
             hideLoading();
         }
     }
+
     // Eventos
     chatSend.addEventListener('click', sendMessage);
     chatInput.addEventListener('keypress', (e) => {
