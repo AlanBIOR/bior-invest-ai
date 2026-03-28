@@ -1,4 +1,9 @@
 # BIOR Invest AI 🚀
+
+<div align="center">
+  <img src="./static/assets/img/img_readme/header_bior.png" width="100%" alt="BIOR Invest AI Header Banner">
+</div>
+
 **Tracker de Inversiones y Análisis de Portafolio impulsado por IA.**
  
 ![Demo en Vivo](https://img.shields.io/badge/🚀_DEMO-EN_VIVO-58a6ff?style=for-the-badge&logo=google-chrome&logoColor=white)
@@ -237,26 +242,19 @@ Para lograr una fricción cero, integramos **NEXUS Core** con WhatsApp mediante 
 
 Debido a las políticas de seguridad de la API de **Twilio (Sandbox Mode)**, el acceso está restringido al número del desarrollador para pruebas de integridad.
 
-<table align="center" style="border-collapse: collapse; border: none; width: 100%;">
-  <tr style="border: none;">
-    <td align="center" style="border: none; padding: 20px 10px;">
-      <img src="./static/assets/img/img_readme/n8n_execution.jpg" width="85%" alt="Ejecución de n8n">
-      <br>
-      <p style="color: #64748b; font-size: 0.85rem; font-style: italic; margin-top: 10px;">
-        <b>Fig. 8:</b> Grafo de ejecución en n8n mostrando la bifurcación lógica y el éxito del proceso.
-      </p>
-    </td>
-  </tr>
-  <tr style="border: none;">
-    <td align="center" style="border: none; padding: 20px 10px;">
-      <img src="./static/assets/img/img_readme/whatsapp_demo.jpg" width="50%" alt="Demo en WhatsApp">
-      <br>
-      <p style="color: #64748b; font-size: 0.85rem; font-style: italic; margin-top: 10px;">
-        <b>Fig. 9:</b> Interfaz de WhatsApp recibiendo asesoría patrimonial de NEXUS en tiempo real.
-      </p>
-    </td>
-  </tr>
-</table>
+<div align="center" style="margin-bottom: 40px;">
+  <img src="./static/assets/img/img_readme/n8n_execution.jpg" width="85%" alt="Ejecución de n8n">
+  <p style="color: #64748b; font-size: 0.85rem; font-style: italic; margin-top: 10px;">
+    <b>Fig. 8:</b> Grafo de ejecución en n8n mostrando la bifurcación lógica y el éxito del proceso.
+  </p>
+</div>
+
+<div align="center">
+  <img src="./static/assets/img/img_readme/whatsapp_demo.jpg" width="50%" alt="Demo en WhatsApp">
+  <p style="color: #64748b; font-size: 0.85rem; font-style: italic; margin-top: 10px;">
+    <b>Fig. 9:</b> Interfaz de WhatsApp recibiendo asesoría patrimonial de NEXUS en tiempo real.
+  </p>
+</div>
 
 > **🔒 Nota de Seguridad:** La comunicación entre n8n y Django está protegida mediante una **X-Api-Key** de alta entropía, asegurando que la información financiera nunca viaje de forma expuesta.
 
