@@ -5,7 +5,9 @@
 ![Infraestructura](https://img.shields.io/badge/☁️_DEPLOY-CUBEPATH_VPS-00df81?style=for-the-badge&logo=docker&logoColor=white)
 ![NEXUS AI](https://img.shields.io/badge/🤖_NEXUS_AI-ACTIVE-ff4b4b?style=for-the-badge&logo=google-gemini&logoColor=white)
 
-> **📌 Nota de Visualización:** Debido a las políticas de seguridad de la API de Twilio, el asesor de WhatsApp se encuentra en **modo privado**. Puedes consultar las capturas de ejecución y el flujo del grafo en la sección de [Evidencia Técnica](#-evidencia-de-ejecución-logs--interfaz).
+> **📌 Notas de Acceso y Evaluación:**
+> - **🖥️ Registro Web:** Para probar el dashboard interactivo y crear tu portafolio, es necesario registrarse. Puedes utilizar **cualquier número de teléfono ficticio** (el sistema no exige verificación por SMS para el acceso a la plataforma).
+> - **💬 Asesor de WhatsApp:** Debido a las restricciones de seguridad del Sandbox de Twilio, el bot de WhatsApp se encuentra en modo privado. Puedes validar su funcionamiento en tiempo real consultando la [Evidencia Técnica](#-evidencia-de-ejecución-logs--interfaz). en este documento.
 
 ---
 
@@ -44,8 +46,8 @@ $$VF = \sum_{i=1}^{n} \left[ VP_i(1 + r_i)^t + A_i \frac{(1 + r_i)^t - 1}{r_i} \
     <img src="./static/assets/img/img_readme/dashboar.gif" width="60%" alt="Dashboard Desktop">
     <img src="./static/assets/img/img_readme/dashboar_phone.gif" width="25%" alt="Dashboard Mobile">
   </p>
-
-  <p>
+  
+  <p style="color: #64748b; font-size: 0.85rem; font-style: italic; margin-top: 10px;">
     <b>Fig. 1:</b> El dashboard calculando en tiempo real las proyecciones de crecimiento con base en los activos del usuario.
   </p>
 </div>
@@ -137,14 +139,43 @@ graph TD
 El backend actúa como la única fuente de verdad (SSOT), manejando la lógica de negocio y la capa de seguridad.
 - **Data Fetching Híbrido:** Integración de módulos `services.py` para consumir la API de Banco de México y obtener tasas reales de CETES, asegurando proyecciones con datos fidedignos del mercado.
 - **Enrutamiento Dinámico:** Patrón de diseño MVC utilizando resolutores de *slugs* para inyectar dinámicamente contextos de renderizado sin duplicación de código.
+- **Backoffice y ORM Seguro:** Implementación del panel de administración nativo de Django acoplado a SQLite, permitiendo la gestión robusta del catálogo de activos, transacciones y perfiles de riesgo con control de acceso basado en roles.
+
+<div align="center">
+  <img src="./static/assets/img/img_readme/seccion_renta_fija.jpg" width="60%" alt="Sección de Renta Fija en BIOR">
+  
+  <p style="color: #64748b; font-size: 0.85rem; font-style: italic; margin-top: 10px;">
+    <b>Fig. 3:</b> Vista de Renta Fija mostrando tasas de CETES actualizadas mediante la integración con la API de Banxico.
+  </p>
+</div>
+
+<div align="center">
+  <img src="./static/assets/img/img_readme/seccion_efectivo.jpg" width="60%" alt="Sección de Efectivo en BIOR">
+  
+  <p style="color: #64748b; font-size: 0.85rem; font-style: italic; margin-top: 10px;">
+    <b>Fig. 4:</b> Vista de Efectivo facilitando el tracking de liquidez inmediata y cuentas a la vista (como SOFIPOS) sin fricción.
+  </p>
+</div>
+
+<div align="center">
+  <img src="./static/assets/img/img_readme/django_admin_panel.jpg" width="80%" alt="Panel de Administración Django">
+  
+  <p style="color: #64748b; font-size: 0.85rem; font-style: italic; margin-top: 10px;">
+    <b>Fig. 5:</b> Backoffice del sistema mapeando directamente los modelos relacionales del portafolio de inversiones.
+  </p>
+</div>
 
 ### 3.2. Arquitectura Frontend Modular (Vanilla JS)
 Se adoptó un enfoque *Zero-Framework* para el core de la interfaz, estructurando el código en módulos ES6 orquestados por un `main.js` limpio mediante el patrón *Facade*.
 - **Mecanismos de Sincronización:** Uso de `debouncing` en la captura de *inputs* para mitigar la sobrecarga de solicitudes `POST /guardar-progreso/` al servidor, protegiendo el I/O de la base de datos.
 - **Buscador Asíncrono de Activos:** Motor híbrido que cruza diccionarios de memoria local (activos fiat) con llamadas HTTP en tiempo real a CoinGecko para indexación de criptoactivos, disparando eventos del DOM (`dispatchEvent`) de manera programática.
 
-![Buscador Híbrido en Acción](ruta/a/tu/imagen_del_buscador.png)
-*Fig. 3: Módulo de búsqueda reactiva integrando fuentes locales y externas.*
+![Buscador Híbrido en Acción](./static/assets/img/img_readme/imagen_del_buscador.jpg)
+<div align="center">
+   <p style="color: #64748b; font-size: 0.85rem; font-style: italic; margin-top: 10px;">
+      Fig. 6: Módulo de búsqueda reactiva integrando fuentes locales y externas.*
+   </p>
+</div>
 
 ---
 
@@ -156,6 +187,14 @@ La gran diferencia de este proyecto es que no necesitas estar pegado a la comput
 Dentro de la página pusimos un chat que no es un bot cualquiera. Este asistente tiene permiso para "leer" cómo tienes repartido tu dinero en tu portafolio de Django. 
 - **¿Qué hace?** Compara lo que tú tienes invertido contra el modelo ideal de *Long Angle*.
 - **¿Cuál es el resultado?** Te escribe una lista de consejos personalizados para que sepas exactamente qué activos te faltan comprar para correr menos riesgos y ganar más.
+
+<div align="center">
+  <img src="./static/assets/img/img_readme/bior_chat_interface.jpg" width="75%" alt="Interfaz de Chat BIOR">
+
+  <p style="color: #64748b; font-size: 0.85rem; font-style: italic; margin-top: 10px;">
+     <b>Fig. 7:</b> Interacción en tiempo real con NEXUS Core para el diagnóstico y rebalanceo del portafolio Long Angle.
+  </p>
+</div>
 
 ### 4.2. El Puente Inteligente: NEXUS via WhatsApp (Omni-Channel)
 
@@ -186,7 +225,7 @@ Para lograr una fricción cero, integramos **NEXUS Core** con WhatsApp mediante 
             <b>4. Contexto Dinámico (Django Bridge):</b> Petición <code>POST</code> autenticada hacia el backend de <b>Django</b> para realizar un cruce de datos con activos reales y perfil de riesgo.
           </p>
           <p>
-            <b>5. Cierre del Bucle:</b> Generación de respuesta estratégica vía <b>Gemini 1.5 Flash</b> y entrega al chat del usuario en &lt; 2 segundos.
+            <b>5. Cierre del Bucle:</b> Generación de respuesta estratégica vía <b>Gemini 2.5 Flash</b> y entrega al chat del usuario en &lt; 2 segundos.
           </p>
         </td>
       </tr>
@@ -198,20 +237,22 @@ Para lograr una fricción cero, integramos **NEXUS Core** con WhatsApp mediante 
 
 Debido a las políticas de seguridad de la API de **Twilio (Sandbox Mode)**, el acceso está restringido al número del desarrollador para pruebas de integridad.
 
-<table align="center" style="border-collapse: collapse; border: none;">
+<table align="center" style="border-collapse: collapse; border: none; width: 100%;">
   <tr style="border: none;">
-    <td align="center" style="border: none; padding: 10px; vertical-align: bottom;">
-      <img src="./static/assets/img/img_readme/n8n_execution.jpg" width="100%" alt="Ejecución de n8n">
+    <td align="center" style="border: none; padding: 20px 10px;">
+      <img src="./static/assets/img/img_readme/n8n_execution.jpg" width="85%" alt="Ejecución de n8n">
       <br>
       <p style="color: #64748b; font-size: 0.85rem; font-style: italic; margin-top: 10px;">
-        <b>Fig. 4:</b> Grafo de ejecución en n8n mostrando la bifurcación lógica y el éxito del proceso.
+        <b>Fig. 8:</b> Grafo de ejecución en n8n mostrando la bifurcación lógica y el éxito del proceso.
       </p>
     </td>
-    <td align="center" style="border: none; padding: 10px; vertical-align: bottom;">
-      <img src="./static/assets/img/img_readme/whatsapp_demo.png" width="100%" alt="Demo en WhatsApp">
+  </tr>
+  <tr style="border: none;">
+    <td align="center" style="border: none; padding: 20px 10px;">
+      <img src="./static/assets/img/img_readme/whatsapp_demo.jpg" width="50%" alt="Demo en WhatsApp">
       <br>
       <p style="color: #64748b; font-size: 0.85rem; font-style: italic; margin-top: 10px;">
-        <b>Fig. 5:</b> Interfaz de WhatsApp recibiendo asesoría patrimonial de NEXUS en tiempo real.
+        <b>Fig. 9:</b> Interfaz de WhatsApp recibiendo asesoría patrimonial de NEXUS en tiempo real.
       </p>
     </td>
   </tr>
@@ -226,10 +267,13 @@ El diseño de la interfaz prioriza la carga cognitiva reducida y la legibilidad 
 - **Retroalimentación Visual:** Sistema de notificaciones no intrusivas implementado con `SweetAlert2` y validación de estado asíncrono para operaciones CRUD de activos.
 - **Diseño Responsivo:** Tablas de datos con paginación algorítmica calculada en el cliente y adaptación *mobile-first*.
 
-![Visualización de Gráficas](ruta/a/tu/imagen_de_la_grafica.png)
-<p style="color: #64748b; font-size: 0.85rem; font-style: italic; margin-top: 10px;">
-   <b>Fig. 6:</b> Componente de visualización estratégica reflejando la distribución de activos.
-</p>
+<div align="center">
+  <img src="./static/assets/img/img_readme/imagen_de_la_grafica.jpg" width="60%" alt="Visualización de Gráficas">
+  
+  <p style="color: #64748b; font-size: 0.85rem; font-style: italic; margin-top: 10px;">
+    <b>Fig. 10:</b> Componente de visualización estratégica reflejando la distribución de activos.
+  </p>
+</div>
 
 ---
 
