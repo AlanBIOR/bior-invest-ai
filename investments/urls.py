@@ -25,4 +25,5 @@ urlpatterns = [
     path('api/v1/ai-chat/', webhooks.process_ai_request, name='ai_chat_web'),
 
     path('nexus-advisor/', views.nexus_advisor_view, name='nexus_advisor'),
+    path('api/v1/modo-decision/', views.api_modo_decision, name='api_modo_decision'),
 ]
