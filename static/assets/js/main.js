@@ -7,6 +7,7 @@ import { initToasts, initAlertsConf } from './modules/alerts.js';
 import { initPrivacyMode } from './modules/privacy.js';
 import { initAIChat } from './modules/ai_chat.js';
 import { initPasswordToggle } from './modules/password-visibility.js';
+import { initNexusAdvisor } from './modules/nexus_advisor.js';
 
 // --- FUNCIONES DE PERSISTENCIA PARA DJANGO ---
 function getCookie(name) {
@@ -48,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initAlertsConf();
     initAIChat();
     initPasswordToggle();
+    initNexusAdvisor();
     if (typeof initPrivacyMode === 'function') initPrivacyMode();
 
     // --- 1. EXPOSICIÓN GLOBAL (Para botones en HTML) ---

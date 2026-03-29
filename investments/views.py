@@ -1,24 +1,24 @@
 import json
-import requests  # Importante: para conectar con CoinGecko
-from django.http import JsonResponse
-from django.conf import settings
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
-from django.template import TemplateDoesNotExist
-from django.db.models import Sum
-from django.contrib import messages
 from decimal import Decimal
+from django.conf import settings
+from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login
+from django.contrib import messages
+from django.db.models import Sum
+from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+
+# Modelos, Formularios y Servicios
 from .models import Investment, Category, Profile
 from .services import FinanceService
-from django.utils import timezone
 from .forms import RegistroForm
-from django.shortcuts import render
 
-from django.views.decorators.csrf import csrf_exempt
-from .core_ai import process_ai_request
-from .core_ai.agents import ask_financial_agent  # Importamos tu agente de Gemini 2.5
+# Inteligencia Artificial & Action Hub
+from .core_ai.agents import ask_financial_agent
+from .action_hub.decision_engine import generar_plan_decision_nexus
 
 # --- 1. REGISTRO & DASHBOARD ---
 def registro(request):
@@ -386,3 +386,22 @@ def nexus_advisor_view(request):
     Más adelante inyectaremos el contexto de las simulaciones aquí.
     """
     return render(request, 'pages/nexus_advisor.html')
+
+@login_required
+@require_POST
+def api_modo_decision(request):
+    """
+    Endpoint (API) que el frontend consume mediante Fetch para obtener las tarjetas de decisión.
+    """
+    try:
+        plan_accion = generar_plan_decision_nexus(request.user)
+        
+        return JsonResponse({
+            "status": "success",
+            "data": plan_accion
+        })
+    except Exception as e:
+        return JsonResponse({
+            "status": "error",
+            "message": str(e)
+        }, status=500)
