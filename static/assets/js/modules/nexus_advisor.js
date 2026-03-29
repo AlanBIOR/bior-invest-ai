@@ -1,7 +1,9 @@
-document.addEventListener('DOMContentLoaded', () => {
+// Exportamos la función para que tu main.js la pueda importar y ejecutar
+export function initNexusAdvisor() {
     const btnDecision = document.getElementById('btn-decision-mode');
     const resultsContainer = document.getElementById('nexus-results-container');
 
+    // Si no estamos en la página del Action Hub, detenemos la ejecución aquí
     if (!btnDecision || !resultsContainer) return;
 
     btnDecision.addEventListener('click', async () => {
@@ -11,17 +13,16 @@ document.addEventListener('DOMContentLoaded', () => {
         btnDecision.disabled = true;
         btnDecision.style.opacity = '0.7';
         
-        // Limpiamos resultados anteriores y ocultamos
         resultsContainer.innerHTML = '';
         resultsContainer.style.display = 'none';
 
         try {
-            // 2. Llamada a la API de Django
+            // 2. Llamada a la API
             const response = await fetch('/investments/api/v1/modo-decision/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': getCookie('csrftoken') // Seguridad obligatoria en Django
+                    'X-CSRFToken': getCookie('csrftoken')
                 }
             });
 
@@ -30,8 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (result.status === 'success') {
                 const data = result.data;
                 
-                // 3. Construir las Tarjetas (Widgets) Dinámicamente
-                // Determinamos el color del riesgo
+                // 3. Renderizado de Tarjetas Dinámicas
                 const colorRiesgo = data.nivel_riesgo.toLowerCase().includes('alto') ? '#ef4444' : 
                                    (data.nivel_riesgo.toLowerCase().includes('medio') ? '#f59e0b' : '#10b981');
 
@@ -65,7 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 `;
 
-                // Renderizamos y mostramos
                 resultsContainer.innerHTML = htmlTarjetas;
                 resultsContainer.style.display = 'grid';
 
@@ -82,26 +81,25 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             resultsContainer.style.display = 'grid';
         } finally {
-            // 4. Restaurar estado del botón
             btnDecision.innerHTML = originalText;
             btnDecision.disabled = false;
             btnDecision.style.opacity = '1';
         }
     });
+}
 
-    // --- Helper Function para obtener el CSRF Token de Django ---
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
+// Helper Function privada
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
             }
         }
-        return cookieValue;
     }
-});
+    return cookieValue;
+}
