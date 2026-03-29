@@ -2546,3 +2546,1706 @@ https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/READM
 
   import google.generativeai as genai
 Not Found: /api/v1/modo-decision/
+[2026-03-29 01:28:50 +0000] [144801] [INFO] Handling signal: term
+[2026-03-28 19:28:50 -0600] [144802] [INFO] Worker exiting (pid: 144802)
+[2026-03-28 19:28:50 -0600] [144803] [INFO] Worker exiting (pid: 144803)
+[2026-03-28 19:28:50 -0600] [144804] [INFO] Worker exiting (pid: 144804)
+[2026-03-29 01:28:50 +0000] [144824] [INFO] Starting gunicorn 23.0.0
+[2026-03-29 01:28:50 +0000] [144824] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2026-03-29 01:28:50 +0000] [144824] [ERROR] connection to ('0.0.0.0', 8000) failed: [Errno 98] Address already in use
+[2026-03-29 01:28:51 +0000] [144801] [INFO] Shutting down: Master
+[2026-03-29 01:28:51 +0000] [144824] [INFO] Listening at: http://0.0.0.0:8000 (144824)
+[2026-03-29 01:28:51 +0000] [144824] [INFO] Using worker: sync
+[2026-03-29 01:28:51 +0000] [144825] [INFO] Booting worker with pid: 144825
+[2026-03-29 01:28:51 +0000] [144826] [INFO] Booting worker with pid: 144826
+[2026-03-29 01:28:51 +0000] [144827] [INFO] Booting worker with pid: 144827
+/var/www/bior-invest/investments/action_hub/decision_engine.py:2: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+/var/www/bior-invest/investments/action_hub/decision_engine.py:2: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+Not Found: /api/v1/modo-decision/
+[2026-03-29 01:31:58 +0000] [144824] [INFO] Handling signal: term
+[2026-03-28 19:31:58 -0600] [144825] [INFO] Worker exiting (pid: 144825)
+[2026-03-28 19:31:58 -0600] [144826] [INFO] Worker exiting (pid: 144826)
+[2026-03-28 19:31:58 -0600] [144827] [INFO] Worker exiting (pid: 144827)
+[2026-03-29 01:31:59 +0000] [144824] [INFO] Shutting down: Master
+[2026-03-29 01:32:04 +0000] [144850] [INFO] Starting gunicorn 23.0.0
+[2026-03-29 01:32:04 +0000] [144850] [INFO] Listening at: http://0.0.0.0:8000 (144850)
+[2026-03-29 01:32:04 +0000] [144850] [INFO] Using worker: sync
+[2026-03-29 01:32:04 +0000] [144851] [INFO] Booting worker with pid: 144851
+[2026-03-29 01:32:04 +0000] [144852] [INFO] Booting worker with pid: 144852
+[2026-03-29 01:32:04 +0000] [144853] [INFO] Booting worker with pid: 144853
+/var/www/bior-invest/investments/action_hub/decision_engine.py:2: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+Internal Server Error: /nexus-advisor/
+Traceback (most recent call last):
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/investments/views.py", line 388, in nexus_advisor_view
+    return render(request, 'pages/nexus_advisor.html')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 172, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 164, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 1018, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 979, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 164, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 1018, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 979, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 1018, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 979, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/urls/base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'api_modo_decision' not found. 'api_modo_decision' is not a valid view function or pattern name.
+/var/www/bior-invest/investments/action_hub/decision_engine.py:2: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+Not Found: /favicon.ico
+/var/www/bior-invest/investments/action_hub/decision_engine.py:2: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+Internal Server Error: /nexus-advisor/
+Traceback (most recent call last):
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/investments/views.py", line 388, in nexus_advisor_view
+    return render(request, 'pages/nexus_advisor.html')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 172, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 164, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 1018, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 979, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 164, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 1018, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 979, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 1018, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 979, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/urls/base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'api_modo_decision' not found. 'api_modo_decision' is not a valid view function or pattern name.
+Internal Server Error: /nexus-advisor/
+Traceback (most recent call last):
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/investments/views.py", line 388, in nexus_advisor_view
+    return render(request, 'pages/nexus_advisor.html')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/backends/django.py", line 107, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 172, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 164, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 1018, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 979, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 164, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 1018, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 979, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 1018, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/base.py", line 979, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/template/defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/urls/base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'api_modo_decision' not found. 'api_modo_decision' is not a valid view function or pattern name.
+[2026-03-29 01:34:24 +0000] [144873] [INFO] Starting gunicorn 23.0.0
+[2026-03-29 01:34:24 +0000] [144873] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2026-03-29 01:34:24 +0000] [144873] [ERROR] connection to ('0.0.0.0', 8000) failed: [Errno 98] Address already in use
+[2026-03-29 01:34:25 +0000] [144873] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2026-03-29 01:34:25 +0000] [144873] [ERROR] connection to ('0.0.0.0', 8000) failed: [Errno 98] Address already in use
+[2026-03-29 01:34:26 +0000] [144873] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2026-03-29 01:34:26 +0000] [144873] [ERROR] connection to ('0.0.0.0', 8000) failed: [Errno 98] Address already in use
+[2026-03-29 01:34:27 +0000] [144873] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2026-03-29 01:34:27 +0000] [144873] [ERROR] connection to ('0.0.0.0', 8000) failed: [Errno 98] Address already in use
+[2026-03-29 01:34:28 +0000] [144873] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2026-03-29 01:34:28 +0000] [144873] [ERROR] connection to ('0.0.0.0', 8000) failed: [Errno 98] Address already in use
+[2026-03-29 01:34:29 +0000] [144873] [ERROR] Can't connect to ('0.0.0.0', 8000)
+[2026-03-29 01:34:29 +0000] [144850] [INFO] Handling signal: term
+[2026-03-28 19:34:29 -0600] [144852] [INFO] Worker exiting (pid: 144852)
+[2026-03-28 19:34:29 -0600] [144851] [INFO] Worker exiting (pid: 144851)
+[2026-03-28 19:34:29 -0600] [144853] [INFO] Worker exiting (pid: 144853)
+[2026-03-29 01:34:30 +0000] [144850] [INFO] Shutting down: Master
+[2026-03-29 01:34:36 +0000] [144875] [INFO] Starting gunicorn 23.0.0
+[2026-03-29 01:34:36 +0000] [144875] [INFO] Listening at: http://0.0.0.0:8000 (144875)
+[2026-03-29 01:34:36 +0000] [144875] [INFO] Using worker: sync
+[2026-03-29 01:34:36 +0000] [144876] [INFO] Booting worker with pid: 144876
+[2026-03-29 01:34:36 +0000] [144877] [INFO] Booting worker with pid: 144877
+[2026-03-29 01:34:36 +0000] [144878] [INFO] Booting worker with pid: 144878
+/var/www/bior-invest/investments/action_hub/decision_engine.py:2: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+/var/www/bior-invest/investments/action_hub/decision_engine.py:2: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+/var/www/bior-invest/investments/action_hub/decision_engine.py:2: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-03-28 19:36:16 -0600] [144876] [WARNING] Invalid request from ip=66.132.172.137: Invalid HTTP Version: (2, 0)
+Not Found: /favicon.ico
+Not Found: /wiki
+Not Found: /favicon.ico
+[2026-03-29 01:52:52 +0000] [145102] [INFO] Starting gunicorn 23.0.0
+[2026-03-29 01:52:52 +0000] [145102] [INFO] Listening at: http://0.0.0.0:8000 (145102)
+[2026-03-29 01:52:52 +0000] [145102] [INFO] Using worker: sync
+[2026-03-29 01:52:52 +0000] [145103] [INFO] Booting worker with pid: 145103
+[2026-03-29 01:52:53 +0000] [145104] [INFO] Booting worker with pid: 145104
+[2026-03-29 01:52:53 +0000] [145105] [INFO] Booting worker with pid: 145105
+/var/www/bior-invest/investments/action_hub/decision_engine.py:3: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+/var/www/bior-invest/investments/action_hub/decision_engine.py:3: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-03-29 01:53:36 +0000] [145102] [CRITICAL] WORKER TIMEOUT (pid:145104)
+[2026-03-28 19:53:36 -0600] [145104] [ERROR] Error handling request /api/v1/modo-decision/
+Traceback (most recent call last):
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/gunicorn/workers/sync.py", line 134, in handle
+    self.handle_request(listener, req, client, addr)
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/gunicorn/workers/sync.py", line 177, in handle_request
+    respiter = self.wsgi(environ, resp.start_response)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/core/handlers/wsgi.py", line 124, in __call__
+    response = self.get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 140, in get_response
+    response = self._middleware_chain(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/utils/deprecation.py", line 120, in __call__
+    response = response or self.get_response(request)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/whitenoise/middleware.py", line 123, in __call__
+    return self.get_response(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/utils/deprecation.py", line 120, in __call__
+    response = response or self.get_response(request)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/utils/deprecation.py", line 120, in __call__
+    response = response or self.get_response(request)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/utils/deprecation.py", line 120, in __call__
+    response = response or self.get_response(request)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/utils/deprecation.py", line 120, in __call__
+    response = response or self.get_response(request)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/utils/deprecation.py", line 120, in __call__
+    response = response or self.get_response(request)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/utils/deprecation.py", line 120, in __call__
+    response = response or self.get_response(request)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/views/decorators/http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/investments/views.py", line 397, in api_modo_decision
+    plan_accion = generar_plan_decision_nexus(request.user)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/investments/action_hub/decision_engine.py", line 82, in generar_plan_decision_nexus
+    respuesta = model.generate_content(prompt_sistema)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/google/generativeai/generative_models.py", line 331, in generate_content
+    response = self._client.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/google/ai/generativelanguage_v1beta/services/generative_service/client.py", line 835, in generate_content
+    response = rpc(
+               ^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/google/api_core/gapic_v1/method.py", line 128, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 294, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/google/api_core/retry/retry_unary.py", line 147, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/google/api_core/timeout.py", line 130, in func_with_timeout
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/google/api_core/grpc_helpers.py", line 55, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/grpc/_interceptor.py", line 276, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/grpc/_interceptor.py", line 328, in _with_call
+    call = self._interceptor.intercept_unary_unary(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/google/ai/generativelanguage_v1beta/services/generative_service/transports/grpc.py", line 79, in intercept_unary_unary
+    response = continuation(client_call_details, request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/grpc/_interceptor.py", line 314, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/grpc/_channel.py", line 1170, in with_call
+    state, call = self._blocking(
+                  ^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/grpc/_channel.py", line 1143, in _blocking
+    event = call.next_event()
+            ^^^^^^^^^^^^^^^^^
+  File "src/python/grpcio/grpc/_cython/_cygrpc/channel.pyx.pxi", line 388, in grpc._cython.cygrpc.SegregatedCall.next_event
+  File "src/python/grpcio/grpc/_cython/_cygrpc/channel.pyx.pxi", line 211, in grpc._cython.cygrpc._next_call_event
+  File "src/python/grpcio/grpc/_cython/_cygrpc/channel.pyx.pxi", line 205, in grpc._cython.cygrpc._next_call_event
+  File "src/python/grpcio/grpc/_cython/_cygrpc/completion_queue.pyx.pxi", line 97, in grpc._cython.cygrpc._latent_event
+  File "src/python/grpcio/grpc/_cython/_cygrpc/completion_queue.pyx.pxi", line 80, in grpc._cython.cygrpc._internal_latent_event
+  File "src/python/grpcio/grpc/_cython/_cygrpc/completion_queue.pyx.pxi", line 61, in grpc._cython.cygrpc._next
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/gunicorn/workers/base.py", line 204, in handle_abort
+    sys.exit(1)
+SystemExit: 1
+[2026-03-28 19:53:36 -0600] [145104] [INFO] Worker exiting (pid: 145104)
+[2026-03-29 01:53:37 +0000] [145102] [ERROR] Worker (pid:145104) was sent SIGKILL! Perhaps out of memory?
+[2026-03-29 01:53:37 +0000] [145115] [INFO] Booting worker with pid: 145115
+[2026-03-28 19:55:47 -0600] [145103] [INFO] Worker exiting (pid: 145103)
+[2026-03-29 01:55:47 +0000] [145102] [INFO] Handling signal: term
+[2026-03-28 19:55:47 -0600] [145105] [INFO] Worker exiting (pid: 145105)
+[2026-03-28 19:55:47 -0600] [145115] [INFO] Worker exiting (pid: 145115)
+[2026-03-29 01:55:47 +0000] [145102] [ERROR] Worker (pid:145103) was sent SIGTERM!
+[2026-03-29 01:55:47 +0000] [145132] [INFO] Starting gunicorn 23.0.0
+[2026-03-29 01:55:47 +0000] [145132] [INFO] Listening at: http://0.0.0.0:8000 (145132)
+[2026-03-29 01:55:47 +0000] [145132] [INFO] Using worker: sync
+[2026-03-29 01:55:47 +0000] [145133] [INFO] Booting worker with pid: 145133
+[2026-03-29 01:55:47 +0000] [145102] [INFO] Shutting down: Master
+[2026-03-29 01:55:47 +0000] [145134] [INFO] Booting worker with pid: 145134
+[2026-03-29 01:55:47 +0000] [145135] [INFO] Booting worker with pid: 145135
+/var/www/bior-invest/investments/action_hub/decision_engine.py:3: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+/var/www/bior-invest/investments/action_hub/decision_engine.py:3: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+/var/www/bior-invest/investments/action_hub/decision_engine.py:3: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+Not Found: /favicon.ico
+Invalid HTTP_HOST header: '0.0.0.0'. You may need to add '0.0.0.0' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/utils/deprecation.py", line 119, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/http/request.py", line 202, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '0.0.0.0'. You may need to add '0.0.0.0' to ALLOWED_HOSTS.
+Not Found: /developmentserver/metadatauploader
+Not Found: /api/.env
+Not Found: /webui/
+Not Found: /detalle/inmuebles/TU_LINK_DE_REFERIDO_GBM
+Not Found: /detalle/renta-variable/TU_LINK_REFERIDO_GBM
+Not Found: /detalle/inversiones-alternativas/TU_LINK_DE_REFERIDO_GBM
+Not Found: /detalle/inversiones-alternativas/TU_LINK_DE_REFERIDO_BITSO
+[2026-03-29 02:43:20 +0000] [145132] [INFO] Handling signal: term
+[2026-03-28 20:43:20 -0600] [145133] [INFO] Worker exiting (pid: 145133)
+[2026-03-28 20:43:20 -0600] [145135] [INFO] Worker exiting (pid: 145135)
+[2026-03-28 20:43:20 -0600] [145134] [INFO] Worker exiting (pid: 145134)
+[2026-03-29 02:43:20 +0000] [145132] [ERROR] Worker (pid:145135) was sent SIGTERM!
+[2026-03-29 02:43:20 +0000] [145500] [INFO] Starting gunicorn 23.0.0
+[2026-03-29 02:43:20 +0000] [145500] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2026-03-29 02:43:20 +0000] [145500] [ERROR] connection to ('0.0.0.0', 8000) failed: [Errno 98] Address already in use
+[2026-03-29 02:43:21 +0000] [145500] [INFO] Listening at: http://0.0.0.0:8000 (145500)
+[2026-03-29 02:43:21 +0000] [145500] [INFO] Using worker: sync
+[2026-03-29 02:43:21 +0000] [145501] [INFO] Booting worker with pid: 145501
+[2026-03-29 02:43:21 +0000] [145502] [INFO] Booting worker with pid: 145502
+[2026-03-29 02:43:21 +0000] [145503] [INFO] Booting worker with pid: 145503
+[2026-03-29 02:43:23 +0000] [145132] [INFO] Shutting down: Master
+/var/www/bior-invest/investments/action_hub/decision_engine.py:4: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+/var/www/bior-invest/investments/action_hub/decision_engine.py:4: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+/var/www/bior-invest/investments/action_hub/decision_engine.py:4: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+Not Found: /favicon.ico
+Watching for file changes with StatReloader
+/var/www/bior-invest/investments/action_hub/decision_engine.py:4: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[28/Mar/2026 20:49:03] "GET /nexus-advisor/ HTTP/1.0" 200 13475
+[28/Mar/2026 20:49:03] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 200 87272
+[28/Mar/2026 20:49:03] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 200 6751
+[28/Mar/2026 20:49:03] "GET /static/assets/css/style.css.map HTTP/1.0" 200 19560
+[28/Mar/2026 20:49:03] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 200 5911
+[28/Mar/2026 20:49:04] "GET /static/assets/js/modules/reporte.js HTTP/1.0" 200 2642
+[28/Mar/2026 20:49:04] "GET /static/assets/js/modules/grafico.js HTTP/1.0" 200 6560
+[28/Mar/2026 20:49:04] "GET /static/assets/js/modules/portfolio.js HTTP/1.0" 200 10510
+[28/Mar/2026 20:49:04] "GET /static/assets/js/modules/alerts.js HTTP/1.0" 200 4370
+[28/Mar/2026 20:49:04] "GET /static/assets/js/modules/privacy.js HTTP/1.0" 200 1541
+[28/Mar/2026 20:49:04] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 200 7342
+[28/Mar/2026 20:49:04] "GET /static/assets/js/modules/ai_chat.js HTTP/1.0" 200 6425
+[28/Mar/2026 20:49:04] "GET /static/assets/js/modules/password-visibility.js HTTP/1.0" 200 816
+[28/Mar/2026 20:49:04] "GET /static/assets/img/favicon.ico HTTP/1.0" 200 15086
+[28/Mar/2026 20:49:55] "GET /nexus-advisor/ HTTP/1.0" 200 13475
+[28/Mar/2026 20:49:55] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 200 90241
+[28/Mar/2026 20:49:55] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 200 6751
+[28/Mar/2026 20:49:55] "GET /static/assets/css/style.css.map HTTP/1.0" 200 20085
+[28/Mar/2026 20:49:55] "GET /static/assets/js/modules/grafico.js HTTP/1.0" 200 6560
+[28/Mar/2026 20:49:55] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 200 5911
+[28/Mar/2026 20:49:55] "GET /static/assets/js/modules/reporte.js HTTP/1.0" 200 2642
+[28/Mar/2026 20:49:55] "GET /static/assets/js/modules/portfolio.js HTTP/1.0" 200 10510
+[28/Mar/2026 20:49:55] "GET /static/assets/js/modules/alerts.js HTTP/1.0" 200 4370
+[28/Mar/2026 20:49:55] "GET /static/assets/js/modules/privacy.js HTTP/1.0" 200 1541
+[28/Mar/2026 20:49:55] "GET /static/assets/js/modules/ai_chat.js HTTP/1.0" 200 6425
+[28/Mar/2026 20:49:55] "GET /static/assets/js/modules/password-visibility.js HTTP/1.0" 200 816
+[28/Mar/2026 20:49:55] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 200 7342
+[28/Mar/2026 20:49:56] "GET /static/assets/img/favicon.ico HTTP/1.0" 200 15086
+Forbidden (Referer checking failed - Referer is insecure while host is secure.): /
+[28/Mar/2026 20:50:22] "PROPFIND / HTTP/1.0" 403 2550
+Not Found: /geoserver/web/
+[28/Mar/2026 20:55:50] "GET /geoserver/web/ HTTP/1.0" 404 6591
+Watching for file changes with StatReloader
+/var/www/bior-invest/investments/action_hub/decision_engine.py:4: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[28/Mar/2026 21:32:15] "GET /admin/investments/profile/ HTTP/1.0" 200 12981
+[28/Mar/2026 21:32:15] "GET /admin/jsi18n/ HTTP/1.0" 200 9760
+[28/Mar/2026 21:32:17] "GET /admin/investments/profile/ HTTP/1.0" 200 12981
+[28/Mar/2026 21:32:17] "GET /admin/jsi18n/ HTTP/1.0" 200 9760
+[28/Mar/2026 21:32:19] "GET /admin/investments/profile/ HTTP/1.0" 200 12981
+[28/Mar/2026 21:32:19] "GET /admin/jsi18n/ HTTP/1.0" 200 9760
+[28/Mar/2026 21:32:19] "GET /admin/investments/investment/ HTTP/1.0" 200 32349
+[28/Mar/2026 21:32:19] "GET /static/admin/css/forms.css HTTP/1.0" 304 0
+[28/Mar/2026 21:32:20] "GET /admin/jsi18n/ HTTP/1.0" 200 9760
+[28/Mar/2026 21:32:20] "GET /static/admin/css/widgets.css HTTP/1.0" 304 0
+[28/Mar/2026 21:32:20] "GET /static/admin/img/icon-viewlink.svg HTTP/1.0" 304 0
+/var/www/bior-invest/investments/action_hub/decision_engine.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+March 28, 2026 - 21:32:12
+Django version 5.2.12, using settings 'core.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+/var/www/bior-invest/investments/action_hub/decision_engine.py:4: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[2026-03-29 03:37:08 +0000] [146360] [INFO] Starting gunicorn 23.0.0
+[2026-03-29 03:37:08 +0000] [146360] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2026-03-29 03:37:08 +0000] [146360] [ERROR] connection to ('0.0.0.0', 8000) failed: [Errno 98] Address already in use
+[2026-03-29 03:37:09 +0000] [146360] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2026-03-29 03:37:09 +0000] [146360] [ERROR] connection to ('0.0.0.0', 8000) failed: [Errno 98] Address already in use
+[2026-03-29 03:37:10 +0000] [146360] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2026-03-29 03:37:10 +0000] [146360] [ERROR] connection to ('0.0.0.0', 8000) failed: [Errno 98] Address already in use
+[2026-03-29 03:37:11 +0000] [146360] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2026-03-29 03:37:11 +0000] [146360] [ERROR] connection to ('0.0.0.0', 8000) failed: [Errno 98] Address already in use
+[2026-03-29 03:37:12 +0000] [146360] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2026-03-29 03:37:12 +0000] [146360] [ERROR] connection to ('0.0.0.0', 8000) failed: [Errno 98] Address already in use
+[2026-03-29 03:37:13 +0000] [146360] [ERROR] Can't connect to ('0.0.0.0', 8000)
+[28/Mar/2026 21:37:14] "GET / HTTP/1.0" 200 19615
+[28/Mar/2026 21:37:14] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 200 87503
+[28/Mar/2026 21:37:15] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 200 6142
+[28/Mar/2026 21:37:15] "GET /static/assets/css/style.css.map HTTP/1.0" 200 19806
+[28/Mar/2026 21:37:15] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 200 5168
+[28/Mar/2026 21:37:15] "GET /static/assets/js/modules/grafico.js HTTP/1.0" 200 6560
+[28/Mar/2026 21:37:15] "GET /static/assets/js/modules/reporte.js HTTP/1.0" 200 2642
+[28/Mar/2026 21:37:15] "GET /static/assets/js/modules/portfolio.js HTTP/1.0" 200 10510
+[28/Mar/2026 21:37:15] "GET /static/assets/js/modules/alerts.js HTTP/1.0" 200 4370
+[28/Mar/2026 21:37:15] "GET /static/assets/js/modules/privacy.js HTTP/1.0" 200 1541
+[28/Mar/2026 21:37:15] "GET /static/assets/js/modules/ai_chat.js HTTP/1.0" 200 6425
+[28/Mar/2026 21:37:15] "GET /static/assets/js/modules/password-visibility.js HTTP/1.0" 200 816
+[28/Mar/2026 21:37:15] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 200 6985
+[28/Mar/2026 21:37:15] "GET /static/assets/img/favicon.ico HTTP/1.0" 200 15086
+[28/Mar/2026 21:37:17] "GET /nexus-advisor/ HTTP/1.0" 200 13831
+[28/Mar/2026 21:37:17] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 200 6142
+[28/Mar/2026 21:37:17] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 200 87503
+[28/Mar/2026 21:37:17] "GET /static/assets/css/style.css.map HTTP/1.0" 200 19806
+[28/Mar/2026 21:37:17] "GET /static/assets/js/modules/grafico.js HTTP/1.0" 200 6560
+[28/Mar/2026 21:37:17] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 200 5168
+[28/Mar/2026 21:37:17] "GET /static/assets/js/modules/portfolio.js HTTP/1.0" 200 10510
+[28/Mar/2026 21:37:17] "GET /static/assets/js/modules/reporte.js HTTP/1.0" 200 2642
+[28/Mar/2026 21:37:17] "GET /static/assets/js/modules/alerts.js HTTP/1.0" 200 4370
+[28/Mar/2026 21:37:17] "GET /static/assets/js/modules/privacy.js HTTP/1.0" 200 1541
+[28/Mar/2026 21:37:17] "GET /static/assets/js/modules/ai_chat.js HTTP/1.0" 200 6425
+[28/Mar/2026 21:37:17] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 200 6985
+[28/Mar/2026 21:37:17] "GET /static/assets/js/modules/password-visibility.js HTTP/1.0" 200 816
+[28/Mar/2026 21:38:12] "POST /api/v1/modo-decision/ HTTP/1.0" 200 6688
+[28/Mar/2026 21:39:09] "GET / HTTP/1.0" 200 19615
+[28/Mar/2026 21:39:09] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[28/Mar/2026 21:39:09] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 304 0
+[28/Mar/2026 21:39:09] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[28/Mar/2026 21:39:09] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[28/Mar/2026 21:41:43] "GET /nexus-advisor/ HTTP/1.0" 200 13832
+[28/Mar/2026 21:41:43] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[28/Mar/2026 21:41:43] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 304 0
+[28/Mar/2026 21:41:43] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[28/Mar/2026 21:41:43] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[28/Mar/2026 21:42:07] "GET /nexus-advisor/ HTTP/1.0" 200 13830
+[28/Mar/2026 21:42:08] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 200 87503
+[28/Mar/2026 21:42:08] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 200 6142
+[28/Mar/2026 21:42:08] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 200 5168
+[28/Mar/2026 21:42:08] "GET /static/assets/js/modules/grafico.js HTTP/1.0" 200 6560
+[28/Mar/2026 21:42:08] "GET /static/assets/js/modules/portfolio.js HTTP/1.0" 200 10510
+[28/Mar/2026 21:42:08] "GET /static/assets/js/modules/reporte.js HTTP/1.0" 200 2642
+[28/Mar/2026 21:42:08] "GET /static/assets/js/modules/alerts.js HTTP/1.0" 200 4370
+[28/Mar/2026 21:42:08] "GET /static/assets/js/modules/ai_chat.js HTTP/1.0" 200 6425
+[28/Mar/2026 21:42:08] "GET /static/assets/js/modules/privacy.js HTTP/1.0" 200 1541
+[28/Mar/2026 21:42:08] "GET /static/assets/js/modules/password-visibility.js HTTP/1.0" 200 816
+[28/Mar/2026 21:42:08] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 200 6985
+[28/Mar/2026 21:42:13] "GET /static/assets/css/style.css.map HTTP/1.0" 200 19806
+[28/Mar/2026 21:43:21] "GET /portafolio/ HTTP/1.0" 200 22599
+[28/Mar/2026 21:43:21] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 200 6142
+[28/Mar/2026 21:43:21] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 200 87503
+[28/Mar/2026 21:43:22] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 200 6985
+[28/Mar/2026 21:43:46] "GET /static/assets/css/style.css.map HTTP/1.0" 200 19806
+[28/Mar/2026 21:43:49] "POST /api/v1/modo-decision/ HTTP/1.0" 200 5154
+[28/Mar/2026 21:47:33] "GET /detalle/renta-variable/ HTTP/1.0" 200 22114
+[28/Mar/2026 21:47:33] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[28/Mar/2026 21:47:33] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 304 0
+[28/Mar/2026 21:47:33] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[28/Mar/2026 21:47:33] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[28/Mar/2026 21:48:45] "GET / HTTP/1.0" 200 19613
+[28/Mar/2026 21:48:45] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[28/Mar/2026 21:48:45] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 304 0
+[28/Mar/2026 21:48:46] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[28/Mar/2026 21:48:46] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[28/Mar/2026 21:50:36] "GET /nexus-advisor/ HTTP/1.0" 200 13832
+[28/Mar/2026 21:50:36] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[28/Mar/2026 21:50:36] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 304 0
+[28/Mar/2026 21:50:36] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[28/Mar/2026 21:50:36] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[28/Mar/2026 21:50:46] "GET /nexus-advisor/ HTTP/1.0" 200 13832
+[28/Mar/2026 21:50:46] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[28/Mar/2026 21:50:46] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 304 0
+[28/Mar/2026 21:50:46] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[28/Mar/2026 21:50:46] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[28/Mar/2026 21:51:14] "GET /portafolio/ HTTP/1.0" 200 39913
+[28/Mar/2026 21:51:42] "GET /nexus-advisor/ HTTP/1.0" 200 13832
+[28/Mar/2026 21:52:48] "GET /portafolio/ HTTP/1.0" 200 22599
+[28/Mar/2026 21:52:48] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[28/Mar/2026 21:52:49] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 304 0
+[28/Mar/2026 21:52:49] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[28/Mar/2026 21:52:49] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[28/Mar/2026 21:52:57] "GET /static/assets/css/style.css.map HTTP/1.0" 200 19806
+[28/Mar/2026 21:54:21] "GET / HTTP/1.0" 200 19615
+[28/Mar/2026 21:54:21] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[28/Mar/2026 21:54:21] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 304 0
+[28/Mar/2026 21:54:21] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[28/Mar/2026 21:54:21] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[28/Mar/2026 21:54:29] "GET /detalle/renta-variable/ HTTP/1.0" 200 22114
+[28/Mar/2026 21:54:33] "GET /detalle/inmuebles/ HTTP/1.0" 200 20373
+[28/Mar/2026 21:54:34] "GET /detalle/private-equity/ HTTP/1.0" 200 21994
+[28/Mar/2026 21:54:36] "GET /detalle/inversiones-alternativas/ HTTP/1.0" 200 22484
+[28/Mar/2026 21:54:37] "GET /nexus-advisor/ HTTP/1.0" 200 13832
+[28/Mar/2026 21:55:08] "GET /portafolio/ HTTP/1.0" 200 39913
+[28/Mar/2026 21:55:27] "GET /admin/auth/group/ HTTP/1.0" 200 11549
+[28/Mar/2026 21:55:28] "GET /admin/jsi18n/ HTTP/1.0" 200 9760
+Not Found: /favicon.ico
+[28/Mar/2026 21:55:28] "GET /favicon.ico HTTP/1.0" 404 6592
+[28/Mar/2026 21:55:28] "GET /admin/auth/user/ HTTP/1.0" 200 15116
+[28/Mar/2026 21:55:29] "GET /static/admin/img/icon-yes.svg HTTP/1.0" 304 0
+[28/Mar/2026 21:55:29] "GET /admin/jsi18n/ HTTP/1.0" 200 9760
+[28/Mar/2026 21:55:29] "GET /static/admin/img/icon-viewlink.svg HTTP/1.0" 304 0
+[28/Mar/2026 21:55:29] "GET /static/admin/img/sorting-icons.svg HTTP/1.0" 304 0
+[28/Mar/2026 21:55:30] "GET /admin/investments/category/ HTTP/1.0" 200 15077
+[28/Mar/2026 21:55:30] "GET /static/admin/css/forms.css HTTP/1.0" 304 0
+[28/Mar/2026 21:55:30] "GET /admin/jsi18n/ HTTP/1.0" 200 9760
+[28/Mar/2026 21:55:30] "GET /static/admin/css/widgets.css HTTP/1.0" 304 0
+[28/Mar/2026 21:55:31] "GET /admin/investments/globalasset/ HTTP/1.0" 200 10687
+[28/Mar/2026 21:55:31] "GET /static/admin/css/forms.css HTTP/1.0" 304 0
+[28/Mar/2026 21:55:31] "GET /admin/jsi18n/ HTTP/1.0" 200 9760
+[28/Mar/2026 21:55:31] "GET /static/admin/css/widgets.css HTTP/1.0" 304 0
+[28/Mar/2026 21:55:32] "GET /admin/investments/investment/ HTTP/1.0" 200 32349
+[28/Mar/2026 21:55:33] "GET /static/admin/css/forms.css HTTP/1.0" 304 0
+[28/Mar/2026 21:55:33] "GET /admin/jsi18n/ HTTP/1.0" 200 9760
+[28/Mar/2026 21:55:33] "GET /static/admin/css/widgets.css HTTP/1.0" 304 0
+[28/Mar/2026 21:55:33] "GET /admin/investments/profile/ HTTP/1.0" 200 12981
+[28/Mar/2026 21:55:33] "GET /admin/jsi18n/ HTTP/1.0" 200 9760
+[28/Mar/2026 21:55:40] "GET /portafolio/ HTTP/1.0" 200 22599
+[28/Mar/2026 21:55:40] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[28/Mar/2026 21:55:40] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 304 0
+[28/Mar/2026 21:55:40] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[28/Mar/2026 21:55:40] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[28/Mar/2026 21:55:46] "GET /nexus-advisor/ HTTP/1.0" 200 13832
+[28/Mar/2026 21:55:48] "GET /admin/ HTTP/1.0" 200 6268
+[28/Mar/2026 21:55:48] "GET /static/admin/css/base.css HTTP/1.0" 200 22120
+[28/Mar/2026 21:55:48] "GET /static/admin/css/dark_mode.css HTTP/1.0" 200 2808
+[28/Mar/2026 21:55:49] "GET /static/admin/css/nav_sidebar.css HTTP/1.0" 200 2810
+[28/Mar/2026 21:55:49] "GET /static/admin/css/dashboard.css HTTP/1.0" 200 441
+[28/Mar/2026 21:55:49] "GET /static/admin/css/responsive.css HTTP/1.0" 200 16565
+[28/Mar/2026 21:55:49] "GET /static/admin/js/theme.js HTTP/1.0" 200 1653
+[28/Mar/2026 21:55:49] "GET /static/admin/js/nav_sidebar.js HTTP/1.0" 200 3063
+[28/Mar/2026 21:55:49] "GET /static/admin/img/icon-changelink.svg HTTP/1.0" 200 380
+[28/Mar/2026 21:55:51] "GET /admin/auth/user/ HTTP/1.0" 200 10214
+[28/Mar/2026 21:55:51] "GET /static/admin/css/changelists.css HTTP/1.0" 200 6878
+[28/Mar/2026 21:55:51] "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.0" 200 285314
+[28/Mar/2026 21:55:51] "GET /static/admin/js/jquery.init.js HTTP/1.0" 200 347
+[28/Mar/2026 21:55:51] "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.0" 200 9777
+[28/Mar/2026 21:55:51] "GET /static/admin/js/core.js HTTP/1.0" 200 6208
+[28/Mar/2026 21:55:51] "GET /static/admin/js/actions.js HTTP/1.0" 200 8076
+[28/Mar/2026 21:55:51] "GET /static/admin/js/prepopulate.js HTTP/1.0" 200 1531
+[28/Mar/2026 21:55:51] "GET /static/admin/js/urlify.js HTTP/1.0" 200 7887
+[28/Mar/2026 21:55:51] "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.0" 200 325171
+[28/Mar/2026 21:55:51] "GET /static/admin/img/icon-yes.svg HTTP/1.0" 200 436
+[28/Mar/2026 21:55:51] "GET /static/admin/img/search.svg HTTP/1.0" 200 458
+[28/Mar/2026 21:55:51] "GET /static/admin/js/filters.js HTTP/1.0" 200 978
+[28/Mar/2026 21:55:51] "GET /static/admin/img/sorting-icons.svg HTTP/1.0" 200 1097
+[28/Mar/2026 21:55:51] "GET /static/admin/img/icon-viewlink.svg HTTP/1.0" 200 581
+[28/Mar/2026 21:55:53] "GET /admin/auth/user/3/change/ HTTP/1.0" 200 11294
+[28/Mar/2026 21:55:53] "GET /static/admin/css/forms.css HTTP/1.0" 200 8525
+[28/Mar/2026 21:55:53] "GET /admin/jsi18n/ HTTP/1.0" 200 9760
+[28/Mar/2026 21:55:53] "GET /static/admin/js/prepopulate_init.js HTTP/1.0" 200 586
+[28/Mar/2026 21:55:53] "GET /static/admin/js/change_form.js HTTP/1.0" 200 606
+[28/Mar/2026 21:55:53] "GET /static/admin/css/widgets.css HTTP/1.0" 200 11973
+[28/Mar/2026 22:09:58] "GET / HTTP/1.0" 200 16281
+[28/Mar/2026 22:09:59] "GET /static/assets/img/favicon-96x96.png HTTP/1.0" 200 15631
+/var/www/bior-invest/investments/action_hub/decision_engine.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+March 28, 2026 - 21:37:08
+Django version 5.2.12, using settings 'core.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+📡 NEXUS consultando nivel de inteligencia: gemini-2.5-pro...
+⚠️ El modelo gemini-2.5-pro alcanzó su cuota. Escalando al siguiente nivel...
+📡 NEXUS consultando nivel de inteligencia: gemini-2.5-flash...
+✅ Análisis exitoso obtenido de: gemini-2.5-flash
+📡 NEXUS consultando nivel de inteligencia: gemini-2.5-pro...
+⚠️ El modelo gemini-2.5-pro alcanzó su cuota. Escalando al siguiente nivel...
+📡 NEXUS consultando nivel de inteligencia: gemini-2.5-flash...
+✅ Análisis exitoso obtenido de: gemini-2.5-flash
+Watching for file changes with StatReloader
+/var/www/bior-invest/investments/action_hub/decision_engine.py:4: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[28/Mar/2026 22:19:00] "GET /nexus-advisor/ HTTP/1.0" 200 13832
+[28/Mar/2026 22:19:00] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[28/Mar/2026 22:19:00] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 304 0
+[28/Mar/2026 22:19:00] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[28/Mar/2026 22:19:00] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[28/Mar/2026 22:19:42] "POST /api/v1/modo-decision/ HTTP/1.0" 200 346
+Watching for file changes with StatReloader
+/var/www/bior-invest/investments/action_hub/decision_engine.py:4: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+[28/Mar/2026 22:40:46] "GET /nexus-advisor/ HTTP/1.0" 200 13832
+[28/Mar/2026 22:40:46] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 200 87503
+[28/Mar/2026 22:40:46] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 200 6142
+[28/Mar/2026 22:40:46] "GET /static/assets/css/style.css.map HTTP/1.0" 200 19806
+[28/Mar/2026 22:40:46] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 200 5168
+[28/Mar/2026 22:40:46] "GET /static/assets/js/modules/grafico.js HTTP/1.0" 200 6560
+[28/Mar/2026 22:40:46] "GET /static/assets/js/modules/portfolio.js HTTP/1.0" 200 10510
+[28/Mar/2026 22:40:46] "GET /static/assets/js/modules/reporte.js HTTP/1.0" 200 2642
+[28/Mar/2026 22:40:46] "GET /static/assets/js/modules/alerts.js HTTP/1.0" 200 4370
+[28/Mar/2026 22:40:46] "GET /static/assets/js/modules/ai_chat.js HTTP/1.0" 200 6425
+[28/Mar/2026 22:40:46] "GET /static/assets/js/modules/privacy.js HTTP/1.0" 200 1541
+[28/Mar/2026 22:40:46] "GET /static/assets/js/modules/password-visibility.js HTTP/1.0" 200 816
+[28/Mar/2026 22:40:47] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 200 6985
+[28/Mar/2026 22:40:47] "GET /static/assets/img/favicon.ico HTTP/1.0" 200 15086
+[28/Mar/2026 22:41:04] "GET /nexus-advisor/ HTTP/1.0" 200 13832
+[28/Mar/2026 22:41:04] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 200 87503
+[28/Mar/2026 22:41:04] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 200 6142
+[28/Mar/2026 22:41:05] "GET /static/assets/css/style.css.map HTTP/1.0" 200 19806
+[28/Mar/2026 22:41:05] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 200 5168
+[28/Mar/2026 22:41:05] "GET /static/assets/js/modules/grafico.js HTTP/1.0" 200 6560
+[28/Mar/2026 22:41:05] "GET /static/assets/js/modules/alerts.js HTTP/1.0" 200 4370
+[28/Mar/2026 22:41:05] "GET /static/assets/js/modules/portfolio.js HTTP/1.0" 200 10510
+[28/Mar/2026 22:41:05] "GET /static/assets/js/modules/reporte.js HTTP/1.0" 200 2642
+[28/Mar/2026 22:41:05] "GET /static/assets/js/modules/privacy.js HTTP/1.0" 200 1541
+[28/Mar/2026 22:41:05] "GET /static/assets/js/modules/ai_chat.js HTTP/1.0" 200 6425
+[28/Mar/2026 22:41:05] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 200 6985
+[28/Mar/2026 22:41:05] "GET /static/assets/js/modules/password-visibility.js HTTP/1.0" 200 816
+[28/Mar/2026 22:41:05] "GET /static/assets/img/favicon.ico HTTP/1.0" 200 15086
+[28/Mar/2026 22:41:27] "POST /api/v1/modo-decision/ HTTP/1.0" 200 1451
+/var/www/bior-invest/investments/views.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+March 28, 2026 - 22:40:38
+Django version 5.2.12, using settings 'core.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+/var/www/bior-invest/investments/action_hub/decision_engine.py:4: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+Watching for file changes with StatReloader
+/var/www/bior-invest/investments/action_hub/decision_engine.py:1: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import os, json, re, google.generativeai as genai
+Watching for file changes with StatReloader
+/var/www/bior-invest/investments/action_hub/decision_engine.py:1: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import os, json, re, google.generativeai as genai
+[28/Mar/2026 23:23:14] "GET /nexus-advisor/ HTTP/1.0" 200 13833
+[28/Mar/2026 23:23:15] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 200 91402
+[28/Mar/2026 23:23:15] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 200 6062
+[28/Mar/2026 23:23:16] "GET /static/assets/js/modules/grafico.js HTTP/1.0" 200 6560
+[28/Mar/2026 23:23:16] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 200 5168
+[28/Mar/2026 23:23:16] "GET /static/assets/js/modules/reporte.js HTTP/1.0" 200 2642
+[28/Mar/2026 23:23:16] "GET /static/assets/js/modules/portfolio.js HTTP/1.0" 200 10510
+[28/Mar/2026 23:23:16] "GET /static/assets/js/modules/alerts.js HTTP/1.0" 200 4370
+[28/Mar/2026 23:23:16] "GET /static/assets/js/modules/privacy.js HTTP/1.0" 200 1541
+[28/Mar/2026 23:23:16] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 200 6766
+[28/Mar/2026 23:23:16] "GET /static/assets/js/modules/password-visibility.js HTTP/1.0" 200 816
+[28/Mar/2026 23:23:16] "GET /static/assets/js/modules/ai_chat.js HTTP/1.0" 200 6425
+[28/Mar/2026 23:23:16] "GET /static/assets/img/favicon.ico HTTP/1.0" 200 15086
+[28/Mar/2026 23:23:21] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[28/Mar/2026 23:23:22] "GET /static/assets/css/style.css.map HTTP/1.0" 200 20669
+[28/Mar/2026 23:23:46] "GET /nexus-advisor/ HTTP/1.0" 302 0
+[28/Mar/2026 23:23:46] "GET /login/?next=/nexus-advisor/ HTTP/1.0" 200 8669
+[28/Mar/2026 23:23:46] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 200 91402
+[28/Mar/2026 23:23:46] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 200 6062
+[28/Mar/2026 23:23:47] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 200 5168
+[28/Mar/2026 23:23:47] "GET /static/assets/js/modules/grafico.js HTTP/1.0" 200 6560
+[28/Mar/2026 23:23:47] "GET /static/assets/js/modules/reporte.js HTTP/1.0" 200 2642
+[28/Mar/2026 23:23:47] "GET /static/assets/js/modules/portfolio.js HTTP/1.0" 200 10510
+[28/Mar/2026 23:23:47] "GET /static/assets/js/modules/privacy.js HTTP/1.0" 200 1541
+[28/Mar/2026 23:23:47] "GET /static/assets/js/modules/alerts.js HTTP/1.0" 200 4370
+[28/Mar/2026 23:23:47] "GET /static/assets/js/modules/password-visibility.js HTTP/1.0" 200 816
+[28/Mar/2026 23:23:47] "GET /static/assets/js/modules/ai_chat.js HTTP/1.0" 200 6425
+[28/Mar/2026 23:23:47] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 200 6766
+[28/Mar/2026 23:23:47] "GET /static/assets/img/favicon.ico HTTP/1.0" 200 15086
+[28/Mar/2026 23:23:57] "POST /login/?next=/nexus-advisor/ HTTP/1.0" 302 0
+[28/Mar/2026 23:23:57] "GET /nexus-advisor/ HTTP/1.0" 200 13832
+[28/Mar/2026 23:23:57] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[28/Mar/2026 23:23:57] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 304 0
+[28/Mar/2026 23:23:57] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[28/Mar/2026 23:24:21] "GET /admin/ HTTP/1.0" 200 12815
+[28/Mar/2026 23:24:22] "GET /static/admin/css/dashboard.css HTTP/1.0" 304 0
+[28/Mar/2026 23:24:22] "GET /static/admin/img/icon-deletelink.svg HTTP/1.0" 304 0
+[28/Mar/2026 23:24:22] "GET /static/admin/img/icon-changelink.svg HTTP/1.0" 304 0
+Not Found: /favicon.ico
+[28/Mar/2026 23:24:22] "GET /favicon.ico HTTP/1.0" 404 6592
+[28/Mar/2026 23:24:26] "GET /admin/investments/profile/ HTTP/1.0" 200 12981
+[28/Mar/2026 23:24:27] "GET /admin/jsi18n/ HTTP/1.0" 200 9760
+[28/Mar/2026 23:24:31] "GET /admin/investments/profile/ HTTP/1.0" 200 12981
+[28/Mar/2026 23:24:31] "GET /admin/jsi18n/ HTTP/1.0" 200 9760
+[28/Mar/2026 23:24:32] "POST /api/v1/modo-decision/ HTTP/1.0" 200 2593
+[28/Mar/2026 23:24:33] "GET /admin/investments/profile/ HTTP/1.0" 200 12983
+[28/Mar/2026 23:24:33] "GET /admin/jsi18n/ HTTP/1.0" 200 9760
+[28/Mar/2026 23:25:34] "GET /nexus-advisor/ HTTP/1.0" 200 13832
+[28/Mar/2026 23:25:34] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[28/Mar/2026 23:25:34] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 304 0
+[28/Mar/2026 23:25:34] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[28/Mar/2026 23:25:37] "GET / HTTP/1.0" 200 19615
+[28/Mar/2026 23:25:42] "GET / HTTP/1.0" 200 19615
+[28/Mar/2026 23:25:50] "GET / HTTP/1.0" 200 19615
+[28/Mar/2026 23:25:50] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[28/Mar/2026 23:25:50] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 304 0
+[28/Mar/2026 23:25:50] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[28/Mar/2026 23:26:01] "GET / HTTP/1.0" 200 19615
+[28/Mar/2026 23:26:03] "GET /nexus-advisor/ HTTP/1.0" 200 13832
+[28/Mar/2026 23:33:20] "GET /portafolio/ HTTP/1.0" 200 39913
+[28/Mar/2026 23:33:20] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 200 91402
+[28/Mar/2026 23:33:20] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 200 6062
+[28/Mar/2026 23:33:21] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 200 5168
+[28/Mar/2026 23:33:21] "GET /static/assets/js/modules/grafico.js HTTP/1.0" 200 6560
+[28/Mar/2026 23:33:21] "GET /static/assets/js/modules/reporte.js HTTP/1.0" 200 2642
+[28/Mar/2026 23:33:21] "GET /static/assets/js/modules/portfolio.js HTTP/1.0" 200 10510
+[28/Mar/2026 23:33:21] "GET /static/assets/js/modules/alerts.js HTTP/1.0" 200 4370
+[28/Mar/2026 23:33:21] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 200 6766
+[28/Mar/2026 23:33:21] "GET /static/assets/js/modules/password-visibility.js HTTP/1.0" 200 816
+[28/Mar/2026 23:33:21] "GET /static/assets/js/modules/ai_chat.js HTTP/1.0" 200 6425
+[28/Mar/2026 23:33:21] "GET /static/assets/js/modules/privacy.js HTTP/1.0" 200 1541
+[28/Mar/2026 23:33:21] "GET /static/assets/img/apple-touch-icon.png HTTP/1.0" 200 42971
+[28/Mar/2026 23:33:24] "GET /portafolio/ HTTP/1.0" 200 39913
+[28/Mar/2026 23:33:26] "GET /portafolio/ HTTP/1.0" 200 39913
+[28/Mar/2026 23:33:26] "GET /static/assets/img/favicon-96x96.png HTTP/1.0" 200 15631
+[28/Mar/2026 23:33:29] "GET /nexus-advisor/ HTTP/1.0" 200 13833
+[28/Mar/2026 23:34:25] "POST /api/v1/modo-decision/ HTTP/1.0" 200 2303
+[28/Mar/2026 23:41:33] "GET / HTTP/1.0" 200 16281
+Forbidden (Referer checking failed - Referer is insecure while host is secure.): /
+[28/Mar/2026 23:41:35] "PROPFIND / HTTP/1.0" 403 2550
+[28/Mar/2026 23:46:42] "GET / HTTP/1.0" 200 16291
+[29/Mar/2026 00:03:22] "GET / HTTP/1.0" 200 16291
+Not Found: /SDK/webLanguage
+[29/Mar/2026 00:21:17] "GET /SDK/webLanguage HTTP/1.0" 404 6594
+[29/Mar/2026 00:21:33] "GET / HTTP/1.1" 200 16285
+[29/Mar/2026 00:31:19] "GET / HTTP/1.0" 200 16281
+[29/Mar/2026 00:46:02] "GET / HTTP/1.1" 200 16285
+[29/Mar/2026 00:47:16] "GET / HTTP/1.1" 200 16285
+[29/Mar/2026 00:49:09] code 400, message Bad request version ('À\x14À')
+[29/Mar/2026 00:49:09] You're accessing the development server over HTTPS, but it only supports HTTP.
+[29/Mar/2026 00:51:11] code 400, message Bad request syntax ('SSH-2.0-Go')
+[29/Mar/2026 00:51:11] "SSH-2.0-Go" 400 -
+[29/Mar/2026 00:51:45] "GET //admin/config.php HTTP/1.1" 302 0
+[29/Mar/2026 00:51:45] "GET /admin/login/?next=/admin/config.php HTTP/1.1" 200 4257
+[29/Mar/2026 00:52:17] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00{\x01\x00\x00w\x03\x03%""pÿ!ÝÏ¡ª\x8bÓ°\x8fPï:O¨a\xad;mwý\x05Ãv²y·\x8e\x00\x00\x1aÀ/À+À\x11À\x07À\x13À')
+[29/Mar/2026 00:52:17] You're accessing the development server over HTTPS, but it only supports HTTP.
+[29/Mar/2026 01:25:09] "GET / HTTP/1.0" 200 16281
+[29/Mar/2026 01:25:12] "GET /static/assets/img/favicon-96x96.png HTTP/1.0" 200 15631
+Forbidden (Referer checking failed - Referer is insecure while host is secure.): /
+[29/Mar/2026 01:36:49] "PROPFIND / HTTP/1.0" 403 2550
+Not Found: /aaa9
+[29/Mar/2026 01:57:23] "GET /aaa9 HTTP/1.0" 404 6561
+Not Found: /aab8
+[29/Mar/2026 01:57:24] "GET /aab8 HTTP/1.0" 404 6561
+[29/Mar/2026 01:59:37] "GET / HTTP/1.0" 200 16281
+[29/Mar/2026 01:59:41] "GET /static/assets/img/favicon-96x96.png HTTP/1.0" 200 15631
+[29/Mar/2026 01:59:47] "GET /static/assets/img/favicon.ico HTTP/1.0" 200 15086
+[29/Mar/2026 01:59:48] "GET /static/assets/img/apple-touch-icon.png HTTP/1.0" 200 42971
+Not Found: /favicon.ico
+[29/Mar/2026 01:59:50] "GET /favicon.ico HTTP/1.0" 404 6582
+[29/Mar/2026 02:00:27] "GET / HTTP/1.0" 200 16281
+Not Found: /security.txt
+[29/Mar/2026 02:00:41] "GET /security.txt HTTP/1.0" 404 6585
+Not Found: /robots.txt
+[29/Mar/2026 02:23:28] "GET /robots.txt HTTP/1.0" 404 6589
+[29/Mar/2026 02:24:52] "GET / HTTP/1.1" 200 16285
+[29/Mar/2026 02:24:52] "GET /static/assets/img/favicon-96x96.png HTTP/1.1" 200 15631
+[29/Mar/2026 02:24:52] "GET /static/assets/img/favicon.svg HTTP/1.1" 200 104914
+[29/Mar/2026 02:24:52,744] - Broken pipe from ('15.235.115.78', 37104)
+[29/Mar/2026 02:24:52] "GET /static/assets/img/favicon.ico HTTP/1.1" 200 15086
+[29/Mar/2026 02:24:52] "GET /static/assets/img/apple-touch-icon.png HTTP/1.1" 200 42971
+Not Found: /../../../../../../etc/passwd
+[29/Mar/2026 02:38:06] "GET /..%2F..%2F..%2F..%2F..%2F..%2Fetc%2Fpasswd HTTP/1.1" 404 6619
+[29/Mar/2026 03:17:27] "GET / HTTP/1.0" 200 16281
+Forbidden (Referer checking failed - Referer is insecure while host is secure.): /
+[29/Mar/2026 03:17:28] "PROPFIND / HTTP/1.0" 403 2550
+[29/Mar/2026 03:29:41] "GET / HTTP/1.0" 200 16281
+[29/Mar/2026 03:32:11] "GET /static/assets/img/favicon-96x96.png HTTP/1.0" 200 15631
+[29/Mar/2026 04:13:26] "GET / HTTP/1.0" 200 16281
+Forbidden (Referer checking failed - Referer is insecure while host is secure.): /
+[29/Mar/2026 04:13:26] "PROPFIND / HTTP/1.0" 403 2550
+Not Found: /SDK/webLanguage
+[29/Mar/2026 04:18:45] "GET /SDK/webLanguage HTTP/1.0" 404 6594
+[29/Mar/2026 04:38:15] "GET / HTTP/1.0" 200 16281
+Not Found: /.envrc
+[29/Mar/2026 04:39:33] "GET /.envrc HTTP/1.0" 404 6567
+Not Found: /.env.staging.local
+[29/Mar/2026 04:39:35] "GET /.env.staging.local HTTP/1.0" 404 6603
+Not Found: /.git/config
+[29/Mar/2026 04:39:37] "GET /.git/config HTTP/1.0" 404 6582
+Not Found: /project/.git/config
+[29/Mar/2026 04:39:38] "GET /project/.git/config HTTP/1.0" 404 6606
+Not Found: /.env.backup
+[29/Mar/2026 04:39:39] "GET /.env.backup HTTP/1.0" 404 6582
+Not Found: /.env.local
+[29/Mar/2026 04:39:41] "GET /.env.local HTTP/1.0" 404 6579
+Not Found: /.env.uat
+[29/Mar/2026 04:39:43] "GET /.env.uat HTTP/1.0" 404 6573
+Not Found: /settings/.env
+[29/Mar/2026 04:39:44] "GET /settings/.env HTTP/1.0" 404 6588
+Not Found: /static../.git/config
+[29/Mar/2026 04:39:46] "GET /static../.git/config HTTP/1.0" 404 6609
+Not Found: /.env.dev.local
+[29/Mar/2026 04:39:49] "GET /.env.dev.local HTTP/1.0" 404 6591
+Not Found: /configuration/.env
+[29/Mar/2026 04:39:51] "GET /configuration/.env HTTP/1.0" 404 6603
+Not Found: /core/.git/config
+[29/Mar/2026 04:39:52] "GET /core/.git/config HTTP/1.0" 404 6597
+Not Found: /server/.git/config
+[29/Mar/2026 04:39:53] "GET /server/.git/config HTTP/1.0" 404 6603
+Not Found: /api/.git/config
+[29/Mar/2026 04:39:55] "GET /api/.git/config HTTP/1.0" 404 6594
+[29/Mar/2026 04:39:57] "GET /admin/.git/config HTTP/1.0" 302 0
+Not Found: /.env.bak
+[29/Mar/2026 04:39:58] "GET /.env.bak HTTP/1.0" 404 6573
+Not Found: /.env.live
+[29/Mar/2026 04:40:01] "GET /.env.live HTTP/1.0" 404 6576
+Not Found: /.env.prod.local
+[29/Mar/2026 04:40:02] "GET /.env.prod.local HTTP/1.0" 404 6594
+Not Found: /.env_sample
+[29/Mar/2026 04:40:04] "GET /.env_sample HTTP/1.0" 404 6582
+Not Found: /.env.template
+[29/Mar/2026 04:40:05] "GET /.env.template HTTP/1.0" 404 6588
+Not Found: /config/.env
+[29/Mar/2026 04:40:07] "GET /config/.env HTTP/1.0" 404 6582
+Not Found: /.env.dist
+[29/Mar/2026 04:40:08] "GET /.env.dist HTTP/1.0" 404 6576
+Not Found: /.env.ci
+[29/Mar/2026 04:40:10] "GET /.env.ci HTTP/1.0" 404 6570
+Not Found: /.env.stage
+[29/Mar/2026 04:40:12] "GET /.env.stage HTTP/1.0" 404 6579
+Not Found: /cms/.git/config
+[29/Mar/2026 04:40:13] "GET /cms/.git/config HTTP/1.0" 404 6594
+Not Found: /.env.development.local
+[29/Mar/2026 04:40:14] "GET /.env.development.local HTTP/1.0" 404 6615
+Not Found: /.env.production.local
+[29/Mar/2026 04:40:16] "GET /.env.production.local HTTP/1.0" 404 6612
+Not Found: /build/.env
+[29/Mar/2026 04:40:18] "GET /build/.env HTTP/1.0" 404 6579
+Not Found: /www/.git/config
+[29/Mar/2026 04:40:19] "GET /www/.git/config HTTP/1.0" 404 6594
+Not Found: /.aws/credentials
+[29/Mar/2026 04:40:21] "GET /.aws/credentials HTTP/1.0" 404 6597
+Not Found: /.env.prod
+[29/Mar/2026 04:40:22] "GET /.env.prod HTTP/1.0" 404 6576
+Not Found: /.env.production
+[29/Mar/2026 04:40:24] "GET /.env.production HTTP/1.0" 404 6594
+Not Found: /.env.qa
+[29/Mar/2026 04:40:25] "GET /.env.qa HTTP/1.0" 404 6570
+Not Found: /media../.git/config
+[29/Mar/2026 04:40:26] "GET /media../.git/config HTTP/1.0" 404 6606
+Not Found: /dev/.git/config
+[29/Mar/2026 04:40:28] "GET /dev/.git/config HTTP/1.0" 404 6594
+Not Found: /.env.dev
+[29/Mar/2026 04:40:30] "GET /.env.dev HTTP/1.0" 404 6573
+Not Found: /.env.preprod
+[29/Mar/2026 04:40:31] "GET /.env.preprod HTTP/1.0" 404 6585
+Not Found: /.env.sandbox
+[29/Mar/2026 04:40:32] "GET /.env.sandbox HTTP/1.0" 404 6585
+Not Found: /app/.git/config
+[29/Mar/2026 04:40:34] "GET /app/.git/config HTTP/1.0" 404 6594
+Not Found: /config/.git/config
+[29/Mar/2026 04:40:36] "GET /config/.git/config HTTP/1.0" 404 6603
+Not Found: /.env.testing
+[29/Mar/2026 04:40:37] "GET /.env.testing HTTP/1.0" 404 6585
+Not Found: /assets../.git/config
+[29/Mar/2026 04:40:39] "GET /assets../.git/config HTTP/1.0" 404 6609
+Not Found: /data/.git/config
+[29/Mar/2026 04:40:41] "GET /data/.git/config HTTP/1.0" 404 6597
+Not Found: /docker-compose.prod.yml
+[29/Mar/2026 04:40:43] "GET /docker-compose.prod.yml HTTP/1.0" 404 6618
+Not Found: /.env.save
+[29/Mar/2026 04:40:45] "GET /.env.save HTTP/1.0" 404 6576
+Not Found: /.env.test
+[29/Mar/2026 04:40:47] "GET /.env.test HTTP/1.0" 404 6576
+Not Found: /backup/.git/config
+[29/Mar/2026 04:40:49] "GET /backup/.git/config HTTP/1.0" 404 6603
+Not Found: /public/.git/config
+[29/Mar/2026 04:40:49] "GET /public/.git/config HTTP/1.0" 404 6603
+Not Found: /config.json
+[29/Mar/2026 04:40:51] "GET /config.json HTTP/1.0" 404 6582
+Not Found: /.env.secret
+[29/Mar/2026 04:40:52] "GET /.env.secret HTTP/1.0" 404 6582
+Not Found: /.env.testing.local
+[29/Mar/2026 04:40:54] "GET /.env.testing.local HTTP/1.0" 404 6603
+Not Found: /api/.env
+[29/Mar/2026 04:40:56] "GET /api/.env HTTP/1.0" 404 6573
+Not Found: /prod/.env
+[29/Mar/2026 04:40:57] "GET /prod/.env HTTP/1.0" 404 6576
+Not Found: /files/.git/config
+[29/Mar/2026 04:40:58] "GET /files/.git/config HTTP/1.0" 404 6600
+Not Found: /.env
+[29/Mar/2026 04:40:59] "GET /.env HTTP/1.0" 404 6561
+Not Found: /.env.config
+[29/Mar/2026 04:41:00] "GET /.env.config HTTP/1.0" 404 6582
+Not Found: /.env.default
+[29/Mar/2026 04:41:03] "GET /.env.default HTTP/1.0" 404 6585
+Not Found: /src/.git/config
+[29/Mar/2026 04:41:04] "GET /src/.git/config HTTP/1.0" 404 6594
+Not Found: /media/.git/config
+[29/Mar/2026 04:41:05] "GET /media/.git/config HTTP/1.0" 404 6600
+Not Found: /Dr0v
+[29/Mar/2026 04:56:29] "GET /Dr0v HTTP/1.0" 404 6561
+Forbidden (Referer checking failed - Referer is insecure while host is secure.): /
+[29/Mar/2026 05:04:16] "PROPFIND / HTTP/1.0" 403 2550
+Not Found: /ecp/Current/exporttool/microsoft.exchange.ediscovery.exporttool.application
+[29/Mar/2026 05:35:18] "GET /ecp/Current/exporttool/microsoft.exchange.ediscovery.exporttool.application HTTP/1.0" 404 6774
+[29/Mar/2026 06:05:24] "GET / HTTP/1.0" 200 16291
+[29/Mar/2026 06:05:27] "GET /static/assets/img/favicon-96x96.png HTTP/1.0" 200 15631
+[29/Mar/2026 06:05:30] "GET /static/assets/img/favicon.svg HTTP/1.0" 200 104914
+[29/Mar/2026 06:05:32] "GET /static/assets/img/favicon.ico HTTP/1.0" 200 15086
+[29/Mar/2026 06:05:34] "GET /static/assets/img/apple-touch-icon.png HTTP/1.0" 200 42971
+Not Found: /favicon.ico
+[29/Mar/2026 06:05:37] "GET /favicon.ico HTTP/1.0" 404 6592
+[29/Mar/2026 06:05:54] "GET / HTTP/1.0" 200 16291
+[29/Mar/2026 06:28:12] "GET / HTTP/1.0" 200 16291
+[29/Mar/2026 06:34:14] "GET / HTTP/1.0" 200 16281
+Forbidden (Referer checking failed - Referer is insecure while host is secure.): /
+[29/Mar/2026 06:34:14] "PROPFIND / HTTP/1.0" 403 2550
+[29/Mar/2026 07:23:27] "GET / HTTP/1.0" 200 16281
+[29/Mar/2026 07:29:38] "GET / HTTP/1.0" 200 16291
+[29/Mar/2026 07:29:50] "GET / HTTP/1.0" 200 16291
+[29/Mar/2026 07:29:58] "GET / HTTP/1.0" 200 16291
+[29/Mar/2026 07:29:59] "GET / HTTP/1.0" 200 16291
+[29/Mar/2026 07:30:06] "GET /disclaimer/ HTTP/1.0" 200 10837
+[29/Mar/2026 07:30:08] "GET / HTTP/1.0" 200 16291
+[29/Mar/2026 07:30:10] "GET /detalle/renta-variable/ HTTP/1.0" 200 18790
+[29/Mar/2026 07:30:10] "GET /detalle/renta-fija/ HTTP/1.0" 200 17533
+[29/Mar/2026 07:30:11] "GET /registro/ HTTP/1.0" 200 9651
+[29/Mar/2026 07:30:11] "GET /terminos/ HTTP/1.0" 200 11433
+[29/Mar/2026 07:30:11] "GET /privacidad/ HTTP/1.0" 200 10759
+[29/Mar/2026 07:30:11] "GET /detalle/efectivo/ HTTP/1.0" 200 17719
+[29/Mar/2026 07:30:11] "GET /detalle/private-equity/ HTTP/1.0" 200 18670
+[29/Mar/2026 07:30:11] "GET /login/ HTTP/1.0" 200 8648
+[29/Mar/2026 07:30:11] "GET /detalle/inversiones-alternativas/ HTTP/1.0" 200 19160
+[29/Mar/2026 07:30:11] "GET /detalle/inmuebles/ HTTP/1.0" 200 17049
+Not Found: /detalle/inversiones-alternativas/TU_LINK_DE_REFERIDO_GBM
+[29/Mar/2026 07:30:16] "GET /detalle/inversiones-alternativas/TU_LINK_DE_REFERIDO_GBM HTTP/1.0" 404 6727
+Not Found: /detalle/inmuebles/TU_LINK_DE_REFERIDO_GBM
+[29/Mar/2026 07:30:16] "GET /detalle/inmuebles/TU_LINK_DE_REFERIDO_GBM HTTP/1.0" 404 6682
+Not Found: /detalle/inversiones-alternativas/TU_LINK_DE_REFERIDO_BITSO
+[29/Mar/2026 07:30:17] "GET /detalle/inversiones-alternativas/TU_LINK_DE_REFERIDO_BITSO HTTP/1.0" 404 6733
+Not Found: /detalle/renta-variable/TU_LINK_REFERIDO_GBM
+[29/Mar/2026 07:30:19] "GET /detalle/renta-variable/TU_LINK_REFERIDO_GBM HTTP/1.0" 404 6688
+[29/Mar/2026 08:27:52] "GET / HTTP/1.0" 200 16291
+[29/Mar/2026 08:30:36] "GET / HTTP/1.0" 200 16291
+[29/Mar/2026 08:35:19] "GET / HTTP/1.0" 200 16291
+[29/Mar/2026 08:41:23] "GET / HTTP/1.0" 200 16291
+[29/Mar/2026 08:43:56] "GET / HTTP/1.0" 200 16291
+[29/Mar/2026 08:46:10] "GET / HTTP/1.0" 200 16291
+[29/Mar/2026 08:50:49] "GET / HTTP/1.0" 200 16291
+Not Found: /.git/config
+[29/Mar/2026 09:15:11] "GET /.git/config HTTP/1.0" 404 6582
+[29/Mar/2026 09:15:49] "GET / HTTP/1.0" 200 16291
+Forbidden (Referer checking failed - Referer is insecure while host is secure.): /
+[29/Mar/2026 09:18:17] "PROPFIND / HTTP/1.0" 403 2550
+[29/Mar/2026 09:28:27] "GET / HTTP/1.0" 200 16291
+Not Found: /.well-known/security.txt
+[29/Mar/2026 10:04:28] "GET /.well-known/security.txt HTTP/1.1" 404 6625
+[29/Mar/2026 10:08:20] "GET / HTTP/1.1" 200 16285
+[29/Mar/2026 10:08:26,267] - Broken pipe from ('147.185.132.12', 59446)
+[29/Mar/2026 11:08:50] "GET /nexus-advisor/ HTTP/1.0" 200 13832
+[29/Mar/2026 11:08:51] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[29/Mar/2026 11:08:51] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 304 0
+[29/Mar/2026 11:08:51] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[29/Mar/2026 11:08:51] "GET /static/assets/js/modules/grafico.js HTTP/1.0" 304 0
+[29/Mar/2026 11:08:51] "GET /static/assets/js/modules/portfolio.js HTTP/1.0" 304 0
+[29/Mar/2026 11:08:51] "GET /static/assets/js/modules/ai_chat.js HTTP/1.0" 304 0
+[29/Mar/2026 11:08:51] "GET /static/assets/js/modules/password-visibility.js HTTP/1.0" 304 0
+[29/Mar/2026 11:08:51] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[29/Mar/2026 11:09:22] "POST /api/v1/modo-decision/ HTTP/1.0" 200 2739
+[29/Mar/2026 11:11:25] "GET / HTTP/1.0" 200 19615
+[29/Mar/2026 11:11:27] "GET /detalle/renta-variable/ HTTP/1.0" 200 22114
+[29/Mar/2026 11:16:16] "GET /admin/investments/profile/ HTTP/1.0" 200 12983
+Not Found: /favicon.ico
+[29/Mar/2026 11:16:16] "GET /favicon.ico HTTP/1.0" 404 6592
+[29/Mar/2026 11:16:19] "GET /admin/investments/category/ HTTP/1.0" 200 15077
+[29/Mar/2026 11:16:19] "GET /static/admin/css/forms.css HTTP/1.0" 304 0
+[29/Mar/2026 11:16:19] "GET /admin/jsi18n/ HTTP/1.0" 200 9760
+[29/Mar/2026 11:16:19] "GET /static/admin/css/widgets.css HTTP/1.0" 304 0
+[29/Mar/2026 11:19:59] "GET / HTTP/1.0" 200 16291
+Not Found: /sdk
+[29/Mar/2026 11:19:59] "POST /sdk HTTP/1.0" 404 6559
+Not Found: /odinhttpcall1774804799
+[29/Mar/2026 11:19:59] "GET /odinhttpcall1774804799 HTTP/1.0" 404 6615
+Not Found: /HNAP1
+[29/Mar/2026 11:20:00] "GET /HNAP1 HTTP/1.0" 404 6564
+Not Found: /evox/about
+[29/Mar/2026 11:20:00] "GET /evox/about HTTP/1.0" 404 6579
+[29/Mar/2026 11:20:00] "GET / HTTP/1.0" 200 16291
+[29/Mar/2026 11:20:01] "GET / HTTP/1.0" 200 16281
+Forbidden (Referer checking failed - no Referer.): /
+[29/Mar/2026 11:20:01] "POST / HTTP/1.0" 403 3471
+[29/Mar/2026 11:20:02] "GET / HTTP/1.0" 200 16281
+[29/Mar/2026 11:20:03] "GET / HTTP/1.0" 200 16281
+[29/Mar/2026 11:20:03] "GET /static/assets/img/favicon-96x96.png HTTP/1.0" 200 15631
+[29/Mar/2026 11:39:50] "GET /nexus-advisor/ HTTP/1.0" 200 13832
+[29/Mar/2026 11:39:53] "GET /static/assets/css/style.css.map HTTP/1.0" 200 20669
+/var/www/bior-invest/investments/action_hub/decision_engine.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+March 28, 2026 - 23:23:08
+Django version 5.2.12, using settings 'core.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+/var/www/bior-invest/investments/action_hub/decision_engine.py:1: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import os, json, re, google.generativeai as genai
+Watching for file changes with StatReloader
+/var/www/bior-invest/investments/action_hub/decision_engine.py:1: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import os, json, re, google.generativeai as genai
+Error: That port is already in use.
+[29/Mar/2026 11:49:39] "GET /nexus-advisor/ HTTP/1.0" 302 0
+[29/Mar/2026 11:49:39] "GET /login/?next=/nexus-advisor/ HTTP/1.0" 200 8669
+[29/Mar/2026 11:49:39] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 200 91402
+[29/Mar/2026 11:49:39] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 200 6062
+[29/Mar/2026 11:49:40] "GET /static/assets/js/modules/grafico.js HTTP/1.0" 200 6560
+[29/Mar/2026 11:49:40] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 200 5168
+[29/Mar/2026 11:49:40] "GET /static/assets/js/modules/reporte.js HTTP/1.0" 200 2642
+[29/Mar/2026 11:49:40] "GET /static/assets/js/modules/portfolio.js HTTP/1.0" 200 10510
+[29/Mar/2026 11:49:40] "GET /static/assets/js/modules/alerts.js HTTP/1.0" 200 4370
+[29/Mar/2026 11:49:40] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 200 6766
+[29/Mar/2026 11:49:40] "GET /static/assets/js/modules/ai_chat.js HTTP/1.0" 200 6425
+[29/Mar/2026 11:49:40] "GET /static/assets/js/modules/privacy.js HTTP/1.0" 200 1541
+[29/Mar/2026 11:49:40] "GET /static/assets/js/modules/password-visibility.js HTTP/1.0" 200 816
+[29/Mar/2026 11:49:40] "GET /static/assets/img/favicon.ico HTTP/1.0" 200 15086
+[29/Mar/2026 11:49:41] "GET /login/ HTTP/1.0" 200 8648
+[29/Mar/2026 11:49:52] "POST /login/ HTTP/1.0" 302 0
+[29/Mar/2026 11:49:52] "GET / HTTP/1.0" 200 19615
+[29/Mar/2026 11:49:54] "GET /nexus-advisor/ HTTP/1.0" 200 13832
+[2026-03-29 18:06:33 +0000] [155416] [INFO] Starting gunicorn 23.0.0
+[2026-03-29 18:06:33 +0000] [155416] [INFO] Listening at: http://0.0.0.0:8000 (155416)
+[2026-03-29 18:06:33 +0000] [155416] [INFO] Using worker: sync
+[2026-03-29 18:06:33 +0000] [155417] [INFO] Booting worker with pid: 155417
+/var/www/bior-invest/investments/action_hub/decision_engine.py:1: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import os, json, re, google.generativeai as genai
+[2026-03-29 12:22:11 -0600] [155417] [INFO] Worker exiting (pid: 155417)
+[2026-03-29 18:22:11 +0000] [155416] [INFO] Handling signal: term
+[2026-03-29 18:22:11 +0000] [155611] [INFO] Starting gunicorn 23.0.0
+[2026-03-29 18:22:11 +0000] [155611] [INFO] Listening at: http://0.0.0.0:8000 (155611)
+[2026-03-29 18:22:11 +0000] [155611] [INFO] Using worker: sync
+[2026-03-29 18:22:11 +0000] [155612] [INFO] Booting worker with pid: 155612
+[2026-03-29 18:22:13 +0000] [155416] [INFO] Shutting down: Master
+/var/www/bior-invest/investments/action_hub/decision_engine.py:1: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import os, json, re, google.generativeai as genai
+Watching for file changes with StatReloader
+/var/www/bior-invest/investments/action_hub/decision_engine.py:1: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import os, json, re, google.generativeai as genai
+[29/Mar/2026 12:54:10] "GET / HTTP/1.0" 200 19615
+[29/Mar/2026 12:54:10] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 304 0
+[29/Mar/2026 12:54:10] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[29/Mar/2026 12:54:10] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[29/Mar/2026 12:54:10] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[29/Mar/2026 12:54:12] "GET /detalle/renta-variable/ HTTP/1.0" 200 22114
+[29/Mar/2026 12:54:12] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 304 0
+[29/Mar/2026 12:54:12] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[29/Mar/2026 12:54:13] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[29/Mar/2026 12:54:13] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[29/Mar/2026 12:54:14] "GET /nexus-advisor/ HTTP/1.0" 200 13832
+[29/Mar/2026 12:54:14] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[29/Mar/2026 12:54:14] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 304 0
+[29/Mar/2026 12:54:14] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[29/Mar/2026 12:54:14] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[29/Mar/2026 12:54:16] "GET / HTTP/1.0" 200 19615
+[29/Mar/2026 12:54:16] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 304 0
+[29/Mar/2026 12:54:16] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[29/Mar/2026 12:54:16] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[29/Mar/2026 12:54:16] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[29/Mar/2026 12:54:18] "GET /nexus-advisor/ HTTP/1.0" 200 13832
+[29/Mar/2026 12:54:18] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 304 0
+[29/Mar/2026 12:54:18] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[29/Mar/2026 12:54:18] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[29/Mar/2026 12:54:18] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[29/Mar/2026 12:54:26] "GET /portafolio/ HTTP/1.0" 200 39913
+[29/Mar/2026 12:54:26] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 304 0
+[29/Mar/2026 12:54:26] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[29/Mar/2026 12:54:26] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[29/Mar/2026 12:54:26] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[29/Mar/2026 12:54:29] "GET /nexus-advisor/ HTTP/1.0" 200 13832
+[29/Mar/2026 12:54:29] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 304 0
+[29/Mar/2026 12:54:29] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[29/Mar/2026 12:54:29] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[29/Mar/2026 12:54:29] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[29/Mar/2026 12:54:31] "GET /admin/ HTTP/1.0" 200 12933
+[29/Mar/2026 12:54:31] "GET /static/admin/css/dashboard.css HTTP/1.0" 304 0
+[29/Mar/2026 12:54:31] "GET /static/admin/img/icon-deletelink.svg HTTP/1.0" 304 0
+[29/Mar/2026 12:54:31] "GET /static/admin/img/icon-changelink.svg HTTP/1.0" 304 0
+[29/Mar/2026 12:54:35] "GET / HTTP/1.0" 200 19615
+[29/Mar/2026 12:54:35] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[29/Mar/2026 12:54:35] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 304 0
+[29/Mar/2026 12:54:35] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[29/Mar/2026 12:54:35] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[29/Mar/2026 12:54:43] "GET /detalle/renta-variable/ HTTP/1.0" 200 22114
+[29/Mar/2026 12:54:43] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 304 0
+[29/Mar/2026 12:54:43] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[29/Mar/2026 12:54:43] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[29/Mar/2026 12:54:43] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[29/Mar/2026 12:54:44] "GET /detalle/private-equity/ HTTP/1.0" 200 21994
+[29/Mar/2026 12:54:44] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[29/Mar/2026 12:54:44] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 304 0
+[29/Mar/2026 12:54:45] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[29/Mar/2026 12:54:45] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[29/Mar/2026 12:54:48] "GET /nexus-advisor/ HTTP/1.0" 200 13832
+[29/Mar/2026 12:54:48] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 304 0
+[29/Mar/2026 12:54:48] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[29/Mar/2026 12:54:48] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[29/Mar/2026 12:54:48] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[29/Mar/2026 12:54:56] "GET /portafolio/ HTTP/1.0" 200 39913
+[29/Mar/2026 12:55:48] "GET /portafolio/ HTTP/1.0" 200 39913
+[29/Mar/2026 12:55:48] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 200 92434
+[29/Mar/2026 12:55:48] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 200 6062
+[29/Mar/2026 12:55:48] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[29/Mar/2026 12:55:48] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[29/Mar/2026 12:56:02] "GET / HTTP/1.0" 200 19615
+[29/Mar/2026 12:56:02] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[29/Mar/2026 12:56:02] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[29/Mar/2026 12:56:09] "GET / HTTP/1.0" 200 16291
+[29/Mar/2026 12:56:09] "GET / HTTP/1.0" 200 16291
+[29/Mar/2026 12:56:13] "GET / HTTP/1.0" 200 16291
+[29/Mar/2026 12:56:13] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 200 92434
+[29/Mar/2026 12:56:13] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 200 6062
+[29/Mar/2026 12:56:13] "GET / HTTP/1.0" 200 16291
+[29/Mar/2026 12:56:13] "GET /static/assets/js/modules/grafico.js HTTP/1.0" 200 6560
+[29/Mar/2026 12:56:13] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 200 8276
+[29/Mar/2026 12:56:13] "GET /static/assets/js/modules/alerts.js HTTP/1.0" 200 4370
+[29/Mar/2026 12:56:13] "GET /static/assets/js/modules/ai_chat.js HTTP/1.0" 200 6425
+[29/Mar/2026 12:56:13] "GET /static/assets/js/modules/portfolio.js HTTP/1.0" 200 10510
+[29/Mar/2026 12:56:13] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 200 5168
+[29/Mar/2026 12:56:13] "GET /static/assets/js/modules/privacy.js HTTP/1.0" 200 1541
+[29/Mar/2026 12:56:13] "GET /static/assets/js/modules/reporte.js HTTP/1.0" 200 2642
+[29/Mar/2026 12:56:13] "GET /static/assets/js/modules/password-visibility.js HTTP/1.0" 200 816
+[29/Mar/2026 12:56:13] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 200 92434
+[29/Mar/2026 12:56:13] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 200 6062
+[29/Mar/2026 12:56:14] "GET /static/assets/js/modules/grafico.js HTTP/1.0" 200 6560
+[29/Mar/2026 12:56:14] "GET /static/assets/js/modules/portfolio.js HTTP/1.0" 200 10510
+[29/Mar/2026 12:56:14] "GET /static/assets/js/modules/alerts.js HTTP/1.0" 200 4370
+[29/Mar/2026 12:56:14] "GET /static/assets/js/modules/reporte.js HTTP/1.0" 200 2642
+[29/Mar/2026 12:56:14] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 200 8276
+[29/Mar/2026 12:56:14] "GET /static/assets/js/modules/privacy.js HTTP/1.0" 200 1541
+[29/Mar/2026 12:56:14] "GET /static/assets/js/modules/password-visibility.js HTTP/1.0" 200 816
+[29/Mar/2026 12:56:14] "GET /static/assets/js/modules/ai_chat.js HTTP/1.0" 200 6425
+[29/Mar/2026 12:56:14] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 200 5168
+[29/Mar/2026 12:56:17] "GET / HTTP/1.0" 200 16291
+Not Found: /robots.txt
+[29/Mar/2026 12:56:17] "GET /robots.txt HTTP/1.0" 404 6589
+[29/Mar/2026 12:56:18] "GET / HTTP/1.0" 200 16291
+Not Found: /robots.txt
+[29/Mar/2026 12:56:18] "GET /robots.txt HTTP/1.0" 404 6589
+[29/Mar/2026 12:56:37] "GET /portafolio/ HTTP/1.0" 200 39913
+[29/Mar/2026 12:56:37] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[29/Mar/2026 12:56:37] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[29/Mar/2026 12:56:38] "GET /nexus-advisor/ HTTP/1.0" 200 13832
+[29/Mar/2026 12:56:38] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[29/Mar/2026 12:56:38] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[29/Mar/2026 12:56:40] "GET / HTTP/1.0" 200 19615
+[29/Mar/2026 12:56:41] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[29/Mar/2026 12:56:41] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 304 0
+[29/Mar/2026 12:57:05] "GET /static/assets/css/style.css.map HTTP/1.0" 200 20824
+[29/Mar/2026 12:57:13] "GET /portafolio/ HTTP/1.0" 200 39913
+[29/Mar/2026 12:57:14] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 200 92434
+[29/Mar/2026 12:57:14] "GET /static/assets/js/main.js?v=1.2 HTTP/1.0" 200 6062
+[29/Mar/2026 12:57:14] "GET /static/assets/js/modules/calculadora.js HTTP/1.0" 200 5168
+[29/Mar/2026 12:57:14] "GET /static/assets/css/style.css.map HTTP/1.0" 200 20824
+[29/Mar/2026 12:57:14] "GET /static/assets/js/modules/grafico.js HTTP/1.0" 200 6560
+[29/Mar/2026 12:57:14] "GET /static/assets/js/modules/reporte.js HTTP/1.0" 200 2642
+[29/Mar/2026 12:57:14] "GET /static/assets/js/modules/portfolio.js HTTP/1.0" 200 10510
+[29/Mar/2026 12:57:14] "GET /static/assets/js/modules/alerts.js HTTP/1.0" 200 4370
+[29/Mar/2026 12:57:14] "GET /static/assets/js/modules/privacy.js HTTP/1.0" 200 1541
+[29/Mar/2026 12:57:14] "GET /static/assets/js/modules/ai_chat.js HTTP/1.0" 200 6425
+[29/Mar/2026 12:57:14] "GET /static/assets/js/modules/password-visibility.js HTTP/1.0" 200 816
+[29/Mar/2026 12:57:14] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 200 8276
+[29/Mar/2026 12:57:59] "GET /nexus-advisor/ HTTP/1.0" 200 13832
+Invalid HTTP_HOST header: 'vps22710.cubepath.net'. You may need to add 'vps22710.cubepath.net' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/utils/deprecation.py", line 119, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/var/www/bior-invest/venv/lib/python3.12/site-packages/django/http/request.py", line 202, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'vps22710.cubepath.net'. You may need to add 'vps22710.cubepath.net' to ALLOWED_HOSTS.
+[29/Mar/2026 13:02:18] "GET / HTTP/1.0" 400 65056
+[29/Mar/2026 13:10:38] "GET / HTTP/1.0" 200 16281
+/var/www/bior-invest/investments/urls.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+March 29, 2026 - 12:54:07
+Django version 5.2.12, using settings 'core.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+/var/www/bior-invest/investments/action_hub/decision_engine.py:1: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import os, json, re, google.generativeai as genai
+[2026-03-29 19:22:52 +0000] [156331] [INFO] Starting gunicorn 23.0.0
+[2026-03-29 19:22:52 +0000] [156331] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2026-03-29 19:22:52 +0000] [156331] [ERROR] connection to ('0.0.0.0', 8000) failed: [Errno 98] Address already in use
+[2026-03-29 19:22:53 +0000] [156331] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2026-03-29 19:22:53 +0000] [156331] [ERROR] connection to ('0.0.0.0', 8000) failed: [Errno 98] Address already in use
+[2026-03-29 19:22:54 +0000] [156331] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2026-03-29 19:22:54 +0000] [156331] [ERROR] connection to ('0.0.0.0', 8000) failed: [Errno 98] Address already in use
+[2026-03-29 19:22:55 +0000] [156331] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2026-03-29 19:22:55 +0000] [156331] [ERROR] connection to ('0.0.0.0', 8000) failed: [Errno 98] Address already in use
+[2026-03-29 19:22:56 +0000] [156331] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2026-03-29 19:22:56 +0000] [156331] [ERROR] connection to ('0.0.0.0', 8000) failed: [Errno 98] Address already in use
+[2026-03-29 19:22:57 +0000] [156331] [ERROR] Can't connect to ('0.0.0.0', 8000)
+Watching for file changes with StatReloader
+/var/www/bior-invest/investments/action_hub/decision_engine.py:1: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import os, json, re, google.generativeai as genai
+Error: That port is already in use.
+[29/Mar/2026 13:23:25] "GET /api/v1/nexus-alerts/?token=BIOR_NEXUS_2024_SECRET HTTP/1.0" 200 66
+Not Found: /favicon.ico
+[29/Mar/2026 13:23:26] "GET /favicon.ico HTTP/1.0" 404 6874
+Not Found: /SDK/webLanguage
+[29/Mar/2026 13:24:22] "GET /SDK/webLanguage HTTP/1.0" 404 6876
+[29/Mar/2026 13:25:58] "GET /portafolio/ HTTP/1.0" 200 39913
+[29/Mar/2026 13:25:58] "GET /static/assets/css/style.css?v=1.5 HTTP/1.0" 304 0
+[29/Mar/2026 13:25:58] "GET /static/assets/js/modules/nexus_advisor.js HTTP/1.0" 304 0
+[29/Mar/2026 13:26:15] "POST /portafolio/ HTTP/1.0" 302 0
+[29/Mar/2026 13:26:15] "GET /portafolio/ HTTP/1.0" 200 42194
+[29/Mar/2026 13:26:26] "GET /api/v1/nexus-alerts/?token=BIOR_NEXUS_2024_SECRET HTTP/1.0" 200 381
+[29/Mar/2026 13:30:38] "GET /admin/ HTTP/1.0" 200 12933
+[29/Mar/2026 13:30:38] "GET /static/admin/css/dashboard.css HTTP/1.0" 304 0
+[29/Mar/2026 13:30:38] "GET /static/admin/img/icon-changelink.svg HTTP/1.0" 304 0
+[29/Mar/2026 13:30:38] "GET /static/admin/img/icon-deletelink.svg HTTP/1.0" 304 0
+[29/Mar/2026 13:30:40] "GET /admin/investments/investment/ HTTP/1.0" 200 37587
+[29/Mar/2026 13:30:40] "GET /static/admin/css/forms.css HTTP/1.0" 304 0
+[29/Mar/2026 13:30:40] "GET /admin/jsi18n/ HTTP/1.0" 200 9760
+[29/Mar/2026 13:30:40] "GET /static/admin/css/widgets.css HTTP/1.0" 304 0
+[29/Mar/2026 13:30:40] "GET /static/admin/img/icon-viewlink.svg HTTP/1.0" 304 0
+[29/Mar/2026 13:31:57] "GET /admin/investments/investment/?o=9 HTTP/1.0" 200 38658
+[29/Mar/2026 13:31:58] "GET /static/admin/css/forms.css HTTP/1.0" 304 0
+[29/Mar/2026 13:31:58] "GET /admin/jsi18n/ HTTP/1.0" 200 9760
+[29/Mar/2026 13:31:58] "GET /static/admin/css/widgets.css HTTP/1.0" 304 0
+[29/Mar/2026 13:31:58] "GET /static/admin/img/sorting-icons.svg HTTP/1.0" 304 0
+[29/Mar/2026 13:32:06] "GET /admin/investments/investment/?o=-9 HTTP/1.0" 200 38711
+[29/Mar/2026 13:32:07] "GET /static/admin/css/forms.css HTTP/1.0" 304 0
+[29/Mar/2026 13:32:07] "GET /admin/jsi18n/ HTTP/1.0" 200 9760
+[29/Mar/2026 13:32:07] "GET /static/admin/css/widgets.css HTTP/1.0" 304 0
+/var/www/bior-invest/investments/models.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+March 29, 2026 - 13:22:47
+Django version 5.2.12, using settings 'core.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+/var/www/bior-invest/investments/action_hub/decision_engine.py:1: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import os, json, re, google.generativeai as genai
+Watching for file changes with StatReloader
+/var/www/bior-invest/investments/action_hub/decision_engine.py:1: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import os, json, re, google.generativeai as genai
+Error: That port is already in use.
+[29/Mar/2026 13:39:16] "GET /api/v1/nexus-alerts/?token=BIOR_NEXUS_2024_SECRET HTTP/1.0" 200 273
+/var/www/bior-invest/core/settings.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 1 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): investments.
+Run 'python manage.py migrate' to apply them.
+March 29, 2026 - 13:38:10
+Django version 5.2.12, using settings 'core.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+/var/www/bior-invest/investments/action_hub/decision_engine.py:1: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import os, json, re, google.generativeai as genai
+Watching for file changes with StatReloader
+/var/www/bior-invest/investments/action_hub/decision_engine.py:1: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import os, json, re, google.generativeai as genai
+Forbidden: /api/v1/nexus-alerts/
+[29/Mar/2026 13:45:54] "GET /api/v1/nexus-alerts/?token=BIOR_NEXUS_2024_SECRET HTTP/1.0" 403 47
+Forbidden (Referer checking failed - Referer is insecure while host is secure.): /
+[29/Mar/2026 13:46:42] "PROPFIND / HTTP/1.0" 403 2550
+Watching for file changes with StatReloader
+/var/www/bior-invest/investments/action_hub/decision_engine.py:1: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import os, json, re, google.generativeai as genai
+Error: That port is already in use.
+Forbidden: /api/v1/nexus-alerts/
+[29/Mar/2026 13:48:01] "GET /api/v1/nexus-alerts/?token=BIOR_NEXUS_2024_SECRET HTTP/1.0" 403 47
+Forbidden: /api/v1/nexus-alerts/
+[29/Mar/2026 13:48:05] "GET /api/v1/nexus-alerts/?token=BIOR_NEXUS_2024_SECRET HTTP/1.0" 403 47
+/var/www/bior-invest/core/settings.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+March 29, 2026 - 13:45:45
+Django version 5.2.12, using settings 'core.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+/var/www/bior-invest/investments/action_hub/decision_engine.py:1: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import os, json, re, google.generativeai as genai
