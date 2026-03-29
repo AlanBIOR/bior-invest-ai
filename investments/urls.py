@@ -23,4 +23,6 @@ urlpatterns = [
     path('api/get-cetes-rate/', views.get_cetes_rate, name='get_cetes_rate'),
     path('api/v1/n8n-webhook/', webhooks.process_ai_request, name='n8n_webhook_bridge'),
     path('api/v1/ai-chat/', webhooks.process_ai_request, name='ai_chat_web'),
+
+    path('nexus-advisor/', views.nexus_advisor_view, name='nexus_advisor'),
 ]

@@ -27,6 +27,11 @@
 
         {% if user.is_authenticated %}
             <li>
+                <a href="{% url 'nexus_advisor' %}" class="{% if request.resolver_match.url_name == 'nexus_advisor' %}active{% endif %}">
+                    Action Hub
+                </a>
+            </li>
+            <li>
                 <a href="{% url 'portafolio' %}" class="{% if request.resolver_match.url_name == 'portafolio' %}active{% endif %}">
                     Mi Portafolio
                 </a>

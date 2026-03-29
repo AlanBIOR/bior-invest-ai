@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="action-hub-container">
+    
+    <div class="title-container" style="margin-bottom: 2rem;">
+        <h1>🤖 NEXUS Advisor: Action Hub</h1>
+        <p style="color: #64748b;">Tu centro de inteligencia patrimonial. Descubre exactamente qué hacer con tu capital hoy.</p>
+    </div>
+
+    <div align="center" style="margin: 4rem 0;">
+        <button id="btn-decision-mode" style="background-color: #2563eb; color: white; padding: 1.5rem 3rem; font-size: 1.2rem; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4); transition: transform 0.2s ease;">
+            ⚡ Generar Plan de Acción Inmediato
+        </button>
+    </div>
+
+    <div id="nexus-results-container" style="display: none; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); margin-bottom: 4rem;">
+        </div>
+
+    <div class="time-machine-section" style="margin-top: 3rem; border-top: 1px solid #30363d; padding-top: 2rem;">
+        <h3>⏳ Máquina del Tiempo (Simulador)</h3>
+        <p style="color: #64748b;">¿Qué habría pasado si implementabas esta estrategia hace un año?</p>
+        <canvas id="timeMachineChart" height="100"></canvas>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+    {% endblock %}

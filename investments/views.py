@@ -14,6 +14,7 @@ from .models import Investment, Category, Profile
 from .services import FinanceService
 from django.utils import timezone
 from .forms import RegistroForm
+from django.shortcuts import render
 
 from django.views.decorators.csrf import csrf_exempt
 from .core_ai import process_ai_request
@@ -377,3 +378,11 @@ def ai_chat_webhook(request):
             return JsonResponse({"status": "error", "message": str(e)}, status=500)
             
     return JsonResponse({"status": "error", "message": "Método no permitido"}, status=405)
+
+@login_required
+def nexus_advisor_view(request):
+    """
+    Vista principal del Action Hub (Modo Decisión y Alertas).
+    Más adelante inyectaremos el contexto de las simulaciones aquí.
+    """
+    return render(request, 'pages/nexus_advisor.html')
