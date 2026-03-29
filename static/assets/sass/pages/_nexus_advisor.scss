@@ -29,6 +29,60 @@
         }
     }
 
+    // --- NUEVO: ESTILO DEL FORMULARIO DE PARÁMETROS ---
+    .nexus-setup-form {
+        background: #1e222b;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 16px;
+        padding: 2rem;
+        margin-bottom: 2.5rem;
+        box-shadow: $shadow-md;
+        
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            
+            label { 
+                color: $text-muted; 
+                font-size: 0.9rem; 
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                i { color: $cat-renta-variable; }
+            }
+            
+            input, select {
+                background: #161b22;
+                border: 1px solid #30363d;
+                color: $white;
+                padding: 12px 15px;
+                border-radius: 10px;
+                font-family: $roboto-font;
+                font-size: 1rem;
+                transition: all 0.3s ease;
+                
+                &:focus {
+                    border-color: $cat-renta-variable;
+                    outline: none;
+                    box-shadow: 0 0 0 3px rgba($cat-renta-variable, 0.2);
+                }
+
+                option {
+                    background: #1e222b;
+                    color: $white;
+                }
+            }
+        }
+    }
+
     .decision-action-wrapper {
         display: flex;
         justify-content: center;
@@ -66,6 +120,7 @@
             box-shadow: none;
             cursor: not-allowed;
             transform: none;
+            opacity: 0.6;
         }
     }
 
@@ -84,14 +139,14 @@
 
     // Estilo de las Tarjetas
     .nexus-card {
-        background: #1e222b; // Tono oscuro profundo
+        background: #1e222b; 
         border: 1px solid rgba(255, 255, 255, 0.05);
         border-radius: 16px;
         padding: 24px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         position: relative;
         display: flex;
-        flex-direction: column; // Vital para que el botón/badge quede siempre abajo
+        flex-direction: column; 
         transition: transform 0.3s ease, box-shadow 0.3s ease;
 
         &:hover {
@@ -155,7 +210,7 @@
         }
 
         .nexus-badge-wrapper {
-            margin-top: auto; // Empuja el badge hacia el fondo de la tarjeta
+            margin-top: auto; 
         }
 
         .nexus-badge {
@@ -168,7 +223,7 @@
             letter-spacing: 0.5px;
         }
 
-        // Variantes de Color (Borde superior y acentos)
+        // Variantes de Color
         &.risk-high {
             border-top: 4px solid $error-red;
             .nexus-icon-wrapper { background: rgba($error-red, 0.15); color: $error-red; }

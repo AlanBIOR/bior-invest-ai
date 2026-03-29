@@ -12,7 +12,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 # Modelos, Formularios y Servicios
-from .models import Investment, Category, Profile
+from .models import Investment, Category, Profile, NexusPlan
 from .services import FinanceService
 from .forms import RegistroForm
 
@@ -382,26 +382,49 @@ def ai_chat_webhook(request):
 @login_required
 def nexus_advisor_view(request):
     """
-    Vista principal del Action Hub (Modo Decisión y Alertas).
-    Más adelante inyectaremos el contexto de las simulaciones aquí.
+    Vista principal. Ahora busca el último plan en la DB para que 
+    la página no cargue vacía al refrescar.
     """
-    return render(request, 'pages/nexus_advisor.html')
+    # Buscamos el análisis más reciente del usuario
+    ultimo_plan = NexusPlan.objects.filter(user=request.user).order_by('-created_at').first()
+    
+    context = {
+        'last_plan': ultimo_plan.plan_json if ultimo_plan else None
+    }
+    return render(request, 'pages/nexus_advisor.html', context)
 
 @login_required
 @require_POST
 def api_modo_decision(request):
     """
-    Endpoint (API) que el frontend consume mediante Fetch para obtener las tarjetas de decisión.
+    Endpoint que recibe el capital y aportación del usuario y 
+    se los entrega al Agente Senior de 100 años.
     """
     try:
-        plan_accion = generar_plan_decision_nexus(request.user)
+        # 1. Extraer datos del JSON enviado por el JavaScript
+        data = json.loads(request.body)
+        
+        capital_extra = data.get('capital_extra', 0)
+        aportacion = data.get('aportacion', 0)
+        preferencia = data.get('preferencia', 'Equilibrado')
+
+        # 2. Llamar al motor con todos los parámetros
+        plan_accion = generar_plan_decision_nexus(
+            user=request.user,
+            capital_extra_input=capital_extra,
+            aportacion_mensual_input=aportacion,
+            preferencia_input=preferencia
+        )
         
         return JsonResponse({
             "status": "success",
             "data": plan_accion
         })
+
+    except json.JSONDecodeError:
+        return JsonResponse({"status": "error", "message": "Formato JSON inválido"}, status=400)
     except Exception as e:
         return JsonResponse({
-            "status": "error",
-            "message": str(e)
+            "status": "error", 
+            "message": f"Falla en el motor NEXUS: {str(e)}"
         }, status=500)

@@ -102,3 +102,19 @@ def manage_user_profile(sender, instance, created, **kwargs):
         Profile.objects.get_or_create(user=instance)
         if hasattr(instance, 'profile'):
             instance.profile.save()
+
+class NexusPlan(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='nexus_plans')
+    
+    # Estos sí llevan max_digits porque son números decimales
+    capital_extra = models.DecimalField(max_digits=15, decimal_places=2, default=0)
+    aportacion_mensual = models.DecimalField(max_digits=15, decimal_places=2, default=0)
+    
+    # 🔥 ESTA ES LA CORRECCIÓN: Cambia max_digits por max_length
+    preferencia_activo = models.CharField(max_length=100) 
+    
+    plan_json = models.JSONField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Plan {self.user.username} - {self.created_at.strftime('%d/%m/%Y')}"
