@@ -154,4 +154,4 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 # Seguramente ya tienes algo parecido para tu chatbot, solo asegúrate de que se llame así:
-GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY', 'pega_aqui_tu_api_key_directamente_si_no_usas_env')
+GEMINI_API_KEY = config('GEMINI_API_KEY', default='tu_api_key_aqui')
