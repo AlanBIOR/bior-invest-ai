@@ -1,15 +1,10 @@
 from django.http import JsonResponse
 from .models import Category, Investment
+from django.contrib.auth.models import User
 from django.db.models import Sum
 from decimal import Decimal
 
 def check_alerts_api(request):
-    """
-    Endpoint seguro que n8n consultará para disparar alertas proactivas.
-    URL: /investments/api/v1/nexus-alerts/
-    """
-    
-    # --- SEGURIDAD BÁSICA ---
     token_recibido = request.GET.get('token')
     token_seguridad = "BIOR_NEXUS_2024_SECRET" 
     
@@ -19,34 +14,40 @@ def check_alerts_api(request):
     alertas = []
     
     try:
-        # 1. CÁLCULO DE PATRIMONIO TOTAL (Usando tu variable current_value)
-        total_patrimonio = Investment.objects.aggregate(total=Sum('current_value'))['total'] or Decimal('0.00')
-        
-        # 2. BUSCAR CATEGORÍA DE EFECTIVO
         efectivo_cat = Category.objects.filter(slug='efectivo').first()
-        
-        if efectivo_cat and total_patrimonio > 0:
-            # Sumamos solo lo que esté en la categoría efectivo
-            monto_efectivo = Investment.objects.filter(category=efectivo_cat).aggregate(total=Sum('current_value'))['total'] or Decimal('0.00')
-            porcentaje_efectivo = (monto_efectivo / total_patrimonio) * 100
+        usuarios = User.objects.filter(is_active=True)
+
+        for usuario in usuarios:
+            user_investments = Investment.objects.filter(user=usuario)
             
-            # Umbral del 15%
-            if porcentaje_efectivo > 15:
-                alertas.append({
-                    "canal": "todos", 
-                    "prioridad": "Alta",
-                    "titulo": "🚨 Alerta de Liquidez: Capital Ocioso",
-                    "mensaje": f"Alan, detectamos que tu efectivo representa el {porcentaje_efectivo:.1f}% de tu cartera. NEXUS sugiere rebalancear para optimizar rendimientos.",
-                    "url": "https://invest-ai.bior-studio.com/nexus-advisor/",
-                    "color": "#1a2a6c"
-                })
+            # --- 1. ALERTA DE CAPITAL OCIOSO ---
+            total_patrimonio = user_investments.aggregate(total=Sum('current_value'))['total'] or Decimal('0.00')
+            if efectivo_cat and total_patrimonio > 0:
+                monto_efectivo = user_investments.filter(category=efectivo_cat).aggregate(total=Sum('current_value'))['total'] or Decimal('0.00')
+                porcentaje_efectivo = (monto_efectivo / total_patrimonio) * 100
+                
+                if porcentaje_efectivo > 15:
+                    alertas.append({
+                        "usuario": usuario.username,
+                        "email": usuario.email,
+                        "titulo": "🚨 Capital Ocioso",
+                        "mensaje": f"Alan, tienes el {porcentaje_efectivo:.1f}% en efectivo. ¡Ponlo a trabajar!",
+                        "url": "https://invest-ai.bior-studio.com/portafolio/"
+                    })
+
+            # --- 2. ALERTA DE RENDIMIENTO (Detección de Subidas) ---
+            for inv in user_investments:
+                rendimiento = inv.rendimiento_porcentaje # Usamos tu @property del modelo
+                if rendimiento >= 5: # Si subió más del 5%
+                    alertas.append({
+                        "usuario": usuario.username,
+                        "email": usuario.email,
+                        "titulo": f"📈 Profit en {inv.asset_name}",
+                        "mensaje": f"¡Buenas noticias! Tu inversión en {inv.asset_name} ha subido un {rendimiento:.2f}%.",
+                        "url": "https://invest-ai.bior-studio.com/portafolio/"
+                    })
 
     except Exception as e:
         return JsonResponse({"status": "error", "message": str(e)}, status=500)
 
-    return JsonResponse({
-        "status": "success",
-        "has_alerts": len(alertas) > 0,
-        "count": len(alertas),
-        "data": alertas
-    })
+    return JsonResponse({"status": "success", "has_alerts": len(alertas) > 0, "data": alertas})
