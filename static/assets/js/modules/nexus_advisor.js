@@ -32,9 +32,7 @@ export function initNexusAdvisor() {
     if (cachedPlan) {
         renderNexusCards(JSON.parse(cachedPlan), resultsContainer);
     }
-    // Si hay gráfica guardada, la pintamos al iniciar
     if (cachedGraph) {
-        // Un pequeño delay para asegurar que Chart.js esté listo
         setTimeout(() => renderTimeMachine(JSON.parse(cachedGraph)), 100);
     }
 
@@ -60,10 +58,16 @@ export function initNexusAdvisor() {
                 body: JSON.stringify(params)
             });
 
+            // --- VALIDACIÓN DE RESPUESTA (Evita el error del token '<') ---
+            const contentType = response.headers.get("content-type");
+            
+            if (!response.ok || !contentType || !contentType.includes("application/json")) {
+                throw new Error('El servidor tardó demasiado o respondió con un formato inválido (504/HTML).');
+            }
+
             const result = await response.json();
 
             if (result.status === 'success') {
-                // GUARDAMOS TODO EN LOCALSTORAGE
                 localStorage.setItem('nexus_last_plan', JSON.stringify(result.data));
                 localStorage.setItem('nexus_last_graph', JSON.stringify(result.time_machine));
                 
@@ -73,9 +77,23 @@ export function initNexusAdvisor() {
                     renderTimeMachine(result.time_machine);
                 }
                 resultsContainer.style.opacity = '1';
+            } else {
+                throw new Error(result.message || 'Error desconocido en el motor.');
             }
+
         } catch (error) {
             console.error('Error:', error);
+            // Mostramos el error visualmente al usuario
+            resultsContainer.innerHTML = `
+                <div class="nexus-card risk-high">
+                    <div class="nexus-card-header"><i class="fas fa-plug"></i><h3 class="nexus-card-title">Error de Conexión</h3></div>
+                    <div class="nexus-card-body">
+                        NEXUS no pudo responder a tiempo. Esto suele pasar cuando el análisis de rebalanceo es muy complejo o el servidor está saturado. 
+                        <br><br><strong>Detalle:</strong> ${error.message}
+                    </div>
+                </div>
+            `;
+            resultsContainer.style.opacity = '1';
         } finally {
             btnDecision.innerHTML = originalText;
             btnDecision.disabled = false;
@@ -83,7 +101,7 @@ export function initNexusAdvisor() {
     });
 }
 
-// --- FUNCIONES DE RENDERIZADO (Sin cambios en variables) ---
+// --- FUNCIONES DE RENDERIZADO (Mantenidas íntegras) ---
 
 function renderNexusCards(data, container) {
     const nivelRiesgo = (data.nivel_riesgo || "").toLowerCase();

@@ -93,16 +93,15 @@ def generar_plan_decision_nexus(user, capital_extra_input=0, aportacion_mensual_
 
         # Jerarquía para asegurar que siempre haya una respuesta rápida
         MODELOS = [
-            'models/gemini-2.5-pro',
-            'models/gemini-2.5-flash',
-            'models/gemini-2.0-flash',
-            'models/gemini-2.0-flash-lite',
-            'models/gemini-1.5-pro',
-            'models/gemini-1.5-flash',
-            'models/gemini-flash-latest',
-            'models/gemini-pro-latest',
-            'models/gemini-2.0-flash-001',
-            'models/gemini-1.5-flash-8b'
+            'gemini-2.0-flash',          # La mejor opción actual: rápido y preciso
+            'gemini-2.0-flash-lite',     # El más ligero, ideal para evitar Time-outs
+            'gemini-1.5-flash',          # Respaldo ultra-confiable
+            'gemini-1.5-flash-8b',       # Pequeño pero matón para tareas de JSON
+            'gemini-2.0-flash-001',      # Versión específica estable
+            'gemini-flash-latest',       # Alias para la última versión flash
+            # Los 'Pro' se quedan al final como último recurso
+            'gemini-1.5-pro',            
+            'gemini-pro-latest'
         ]
 
         resultado_ia = None
