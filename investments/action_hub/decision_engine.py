@@ -8,16 +8,16 @@ from ..models import Profile, Investment, NexusPlan
 
 def generar_plan_decision_nexus(user, capital_extra_input=0, aportacion_mensual_input=0, preferencia_input="Equilibrado"):
     """
-    NEXUS v2.1: Estratega Senior Optimizado.
-    Enfoque en respuestas breves, alto valor estratégico y visualización limpia para móvil.
+    NEXUS v2.2: Consultor Patrimonial Senior.
+    Optimizado para móvil: Diagnósticos con 'por qué', Agenda Mensual y Hacks Fiscales claros.
     """
     try:
-        # --- 1. NORMALIZACIÓN ---
+        # --- 1. NORMALIZACIÓN DE DATOS ---
         cap_extra = float(capital_extra_input or 0)
         aportacion = float(aportacion_mensual_input or 0)
         preferencia = preferencia_input
 
-        # --- 2. CACHÉ INTELIGENTE ---
+        # --- 2. CACHÉ DE BASE DE DATOS ---
         ultimo_plan = NexusPlan.objects.filter(
             user=user, 
             capital_extra=cap_extra, 
@@ -28,7 +28,7 @@ def generar_plan_decision_nexus(user, capital_extra_input=0, aportacion_mensual_
         if ultimo_plan:
             return ultimo_plan.plan_json
 
-        # --- 3. CONTEXTO PATRIMONIAL ---
+        # --- 3. CONTEXTO PATRIMONIAL REAL (ADN BIOR) ---
         profile = Profile.objects.filter(user=user).first()
         efectivo_dash = float(profile.capital) if profile and profile.capital else 0.0
         
@@ -41,34 +41,36 @@ def generar_plan_decision_nexus(user, capital_extra_input=0, aportacion_mensual_
             for a in activos
         ])
 
-        # --- 4. PROMPT ULTRA-OPTIMIZADO (MOBILE FIRST) ---
+        # --- 4. PROMPT ESTRATÉGICO (DIAGNÓSTICO + AGENDA + BENEFICIO FISCAL) ---
         prompt_sistema = f"""
-        Eres NEXUS, estratega financiero con 100 años de experiencia. Tu misión es guiar a {user.username}.
-        REGLA CRÍTICA: Sé breve, directo y evita el uso excesivo de asteriscos (**) o negritas. Queremos un texto limpio.
+        Eres NEXUS, estratega patrimonial con 1 siglo de experiencia. Guía a {user.username}.
+        REGLA DE ORO: No uses asteriscos (**), ni negritas, ni lenguaje técnico complejo. Sé directo.
 
-        DATOS HOY:
+        CONTEXTO:
         - Capital Total: ${cap_total:,.0f} MXN.
-        - Inyección hoy: ${cap_extra:,.0f} MXN.
-        - Ahorro mensual: ${aportacion:,.0f} MXN.
+        - Inyección HOY: ${cap_extra:,.0f} MXN.
+        - Aporte Mensual: ${aportacion:,.0f} MXN.
         - Interés: {preferencia}.
-        - Cartera: {txt_activos if txt_activos else "Iniciando desde cero."}
+        - Cartera: {txt_activos if txt_activos else "Cuenta nueva."}
 
         TAREA:
-        Basado en 'Long Angle', da una instrucción quirúrgica. 
-        - Si el capital es bajo (<$50k), recomienda FIBRAS o ETFs.
-        - Menciona el tope de 5 UMAs en SOFIPOS si aplica.
-        - Menciona PPR (Art 151) si hay flujo mensual.
+        1. Diagnóstico: Qué está mal y por qué (conciso).
+        2. Misión de Hoy: Instrucción para los ${cap_extra} disponibles ahora.
+        3. Agenda Mensual: Una lista de tareas (tasks) paso a paso para la aportación de ${aportacion}.
+        4. Hack Fiscal: Un consejo de impuestos en México explicando para qué sirve y qué ganas tú.
 
-        RESPUESTA ÚNICAMENTE JSON:
+        RESPUESTA JSON ÚNICAMENTE:
         {{
-            "riesgo_detectado": "Análisis de 1 oración.",
+            "riesgo_detectado": "Explica qué falta o sobra y qué peligro representa en 2 oraciones.",
             "nivel_riesgo": "Bajo/Medio/Alto/Crítico",
-            "accion_inmediata": "Instrucción corta (Activo + Plataforma).",
+            "accion_inmediata": "Instrucción corta para el capital de hoy.",
+            "agenda_mensual": "Lista de tareas para tu ahorro mensual (ej: 1. Comprar X... 2. Revisar Y...).",
             "porcentaje_objetivo": "Meta %.",
-            "justificacion": "Explicación lógica sin rellenos (máximo 3 párrafos cortos).",
-            "hack_fiscal": "Tip de impuestos México en 1 oración."
+            "justificacion": "Razonamiento estratégico breve (máximo 2 párrafos cortos).",
+            "hack_fiscal": "Consejo claro: Qué hacer + Qué beneficio obtienes tú (dinero de vuelta, menos cobro de ISR, etc)."
         }}
         """
+
         # --- 5. EJECUCIÓN EN CASCADA Y LIMPIEZA QUIRÚRGICA ---
         api_key = os.environ.get('GEMINI_API_KEY')
         if not api_key:
@@ -99,31 +101,31 @@ def generar_plan_decision_nexus(user, capital_extra_input=0, aportacion_mensual_
                 respuesta = model.generate_content(prompt_sistema)
                 texto_sucio = respuesta.text.strip()
 
-                # --- 6. EXTRACCIÓN PURA DE JSON (Regex) ---
-                # Buscamos el primer { y el último } para ignorar basura como ```json o textos extra
+                # --- 6. LIMPIEZA QUIRÚRGICA (Regex + Limpiador de Asteriscos) ---
+                # Extraemos el bloque JSON
                 match = re.search(r'\{.*\}', texto_sucio, re.DOTALL)
                 
                 if match:
                     texto_limpio = match.group(0)
-                    # Eliminamos escapes de asteriscos si el modelo intentó poner negritas dentro del JSON
-                    texto_limpio = texto_limpio.replace('**', '') 
+                    # Limpieza total de negritas sucias (**) que ensucian el texto en móvil
+                    texto_limpio = texto_clean = texto_limpio.replace('**', '').replace('*', '')
                 else:
                     texto_limpio = texto_sucio.replace("```json", "").replace("```", "").strip()
 
-                # Intentamos parsear para validar
+                # Parseo y validación
                 resultado_ia = json.loads(texto_limpio)
-                break # Éxito: Salimos del bucle de modelos
+                break 
 
             except (exceptions.ResourceExhausted, exceptions.ServiceUnavailable):
-                continue # Salto automático al siguiente modelo por falta de tokens
+                continue # Salto por cuota agotada
             except Exception as e:
                 ultimo_error = str(e)
                 continue
 
         if not resultado_ia:
-            raise ValueError(f"Falla total del motor. Error: {ultimo_error}")
+            raise ValueError(f"Falla total del motor: {ultimo_error}")
 
-        # --- 7. PERSISTENCIA Y RETORNO ---
+        # --- 7. PERSISTENCIA EN BASE DE DATOS ---
         NexusPlan.objects.create(
             user=user,
             capital_extra=cap_extra,
@@ -135,15 +137,14 @@ def generar_plan_decision_nexus(user, capital_extra_input=0, aportacion_mensual_
         return resultado_ia
 
     except Exception as e:
-        # Log técnico silencioso para el servidor
-        print(f"DEBUG NEXUS: {str(e)}")
-        
-        # Fallback elegante con el estilo de NEXUS
+        print(f"DEBUG NEXUS ERROR: {str(e)}")
+        # Fallback con el nuevo formato de v2.2
         return {
-            "riesgo_detectado": "Anomalía temporal en el procesamiento.",
+            "riesgo_detectado": "El sistema de análisis detectó una interrupción en los flujos de datos.",
             "nivel_riesgo": "Medio",
-            "accion_inmediata": "Reintente en 30 segundos.",
+            "accion_inmediata": "Refresca la página y reintenta.",
+            "agenda_mensual": "1. Mantener liquidez actual. 2. Reintentar consulta en 1 minuto.",
             "porcentaje_objetivo": "N/A",
-            "justificacion": "El motor está recalibrando la conexión con los mercados mundiales.",
-            "hack_fiscal": "Mantenga su RFC actualizado."
+            "justificacion": "Error técnico: El motor está reconectando con el núcleo financiero.",
+            "hack_fiscal": "Asegúrate de que tu información de perfil esté completa para mejorar el diagnóstico."
         }
