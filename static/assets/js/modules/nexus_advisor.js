@@ -29,40 +29,48 @@ export function initNexusAdvisor() {
             if (result.status === 'success') {
                 const data = result.data;
                 
-                // 3. Lógica de Clases CSS para el Riesgo
                 const nivelRiesgo = data.nivel_riesgo.toLowerCase();
                 let riskClass = 'risk-low';
                 if (nivelRiesgo.includes('alto')) riskClass = 'risk-high';
                 else if (nivelRiesgo.includes('medio')) riskClass = 'risk-medium';
 
-                // 4. Renderizado Limpio de Tarjetas Dinámicas
+                // Renderizado con la nueva estructura Flexbox
                 const htmlTarjetas = `
                     <div class="nexus-card ${riskClass}">
                         <div class="nexus-card-header">
                             <span class="nexus-icon-wrapper"><i class="fas fa-exclamation-triangle"></i></span>
                             <h3 class="nexus-card-title">Diagnóstico de Riesgo</h3>
                         </div>
-                        <p class="nexus-card-text">${data.riesgo_detectado}</p>
-                        <span class="nexus-badge">Nivel: ${data.nivel_riesgo}</span>
+                        <div class="nexus-card-body">
+                            <p class="nexus-card-text">${data.riesgo_detectado}</p>
+                        </div>
+                        <div class="nexus-badge-wrapper">
+                            <span class="nexus-badge">Nivel: ${data.nivel_riesgo}</span>
+                        </div>
                     </div>
 
                     <div class="nexus-card card-mission">
-                        <div class="mission-border"></div>
                         <div class="nexus-card-header">
-                            <span class="nexus-icon-wrapper"><i class="fas fa-bolt"></i></span>
+                            <span class="nexus-icon-wrapper"><i class="fas fa-bullseye"></i></span>
                             <h3 class="nexus-card-title">Tu Misión de Hoy</h3>
                         </div>
-                        <p class="nexus-card-text mission-action">${data.accion_inmediata}</p>
-                        <p class="nexus-card-text mission-quote"><em>" ${data.justificacion} "</em></p>
-                        <span class="nexus-badge">Objetivo Mínimo: ${data.porcentaje_objetivo}</span>
+                        <div class="nexus-card-body">
+                            <p class="nexus-card-text mission-action">${data.accion_inmediata}</p>
+                            <p class="nexus-card-text mission-quote">" ${data.justificacion} "</p>
+                        </div>
+                        <div class="nexus-badge-wrapper">
+                            <span class="nexus-badge">Objetivo: ${data.porcentaje_objetivo}</span>
+                        </div>
                     </div>
 
                     <div class="nexus-card card-fiscal">
                         <div class="nexus-card-header">
-                            <span class="nexus-icon-wrapper"><i class="fas fa-file-invoice-dollar"></i></span>
+                            <span class="nexus-icon-wrapper"><i class="fas fa-landmark"></i></span>
                             <h3 class="nexus-card-title">Hack Fiscal México</h3>
                         </div>
-                        <p class="nexus-card-text">${data.hack_fiscal}</p>
+                        <div class="nexus-card-body">
+                            <p class="nexus-card-text">${data.hack_fiscal}</p>
+                        </div>
                     </div>
                 `;
 
