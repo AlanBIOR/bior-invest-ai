@@ -83,7 +83,6 @@ export function initNexusAdvisor() {
 
         } catch (error) {
             console.error('Error:', error);
-            // Mostramos el error visualmente al usuario
             resultsContainer.innerHTML = `
                 <div class="nexus-card risk-high">
                     <div class="nexus-card-header"><i class="fas fa-plug"></i><h3 class="nexus-card-title">Error de Conexión</h3></div>
@@ -101,13 +100,27 @@ export function initNexusAdvisor() {
     });
 }
 
-// --- FUNCIONES DE RENDERIZADO (Mantenidas íntegras) ---
+// --- FUNCIONES DE RENDERIZADO CON SEMÁFORO DE RIESGO ---
 
 function renderNexusCards(data, container) {
-    const nivelRiesgo = (data.nivel_riesgo || "").toLowerCase();
-    let riskClass = 'risk-low';
-    if (nivelRiesgo.includes('alto') || nivelRiesgo.includes('crítico')) riskClass = 'risk-high';
-    else if (nivelRiesgo.includes('medio')) riskClass = 'risk-medium';
+    // 1. Mapeo dinámico del nivel de riesgo a las clases SCSS
+    const nivel = (data.nivel_riesgo || "").toLowerCase();
+    let riskClass = 'risk-low'; 
+    let icon = 'fa-check-circle'; // Icono por defecto (Verde)
+
+    if (nivel.includes('crítico')) {
+        riskClass = 'risk-critical';
+        icon = 'fa-exclamation-triangle';
+    } else if (nivel.includes('alto')) {
+        riskClass = 'risk-high';
+        icon = 'fa-exclamation-triangle';
+    } else if (nivel.includes('medio')) {
+        riskClass = 'risk-medium';
+        icon = 'fa-info-circle';
+    } else if (nivel.includes('bajo')) {
+        riskClass = 'risk-low';
+        icon = 'fa-check-circle';
+    }
 
     let agendaHtml = '';
     if (data.hoja_ruta_mensual) {
@@ -120,7 +133,10 @@ function renderNexusCards(data, container) {
 
     container.innerHTML = `
         <div class="nexus-card ${riskClass}">
-            <div class="nexus-card-header"><i class="fas fa-exclamation-triangle"></i><h3 class="nexus-card-title">Diagnóstico de Riesgo</h3></div>
+            <div class="nexus-card-header">
+                <i class="fas ${icon}"></i>
+                <h3 class="nexus-card-title">Diagnóstico de Riesgo</h3>
+            </div>
             <div class="nexus-card-body">${marked.parse(data.riesgo_detectado)}</div>
         </div>
         <div class="nexus-card card-mission">
@@ -132,7 +148,7 @@ function renderNexusCards(data, container) {
             </div>
         </div>
         <div class="nexus-card card-fiscal">
-            <div class="nexus-card-header"><i class="fas fa-landmark"></i><h3 class="nexus-card-title">Hack Fiscal México</h3></div>
+            <div class="nexus-card-header"><i class="fas fa-landmark"></i><h3 class="nexus-card-title">Estrategia de Optimización Fiscal</h3></div>
             <div class="nexus-card-body">${marked.parse(data.hack_fiscal)}</div>
         </div>
     `;
@@ -151,7 +167,7 @@ function renderTimeMachine(datos) {
         data: {
             labels: datos.map(d => d.mes),
             datasets: [{
-                label: 'Crecimiento Simulado',
+                label: 'Patrimonio Estimado',
                 data: datos.map(d => d.valor),
                 borderColor: '#1a2a6c',
                 backgroundColor: 'rgba(26, 42, 108, 0.1)',
@@ -162,7 +178,13 @@ function renderTimeMachine(datos) {
         options: {
             responsive: true,
             plugins: { legend: { display: false } },
-            scales: { y: { ticks: { callback: (v) => '$' + v.toLocaleString() } } }
+            scales: { 
+                y: { 
+                    ticks: { 
+                        callback: (v) => '$' + v.toLocaleString() 
+                    } 
+                } 
+            }
         }
     });
 }

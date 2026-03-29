@@ -5,7 +5,7 @@
 .action-hub-container {
     max-width: 900px;
     margin: 0 auto;
-    padding: 2rem 1rem; // Padding reducido para móviles
+    padding: 2rem 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -65,7 +65,7 @@
         
         .input-grid {
             display: grid;
-            grid-template-columns: 1fr; // 1 columna en móvil
+            grid-template-columns: 1fr;
             gap: 1.5rem;
 
             @include tablet {
@@ -107,7 +107,7 @@
                 font-family: $roboto-font;
                 font-size: 1rem;
                 transition: all 0.3s ease;
-                text-align: center; // Mejor lectura en móvil
+                text-align: center;
 
                 @include tablet {
                     padding: 14px 18px;
@@ -124,7 +124,6 @@
             }
         }
 
-        // --- SISTEMA DE CHIPS (Optimizado para Touch/Móvil) ---
         .nexus-multi-select {
             @include flex-center;
             flex-wrap: wrap;
@@ -146,7 +145,7 @@
                 font-weight: 600;
                 transition: all 0.2s ease;
                 display: flex;
-                flex: 1 1 calc(50% - 8px); // Dos columnas en móvil
+                flex: 1 1 calc(50% - 8px);
                 justify-content: center;
                 align-items: center;
                 gap: 8px;
@@ -200,7 +199,7 @@
         font-weight: 700;
         box-shadow: $shadow-md;
         transition: all 0.3s ease;
-        width: 100%; // Ancho completo en móvil
+        width: 100%;
 
         @include tablet {
             width: auto;
@@ -213,9 +212,15 @@
             box-shadow: $shadow-lg;
             filter: brightness(1.1);
         }
+        
+        &:disabled {
+            filter: grayscale(0.5);
+            cursor: not-allowed;
+            transform: none;
+        }
     }
 
-    // --- RESULTADOS ---
+    // --- RESULTADOS Y SEMÁFORO DE RIESGO ---
     .nexus-results-grid {
         width: 100%;
         display: none;
@@ -236,16 +241,21 @@
         padding: 1.5rem;
         box-shadow: $shadow-sm;
         border-left: 6px solid $border-color;
+        transition: all 0.3s ease;
 
         @include tablet {
             padding: 2.5rem;
             border-left-width: 8px;
         }
 
-        strong, b { color: $text-color; font-weight: 800; }
+        strong, b { color: $primary-color; font-weight: 800; }
 
-        &.risk-high { border-left-color: $error-red; }
-        &.risk-medium { border-left-color: $accent-color; }
+        // --- DINÁMICA DE COLORES (SEMÁFORO) ---
+        &.risk-critical { border-left-color: #d32f2f; i { color: #d32f2f; } }
+        &.risk-high     { border-left-color: #f57c00; i { color: #f57c00; } }
+        &.risk-medium   { border-left-color: #fbc02d; i { color: #fbc02d; } }
+        &.risk-low      { border-left-color: #388e3c; i { color: #388e3c; } }
+        
         &.card-mission { border-left-color: $cat-renta-variable; }
         &.card-fiscal { border-left-color: $cat-private-equity; }
 
@@ -282,6 +292,12 @@
                 line-height: 1.8;
             }
 
+            // Estilos para Markdown (IA Response)
+            h3 { font-size: 1.2rem; margin-bottom: 1rem; color: $primary-color; }
+            p { margin-bottom: 1rem; }
+            ul, ol { padding-left: 1.2rem; margin-bottom: 1rem; }
+            li { margin-bottom: 0.5rem; }
+
             p.mission-action {
                 background: $bg-color;
                 padding: 15px;
@@ -289,7 +305,7 @@
                 font-weight: 700;
                 color: $primary-color;
                 border: 1px dashed $primary-color;
-                margin-bottom: 1rem;
+                margin-bottom: 1.5rem;
 
                 @include tablet {
                     padding: 20px;
@@ -311,14 +327,14 @@
         padding: 12px;
         border-radius: 10px;
         display: flex;
-        flex-direction: column; // Stack vertical en móvil
+        flex-direction: column;
         align-items: flex-start;
         gap: 8px;
         border: 1px solid transparent;
         transition: all 0.2s;
 
         @include tablet {
-            flex-direction: row; // Horizontal en tablet/PC
+            flex-direction: row;
             align-items: center;
             gap: 15px;
             padding: 15px;
@@ -388,4 +404,7 @@
     }
 }
 
-@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { 
+    from { opacity: 0; transform: translateY(20px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
