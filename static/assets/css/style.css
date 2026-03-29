@@ -3672,13 +3672,112 @@ body.is-masked .maskable {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
 }
 .action-hub-container .nexus-header .text-muted {
   font-size: 1.1rem;
-  max-width: 600px;
+  max-width: 650px;
   margin: 0 auto;
   color: #64748b;
+  line-height: 1.6;
+}
+.action-hub-container .nexus-setup-form {
+  background: #1e222b;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 2.5rem;
+  margin-bottom: 3rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+.action-hub-container .nexus-setup-form .input-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+.action-hub-container .nexus-setup-form .input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.action-hub-container .nexus-setup-form .input-group.full-width {
+  grid-column: 1/-1;
+}
+.action-hub-container .nexus-setup-form .input-group label {
+  color: #64748b;
+  font-size: 0.9rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.action-hub-container .nexus-setup-form .input-group label i {
+  color: #2563eb;
+}
+.action-hub-container .nexus-setup-form .input-group label .label-hint {
+  font-size: 0.75rem;
+  font-weight: 400;
+  opacity: 0.6;
+  text-transform: none;
+}
+.action-hub-container .nexus-setup-form .input-group input {
+  background: #161b22;
+  border: 1px solid #30363d;
+  color: #ffffff;
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.action-hub-container .nexus-setup-form .input-group input:focus {
+  border-color: #2563eb;
+  background: #1c2128;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+  transform: translateY(-2px);
+}
+.action-hub-container .nexus-setup-form .nexus-multi-select {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 5px;
+}
+.action-hub-container .nexus-setup-form .nexus-multi-select .select-chip {
+  background: #161b22;
+  border: 1px solid #30363d;
+  color: #8b949e;
+  padding: 12px 22px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+.action-hub-container .nexus-setup-form .nexus-multi-select .select-chip i {
+  font-size: 0.9rem;
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+.action-hub-container .nexus-setup-form .nexus-multi-select .select-chip:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+.action-hub-container .nexus-setup-form .nexus-multi-select .select-chip.active {
+  background: linear-gradient(135deg, #2563eb, rgb(18.5714285714, 76.1428571429, 202.4285714286));
+  border-color: transparent;
+  color: #ffffff;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+}
+.action-hub-container .nexus-setup-form .nexus-multi-select .select-chip.active i {
+  opacity: 1;
 }
 .action-hub-container .decision-action-wrapper {
   display: flex;
@@ -3688,22 +3787,22 @@ body.is-masked .maskable {
 .action-hub-container .btn-nexus-primary {
   background: linear-gradient(135deg, #2563eb, rgb(17.7142857143, 72.6285714286, 193.0857142857));
   color: #ffffff;
-  padding: 1.2rem 2.5rem;
-  font-size: 1.15rem;
-  border-radius: 50px;
+  padding: 1.4rem 3rem;
+  font-size: 1.2rem;
+  border-radius: 60px;
   border: none;
   cursor: pointer;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.5px;
-  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
-  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 .action-hub-container .btn-nexus-primary:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 12px 25px rgba(37, 99, 235, 0.4);
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 15px 35px rgba(37, 99, 235, 0.5);
 }
 .action-hub-container .btn-nexus-primary:active {
   transform: translateY(1px);
@@ -3713,6 +3812,7 @@ body.is-masked .maskable {
   box-shadow: none;
   cursor: not-allowed;
   transform: none;
+  opacity: 0.6;
 }
 .action-hub-container .nexus-results-grid {
   display: none;
@@ -3722,88 +3822,89 @@ body.is-masked .maskable {
 }
 .action-hub-container .nexus-results-grid.is-visible {
   display: grid;
-  animation: fadeIn 0.6s ease-out forwards;
+  animation: fadeIn 0.8s ease-out forwards;
 }
 .action-hub-container .nexus-card {
   background: #1e222b;
   border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border-radius: 18px;
+  padding: 26px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
   position: relative;
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .action-hub-container .nexus-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2);
 }
 .action-hub-container .nexus-card .nexus-card-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 14px;
+  margin-bottom: 22px;
 }
 .action-hub-container .nexus-card .nexus-icon-wrapper {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
 }
 .action-hub-container .nexus-card .nexus-card-title {
   margin: 0;
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   color: #f0f6fc;
-  font-weight: 600;
+  font-weight: 700;
 }
 .action-hub-container .nexus-card .nexus-card-body {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 14px;
+  margin-bottom: 22px;
 }
 .action-hub-container .nexus-card .nexus-card-text {
   color: #8b949e;
-  font-size: 0.95rem;
-  line-height: 1.6;
+  font-size: 0.98rem;
+  line-height: 1.7;
   margin: 0;
 }
 .action-hub-container .nexus-card .nexus-card-text.mission-action {
   color: #ffffff;
   font-size: 1.1rem;
   font-weight: 600;
-  background: rgba(255, 255, 255, 0.03);
-  padding: 16px;
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 18px;
+  border-radius: 12px;
   border-left: 4px solid transparent;
 }
 .action-hub-container .nexus-card .nexus-card-text.mission-quote {
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   font-style: italic;
-  color: rgba(139, 148, 158, 0.7);
+  color: rgba(139, 148, 158, 0.8);
+  padding: 0 5px;
 }
 .action-hub-container .nexus-card .nexus-badge-wrapper {
   margin-top: auto;
 }
 .action-hub-container .nexus-card .nexus-badge {
   display: inline-block;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 25px;
+  font-size: 0.78rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
 }
 .action-hub-container .nexus-card.risk-high {
-  border-top: 4px solid #ef4444;
+  border-top: 5px solid #ef4444;
 }
 .action-hub-container .nexus-card.risk-high .nexus-icon-wrapper {
-  background: rgba(239, 68, 68, 0.15);
+  background: rgba(239, 68, 68, 0.18);
   color: #ef4444;
 }
 .action-hub-container .nexus-card.risk-high .nexus-badge {
@@ -3812,10 +3913,10 @@ body.is-masked .maskable {
   border: 1px solid rgba(239, 68, 68, 0.3);
 }
 .action-hub-container .nexus-card.risk-medium {
-  border-top: 4px solid #f59e0b;
+  border-top: 5px solid #f59e0b;
 }
 .action-hub-container .nexus-card.risk-medium .nexus-icon-wrapper {
-  background: rgba(245, 158, 11, 0.15);
+  background: rgba(245, 158, 11, 0.18);
   color: #f59e0b;
 }
 .action-hub-container .nexus-card.risk-medium .nexus-badge {
@@ -3824,10 +3925,10 @@ body.is-masked .maskable {
   border: 1px solid rgba(245, 158, 11, 0.3);
 }
 .action-hub-container .nexus-card.risk-low {
-  border-top: 4px solid #00b894;
+  border-top: 5px solid #00b894;
 }
 .action-hub-container .nexus-card.risk-low .nexus-icon-wrapper {
-  background: rgba(0, 184, 148, 0.15);
+  background: rgba(0, 184, 148, 0.18);
   color: #00b894;
 }
 .action-hub-container .nexus-card.risk-low .nexus-badge {
@@ -3836,26 +3937,26 @@ body.is-masked .maskable {
   border: 1px solid rgba(0, 184, 148, 0.3);
 }
 .action-hub-container .nexus-card.card-mission {
-  border-top: 4px solid #16a34a;
-  background: linear-gradient(180deg, #1e222b 0%, #161b22 100%);
+  border-top: 5px solid #16a34a;
+  background: linear-gradient(180deg, #1e222b 0%, #151921 100%);
 }
 .action-hub-container .nexus-card.card-mission .nexus-icon-wrapper {
-  background: rgba(22, 163, 74, 0.15);
+  background: rgba(22, 163, 74, 0.18);
   color: #16a34a;
 }
 .action-hub-container .nexus-card.card-mission .mission-action {
   border-left-color: #16a34a;
 }
 .action-hub-container .nexus-card.card-mission .nexus-badge {
-  background: rgba(22, 163, 74, 0.15);
+  background: rgba(22, 163, 74, 0.18);
   color: #16a34a;
   border: 1px solid rgba(22, 163, 74, 0.3);
 }
 .action-hub-container .nexus-card.card-fiscal {
-  border-top: 4px solid #7c3aed;
+  border-top: 5px solid #7c3aed;
 }
 .action-hub-container .nexus-card.card-fiscal .nexus-icon-wrapper {
-  background: rgba(124, 58, 237, 0.15);
+  background: rgba(124, 58, 237, 0.18);
   color: #7c3aed;
 }
 .action-hub-container .nexus-error-alert {
@@ -3863,31 +3964,32 @@ body.is-masked .maskable {
   background: rgba(239, 68, 68, 0.1);
   border: 1px solid rgba(239, 68, 68, 0.3);
   color: #ef4444;
-  padding: 20px;
-  border-radius: 12px;
+  padding: 24px;
+  border-radius: 14px;
   text-align: center;
-  font-weight: 600;
+  font-weight: 700;
 }
 .action-hub-container .time-machine-section {
   background: #ffffff;
-  border-radius: 16px;
-  padding: 30px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  padding: 35px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   border: 1px solid #e2e8f0;
-  margin-top: 4rem;
+  margin-top: 5rem;
 }
 .action-hub-container .time-machine-section h3 {
   color: #1a2a6c;
-  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  margin-bottom: 0.8rem;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
