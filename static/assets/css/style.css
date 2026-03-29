@@ -3657,9 +3657,12 @@ body.is-masked .maskable {
 }
 
 .action-hub-container {
-  padding: 3rem 1.5rem;
-  max-width: 1200px;
+  max-width: 900px;
   margin: 0 auto;
+  padding: 3rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .action-hub-container .nexus-header {
   text-align: center;
@@ -3670,8 +3673,8 @@ body.is-masked .maskable {
   color: #1a2a6c;
   margin-bottom: 0.5rem;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   gap: 12px;
   font-family: "Roboto", sans-serif;
 }
@@ -3689,11 +3692,17 @@ body.is-masked .maskable {
   padding: 2.5rem;
   margin-bottom: 3rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  width: 100%;
 }
 .action-hub-container .nexus-setup-form .input-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: 1fr;
   gap: 2rem;
+}
+@media (min-width: 768px) {
+  .action-hub-container .nexus-setup-form .input-grid {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 .action-hub-container .nexus-setup-form .input-group {
   display: flex;
@@ -3716,12 +3725,6 @@ body.is-masked .maskable {
 .action-hub-container .nexus-setup-form .input-group label i {
   color: #1a2a6c;
 }
-.action-hub-container .nexus-setup-form .input-group label .label-hint {
-  font-size: 0.75rem;
-  font-weight: 400;
-  color: #64748b;
-  text-transform: none;
-}
 .action-hub-container .nexus-setup-form .input-group input {
   background: #f0f2f5;
   border: 2px solid transparent;
@@ -3737,32 +3740,28 @@ body.is-masked .maskable {
   background: #ffffff;
   outline: none;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  transform: translateY(-2px);
 }
 .action-hub-container .nexus-setup-form .nexus-multi-select {
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 5px;
+  margin-top: 10px;
 }
 .action-hub-container .nexus-setup-form .nexus-multi-select .select-chip {
   background: #f0f2f5;
   border: 1px solid #e2e8f0;
   color: #64748b;
-  padding: 12px 22px;
+  padding: 10px 22px;
   border-radius: 50px;
   cursor: pointer;
   font-size: 0.95rem;
   font-weight: 600;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   gap: 10px;
-  transition: all 0.2s ease;
-  user-select: none;
-}
-.action-hub-container .nexus-setup-form .nexus-multi-select .select-chip i {
-  font-size: 0.9rem;
-  opacity: 0.6;
 }
 .action-hub-container .nexus-setup-form .nexus-multi-select .select-chip:hover {
   border-color: #1a2a6c;
@@ -3795,204 +3794,94 @@ body.is-masked .maskable {
 .action-hub-container .nexus-setup-form .nexus-multi-select .select-chip.active[data-value=renta-fija] {
   background: #4b5563;
 }
-.action-hub-container .nexus-setup-form .nexus-multi-select .select-chip.active i {
-  opacity: 1;
-}
 .action-hub-container .decision-action-wrapper {
   display: flex;
   justify-content: center;
+  align-items: center;
+  width: 100%;
   margin-bottom: 4rem;
 }
 .action-hub-container .btn-nexus-primary {
   background: linear-gradient(135deg, #1a2a6c, rgb(16.1044776119, 26.0149253731, 66.8955223881));
   color: #ffffff;
-  padding: 1.4rem 3.5rem;
-  font-size: 1.2rem;
-  border-radius: 60px;
+  padding: 1.2rem 3rem;
+  font-size: 1.15rem;
+  border-radius: 50px;
   border: none;
   cursor: pointer;
   font-weight: 700;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 12px;
 }
 .action-hub-container .btn-nexus-primary:hover {
   transform: translateY(-3px);
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   filter: brightness(1.1);
 }
-.action-hub-container .btn-nexus-primary:active {
-  transform: translateY(1px);
-}
-.action-hub-container .btn-nexus-primary:disabled {
-  background: #e2e8f0;
-  color: #64748b;
-  box-shadow: none;
-  cursor: not-allowed;
-  transform: none;
-}
 .action-hub-container .nexus-results-grid {
+  width: 100%;
   display: none;
-  gap: 24px;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  margin-bottom: 4rem;
+  flex-direction: column;
+  gap: 2.5rem;
 }
 .action-hub-container .nexus-results-grid.is-visible {
-  display: grid;
+  display: flex;
   animation: fadeIn 0.6s ease-out forwards;
 }
 .action-hub-container .nexus-card {
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 16px;
-  padding: 26px;
+  padding: 2.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  transition: all 0.3s ease;
+  border-left: 8px solid #e2e8f0;
 }
-.action-hub-container .nexus-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+.action-hub-container .nexus-card strong, .action-hub-container .nexus-card b {
+  color: #2d3436;
+  font-weight: 800;
+}
+.action-hub-container .nexus-card.risk-high {
+  border-left-color: #ef4444;
+}
+.action-hub-container .nexus-card.risk-high .nexus-icon-wrapper {
+  color: #ef4444;
+}
+.action-hub-container .nexus-card.risk-medium {
+  border-left-color: #fdbb2d;
+}
+.action-hub-container .nexus-card.risk-medium .nexus-icon-wrapper {
+  color: #fdbb2d;
+}
+.action-hub-container .nexus-card.card-mission {
+  border-left-color: #2563eb;
+}
+.action-hub-container .nexus-card.card-fiscal {
+  border-left-color: #7c3aed;
 }
 .action-hub-container .nexus-card .nexus-card-header {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-bottom: 20px;
-}
-.action-hub-container .nexus-card .nexus-icon-wrapper {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.3rem;
+  gap: 15px;
+  margin-bottom: 1.5rem;
 }
 .action-hub-container .nexus-card .nexus-card-title {
   margin: 0;
-  font-size: 1.15rem;
-  color: #2d3436;
+  font-size: 1.4rem;
+  color: #1a2a6c;
   font-weight: 700;
 }
 .action-hub-container .nexus-card .nexus-card-body {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-bottom: 20px;
+  font-size: 1.05rem;
+  line-height: 1.8;
   color: #2d3436;
 }
-.action-hub-container .nexus-card .nexus-card-text {
-  color: #64748b;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  margin: 0;
-}
-.action-hub-container .nexus-card .nexus-card-text.mission-action {
-  color: #1a2a6c;
-  font-size: 1.1rem;
-  font-weight: 700;
+.action-hub-container .nexus-card .nexus-card-body p.mission-action {
   background: #f0f2f5;
-  padding: 18px;
-  border-radius: 10px;
-  border-left: 4px solid #1a2a6c;
-}
-.action-hub-container .nexus-card .nexus-card-text.mission-quote {
-  font-size: 0.9rem;
-  font-style: italic;
-  color: #64748b;
-}
-.action-hub-container .nexus-card .nexus-badge-wrapper {
-  margin-top: auto;
-}
-.action-hub-container .nexus-card .nexus-badge {
-  display: inline-block;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-.action-hub-container .nexus-card.risk-high {
-  border-top: 4px solid #ef4444;
-}
-.action-hub-container .nexus-card.risk-high .nexus-icon-wrapper {
-  background: rgba(253, 187, 45, 0.1);
-  color: rgb(219.4103773585, 150.4528301887, 2.0896226415);
-}
-.action-hub-container .nexus-card.risk-high .nexus-badge {
-  background: rgba(253, 187, 45, 0.1);
-  color: rgb(219.4103773585, 150.4528301887, 2.0896226415);
-}
-.action-hub-container .nexus-card.risk-medium {
-  border-top: 4px solid #fdbb2d;
-}
-.action-hub-container .nexus-card.risk-medium .nexus-icon-wrapper {
-  background: rgba(253, 187, 45, 0.1);
-  color: rgb(219.4103773585, 150.4528301887, 2.0896226415);
-}
-.action-hub-container .nexus-card.risk-medium .nexus-badge {
-  background: rgba(253, 187, 45, 0.1);
-  color: rgb(219.4103773585, 150.4528301887, 2.0896226415);
-}
-.action-hub-container .nexus-card.risk-low {
-  border-top: 4px solid #00b894;
-}
-.action-hub-container .nexus-card.risk-low .nexus-icon-wrapper {
-  background: rgba(0, 184, 148, 0.1);
-  color: #00b894;
-}
-.action-hub-container .nexus-card.risk-low .nexus-badge {
-  background: rgba(0, 184, 148, 0.1);
-  color: #00b894;
-}
-.action-hub-container .nexus-card.card-mission {
-  border-top: 4px solid #16a34a;
-}
-.action-hub-container .nexus-card.card-mission .nexus-icon-wrapper {
-  background: rgba(22, 163, 74, 0.1);
-  color: #16a34a;
-}
-.action-hub-container .nexus-card.card-mission .nexus-badge {
-  background: #16a34a;
-  color: #ffffff;
-}
-.action-hub-container .nexus-card.card-fiscal {
-  border-top: 4px solid #7c3aed;
-}
-.action-hub-container .nexus-card.card-fiscal .nexus-icon-wrapper {
-  background: rgba(124, 58, 237, 0.1);
-  color: #7c3aed;
-}
-.action-hub-container .nexus-error-alert {
-  grid-column: 1/-1;
-  background: rgba(239, 68, 68, 0.05);
-  border: 1px solid #ef4444;
-  color: #ef4444;
   padding: 20px;
   border-radius: 12px;
-  text-align: center;
-  font-weight: 600;
-}
-.action-hub-container .time-machine-section {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 30px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e2e8f0;
-  margin-top: 4rem;
-}
-.action-hub-container .time-machine-section h3 {
+  font-weight: 700;
   color: #1a2a6c;
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  border: 1px dashed #1a2a6c;
 }
 
 @keyframes fadeIn {

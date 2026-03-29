@@ -25,23 +25,6 @@ function getCookie(name) {
     return cookieValue;
 }
 
-const sincronizarProgreso = (cap, apor) => {
-    const isLogged = window.BIOR_CONFIG?.isLoggedIn || false;
-    if (isLogged) {
-        fetch('/guardar-progreso/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie('csrftoken')
-            },
-            body: JSON.stringify({ capital: cap, aportacion: apor })
-        }).catch(err => console.error("Error de sincronización:", err));
-    } else {
-        localStorage.setItem('bior_capital', cap);
-        localStorage.setItem('bior_aportacion', apor);
-    }
-};
-
 document.addEventListener('DOMContentLoaded', () => {
     
     // --- 0. INICIALIZACIÓN PRIORITARIA ---

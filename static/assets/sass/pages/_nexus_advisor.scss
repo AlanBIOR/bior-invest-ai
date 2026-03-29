@@ -3,9 +3,12 @@
 @use "sass:color";
 
 .action-hub-container {
-    padding: 3rem 1.5rem;
-    max-width: 1200px;
+    max-width: 900px; // Estrechado para lectura en 1 columna
     margin: 0 auto;
+    padding: 3rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     .nexus-header {
         text-align: center;
@@ -13,11 +16,9 @@
         
         h1 {
             font-size: 2.5rem;
-            color: $primary-color; // Azul Marino BIOR
+            color: $primary-color; 
             margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            @include flex-center;
             gap: 12px;
             font-family: $roboto-font;
         }
@@ -31,19 +32,24 @@
         }
     }
 
-    // --- FORMULARIO DE PARÁMETROS (Light Premium) ---
+    // --- FORMULARIO DE PARÁMETROS (Basado en tus variables) ---
     .nexus-setup-form {
         background: $white;
         border: 1px solid $border-color;
         border-radius: 16px;
         padding: 2.5rem;
         margin-bottom: 3rem;
-        box-shadow: $shadow-md; // Usando tu variable de elevación
+        box-shadow: $shadow-md;
+        width: 100%;
         
         .input-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: 1fr;
             gap: 2rem;
+
+            @include tablet {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
         .input-group {
@@ -64,12 +70,6 @@
                 letter-spacing: 0.5px;
                 
                 i { color: $primary-color; }
-                .label-hint { 
-                    font-size: 0.75rem; 
-                    font-weight: 400; 
-                    color: $text-muted;
-                    text-transform: none;
-                }
             }
             
             input {
@@ -87,34 +87,30 @@
                     background: $white;
                     outline: none;
                     box-shadow: $shadow-sm;
-                    transform: translateY(-2px);
                 }
             }
         }
 
         // --- SISTEMA DE CHIPS MULTI-SELECT ---
         .nexus-multi-select {
-            display: flex;
+            @include flex-center;
             flex-wrap: wrap;
             gap: 12px;
-            margin-top: 5px;
+            margin-top: 10px;
 
             .select-chip {
                 background: $bg-color;
                 border: 1px solid $border-color;
                 color: $text-muted;
-                padding: 12px 22px;
+                padding: 10px 22px;
                 border-radius: 50px;
                 cursor: pointer;
                 font-size: 0.95rem;
                 font-weight: 600;
+                transition: all 0.2s ease;
                 display: flex;
                 align-items: center;
                 gap: 10px;
-                transition: all 0.2s ease;
-                user-select: none;
-
-                i { font-size: 0.9rem; opacity: 0.6; }
 
                 &:hover {
                     border-color: $primary-color;
@@ -122,7 +118,6 @@
                     transform: translateY(-2px);
                 }
 
-                // Estados Activos dinámicos usando tu mapa de categorías
                 &.active {
                     color: $white;
                     border-color: transparent;
@@ -135,221 +130,91 @@
                     &[data-value="inversiones-alternativas"] { background: $cat-alternativas; }
                     &[data-value="efectivo"] { background: $cat-efectivo; }
                     &[data-value="renta-fija"] { background: $cat-renta-fija; }
-                    
-                    i { opacity: 1; }
                 }
             }
         }
     }
 
     .decision-action-wrapper {
-        display: flex;
-        justify-content: center;
+        @include flex-center;
+        width: 100%;
         margin-bottom: 4rem;
     }
 
-    // --- BOTÓN PRINCIPAL (Identidad BIOR) ---
     .btn-nexus-primary {
         background: linear-gradient(135deg, $primary-color, color.adjust($primary-color, $lightness: -10%));
         color: $white;
-        padding: 1.4rem 3.5rem;
-        font-size: 1.2rem;
-        border-radius: 60px;
+        padding: 1.2rem 3rem;
+        font-size: 1.15rem;
+        border-radius: 50px;
         border: none;
         cursor: pointer;
         font-weight: 700;
         box-shadow: $shadow-md;
         transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        gap: 12px;
         
         &:hover {
             transform: translateY(-3px);
             box-shadow: $shadow-lg;
             filter: brightness(1.1);
         }
-        
-        &:active { transform: translateY(1px); }
-        
-        &:disabled {
-            background: $border-color;
-            color: $text-muted;
-            box-shadow: none;
-            cursor: not-allowed;
-            transform: none;
-        }
     }
 
-    // --- GRID Y TARJETAS DE RESULTADOS ---
+    // --- RESULTADOS EN 1 COLUMNA (FEED) ---
     .nexus-results-grid {
+        width: 100%;
         display: none;
-        gap: 24px;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        margin-bottom: 4rem;
+        flex-direction: column;
+        gap: 2.5rem;
 
-        &.is-visible {
-            display: grid;
-            animation: fadeIn 0.6s ease-out forwards;
-        }
+        &.is-visible { display: flex; animation: fadeIn 0.6s ease-out forwards; }
     }
 
     .nexus-card {
         background: $white;
         border: 1px solid $border-color;
         border-radius: 16px;
-        padding: 26px;
+        padding: 2.5rem;
         box-shadow: $shadow-sm;
-        position: relative;
-        display: flex;
-        flex-direction: column; 
-        transition: all 0.3s ease;
+        border-left: 8px solid $border-color; // Acento lateral en lugar de superior
 
-        &:hover {
-            transform: translateY(-5px);
-            box-shadow: $shadow-md;
-        }
+        // Soporte para Negritas de la IA
+        strong, b { color: $text-color; font-weight: 800; }
+
+        &.risk-high { border-left-color: $error-red; .nexus-icon-wrapper { color: $error-red; } }
+        &.risk-medium { border-left-color: $accent-color; .nexus-icon-wrapper { color: $accent-color; } }
+        &.card-mission { border-left-color: $cat-renta-variable; }
+        &.card-fiscal { border-left-color: $cat-private-equity; }
 
         .nexus-card-header {
             display: flex;
             align-items: center;
-            gap: 14px;
-            margin-bottom: 20px;
-        }
-
-        .nexus-icon-wrapper {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
+            gap: 15px;
+            margin-bottom: 1.5rem;
         }
 
         .nexus-card-title {
             margin: 0;
-            font-size: 1.15rem;
-            color: $text-color;
+            font-size: 1.4rem;
+            color: $primary-color;
             font-weight: 700;
         }
 
         .nexus-card-body {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            margin-bottom: 20px;
+            font-size: 1.05rem;
+            line-height: 1.8;
             color: $text-color;
-        }
 
-        .nexus-card-text {
-            color: $text-muted;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin: 0;
-
-            &.mission-action {
-                color: $primary-color;
-                font-size: 1.1rem;
-                font-weight: 700;
+            p.mission-action {
                 background: $bg-color;
-                padding: 18px;
-                border-radius: 10px;
-                border-left: 4px solid $primary-color; 
+                padding: 20px;
+                border-radius: 12px;
+                font-weight: 700;
+                color: $primary-color;
+                border: 1px dashed $primary-color;
             }
-
-            &.mission-quote {
-                font-size: 0.9rem;
-                font-style: italic;
-                color: $text-muted;
-            }
-        }
-
-        .nexus-badge-wrapper { margin-top: auto; }
-
-        .nexus-badge {
-            display: inline-block;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        // Variantes Funcionales
-        &.risk-high {
-            border-top: 4px solid $error-red;
-            .nexus-icon-wrapper { 
-                background: rgba($accent-color, 0.1); 
-                color: color.adjust($accent-color, $lightness: -15%); 
-            }
-            .nexus-badge { 
-                background: rgba($accent-color, 0.1); 
-                color: color.adjust($accent-color, $lightness: -15%); 
-            }
-        }
-        &.risk-medium {
-            border-top: 4px solid $accent-color;
-            .nexus-icon-wrapper { 
-                background: rgba($accent-color, 0.1); 
-                // Cambiamos darken(...) por color.adjust(...)
-                color: color.adjust($accent-color, $lightness: -15%); 
-            }
-            .nexus-badge { 
-                background: rgba($accent-color, 0.1); 
-                // Cambiamos darken(...) por color.adjust(...)
-                color: color.adjust($accent-color, $lightness: -15%); 
-            }
-        }
-        &.risk-low {
-            border-top: 4px solid $success-green;
-            .nexus-icon-wrapper { background: rgba($success-green, 0.1); color: $success-green; }
-            .nexus-badge { background: rgba($success-green, 0.1); color: $success-green; }
-        }
-
-        &.card-mission {
-            border-top: 4px solid $cat-inmuebles;
-            .nexus-icon-wrapper { background: rgba($cat-inmuebles, 0.1); color: $cat-inmuebles; }
-            .nexus-badge { background: $cat-inmuebles; color: $white; }
-        }
-
-        &.card-fiscal {
-            border-top: 4px solid $cat-private-equity;
-            .nexus-icon-wrapper { background: rgba($cat-private-equity, 0.1); color: $cat-private-equity; }
-        }
-    }
-
-    .nexus-error-alert {
-        grid-column: 1 / -1;
-        background: rgba($error-red, 0.05);
-        border: 1px solid $error-red;
-        color: $error-red;
-        padding: 20px;
-        border-radius: 12px;
-        text-align: center;
-        font-weight: 600;
-    }
-
-    .time-machine-section {
-        background: $white;
-        border-radius: 16px;
-        padding: 30px;
-        box-shadow: $shadow-sm;
-        border: 1px solid $border-color;
-        margin-top: 4rem;
-
-        h3 {
-            color: $primary-color;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
     }
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }

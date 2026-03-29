@@ -2,10 +2,9 @@ export function initNexusAdvisor() {
     const btnDecision = document.getElementById('btn-decision-mode');
     const resultsContainer = document.getElementById('nexus-results-container');
     
-    // Inputs de configuración (IDs del HTML)
+    // Inputs de configuración
     const inputCapital = document.getElementById('input-capital');
     const inputAportacion = document.getElementById('input-aportacion');
-    // Chips para selección múltiple
     const chips = document.querySelectorAll('.select-chip');
 
     if (!btnDecision || !resultsContainer) return;
@@ -16,18 +15,15 @@ export function initNexusAdvisor() {
             const value = chip.dataset.value;
 
             if (value === "Equilibrado") {
-                // Si elige Equilibrado, limpiamos el resto
                 chips.forEach(c => c.classList.remove('active'));
                 chip.classList.add('active');
             } else {
-                // Si elige otro, quitamos el "Equilibrado" y toggleamos el actual
                 const equilibradoChip = document.querySelector('.select-chip[data-value="Equilibrado"]');
                 if (equilibradoChip) equilibradoChip.classList.remove('active');
-                
                 chip.classList.toggle('active');
             }
 
-            // Si nada queda seleccionado, regresamos a Equilibrado por defecto
+            // Fallback: Si nada queda seleccionado, regresamos a Equilibrado
             const activeCount = document.querySelectorAll('.select-chip.active').length;
             if (activeCount === 0) {
                 const eq = document.querySelector('.select-chip[data-value="Equilibrado"]');
@@ -43,19 +39,18 @@ export function initNexusAdvisor() {
     }
 
     btnDecision.addEventListener('click', async () => {
-        // Obtenemos los valores de los chips activos como una lista separada por comas
-        const enfoquesSeleccionados = Array.from(document.querySelectorAll('.select-chip.active'))
-                                           .map(c => c.dataset.value)
-                                           .join(", ");
+        // Obtenemos los enfoques seleccionados
+        const enfoques = Array.from(document.querySelectorAll('.select-chip.active'))
+                             .map(c => c.dataset.value)
+                             .join(", ");
 
-        // Preparar datos para el Mentor Senior
         const params = {
             capital_extra: parseFloat(inputCapital.value) || 0,
             aportacion: parseFloat(inputAportacion.value) || 0,
-            preferencia: enfoquesSeleccionados
+            preferencia: enfoques
         };
 
-        // Estado de Carga (UX Premium)
+        // Estado de Carga UX
         const originalText = btnDecision.innerHTML;
         btnDecision.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Consultando al Agente Senior...';
         btnDecision.disabled = true;
@@ -63,8 +58,6 @@ export function initNexusAdvisor() {
 
         try {
             const apiUrl = btnDecision.getAttribute('data-url');
-            
-            // Llamada a la API enviando los parámetros
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
@@ -74,29 +67,26 @@ export function initNexusAdvisor() {
                 body: JSON.stringify(params)
             });
 
-            if (!response.ok) throw new Error('Fallo en la conexión con el servidor');
+            if (!response.ok) throw new Error('Error de conexión');
 
             const result = await response.json();
 
             if (result.status === 'success') {
                 const data = result.data;
-                
-                // Guardar en memoria local
                 localStorage.setItem('nexus_last_plan', JSON.stringify(data));
-
-                // Renderizado
+                
+                // Renderizado en 1 columna
                 renderNexusCards(data, resultsContainer);
                 resultsContainer.style.opacity = '1';
-
             } else {
-                throw new Error(result.message || 'Error en el motor NEXUS');
+                throw new Error(result.message);
             }
 
         } catch (error) {
             console.error('Error NEXUS:', error);
             resultsContainer.innerHTML = `
                 <div class="nexus-error-alert">
-                    <i class="fas fa-times-circle"></i> El Agente detectó una anomalía: ${error.message}. Intenta de nuevo.
+                    <i class="fas fa-times-circle"></i> Error de conexión con el Agente. Intenta de nuevo.
                 </div>
             `;
             resultsContainer.classList.add('is-visible');
@@ -109,22 +99,23 @@ export function initNexusAdvisor() {
 }
 
 /**
- * Función encargada de dibujar las tarjetas (Sin cambios en clases/variables)
+ * Renderizado de Tarjetas en formato de columna única (Feed) con soporte Markdown
  */
 function renderNexusCards(data, container) {
-    const nivelRiesgo = data.nivel_riesgo.toLowerCase();
+    const nivelRiesgo = (data.nivel_riesgo || "").toLowerCase();
     let riskClass = 'risk-low';
     if (nivelRiesgo.includes('alto') || nivelRiesgo.includes('crítico')) riskClass = 'risk-high';
     else if (nivelRiesgo.includes('medio')) riskClass = 'risk-medium';
 
+    // Usamos marked.parse() para procesar las negritas y listas de la IA
     const htmlTarjetas = `
         <div class="nexus-card ${riskClass}">
             <div class="nexus-card-header">
                 <span class="nexus-icon-wrapper"><i class="fas fa-exclamation-triangle"></i></span>
                 <h3 class="nexus-card-title">Diagnóstico de Riesgo</h3>
             </div>
-            <div class="nexus-card-body">
-                <p class="nexus-card-text">${data.riesgo_detectado}</p>
+            <div class="nexus-card-body markdown-content">
+                ${marked.parse(data.riesgo_detectado)}
             </div>
             <div class="nexus-badge-wrapper">
                 <span class="nexus-badge">Nivel: ${data.nivel_riesgo}</span>
@@ -136,9 +127,11 @@ function renderNexusCards(data, container) {
                 <span class="nexus-icon-wrapper"><i class="fas fa-bullseye"></i></span>
                 <h3 class="nexus-card-title">Tu Misión de Hoy</h3>
             </div>
-            <div class="nexus-card-body">
-                <p class="nexus-card-text mission-action">${data.accion_inmediata}</p>
-                <p class="nexus-card-text mission-quote">" ${data.justificacion} "</p>
+            <div class="nexus-card-body markdown-content">
+                <p class="mission-action">${data.accion_inmediata}</p>
+                <div class="mission-justification" style="margin-top: 1.5rem">
+                    ${marked.parse(data.justificacion)}
+                </div>
             </div>
             <div class="nexus-badge-wrapper">
                 <span class="nexus-badge">Objetivo: ${data.porcentaje_objetivo}</span>
@@ -150,11 +143,11 @@ function renderNexusCards(data, container) {
                 <span class="nexus-icon-wrapper"><i class="fas fa-landmark"></i></span>
                 <h3 class="nexus-card-title">Hack Fiscal México</h3>
             </div>
-            <div class="nexus-card-body">
-                <p class="nexus-card-text">${data.hack_fiscal}</p>
+            <div class="nexus-card-body markdown-content">
+                ${marked.parse(data.hack_fiscal)}
             </div>
             <div class="nexus-badge-wrapper">
-                <span class="nexus-badge" style="background: rgba(124, 58, 237, 0.1); color: #a78bfa;">LISR / SAT</span>
+                <span class="nexus-badge" style="background: rgba(124, 58, 237, 0.1); color: #a78bfa; text-transform: none;">LISR / SAT</span>
             </div>
         </div>
     `;

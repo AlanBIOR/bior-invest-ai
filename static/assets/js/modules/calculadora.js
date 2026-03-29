@@ -35,30 +35,6 @@ function setInvCookie(name, value) {
     document.cookie = `${name}=${value};${expires};path=/;SameSite=Lax`;
 }
 
-export async function guardarEnBaseDeDatos(monto, aportacion = 0) {
-    const csrftoken = getCookie('csrftoken');
-    
-    try {
-        const response = await fetch('/guardar-progreso/', {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrftoken 
-            },
-            body: JSON.stringify({ 
-                capital: monto, 
-                aportacion: aportacion 
-            })
-        });
-        const data = await response.json();
-        if (data.status === 'ok') {
-            console.log('✅ Base de Datos Django actualizada');
-        }
-    } catch (error) {
-        console.error('❌ Error al sincronizar con Django:', error);
-    }
-}
-
 // --- SECCIÓN: LÓGICA DE CÁLCULO Y UI ---
 
 export function recalcularCards(monto) {

@@ -55,13 +55,21 @@ def dashboard(request):
         for cat in categorias
     ]
 
+    # --- LÓGICA DE VALORES MOMENTÁNEOS (SESIÓN) ---
+    
+    # 1. Definimos los valores base (del perfil si existe, o defaults)
     if request.user.is_authenticated:
-        profile, created = Profile.objects.get_or_create(user=request.user)
-        capital_inicial = float(profile.capital or 10000.0)
-        aportacion_mensual = float(profile.aportacion or 500.0)
+        profile, _ = Profile.objects.get_or_create(user=request.user)
+        val_base_cap = float(profile.capital or 10000.0)
+        val_base_apor = float(profile.aportacion or 500.0)
     else:
-        capital_inicial = 10000.0
-        aportacion_mensual = 500.0
+        val_base_cap = 10000.0
+        val_base_apor = 500.0
+
+    # 2. Intentamos obtener los valores de la sesión (si el usuario ya los movió en el Dashboard)
+    # Si no existen en la sesión todavía, usamos los valores base definidos arriba
+    capital_inicial = request.session.get('capital_simulado', val_base_cap)
+    aportacion_mensual = request.session.get('aportacion_simulada', val_base_apor)
 
     context = {
         'categorias': categorias,
@@ -72,8 +80,6 @@ def dashboard(request):
     }
     
     return render(request, 'investments/dashboard.html', context)
-
-
 
 # --- 2. PORTAFOLIO CON ACTUALIZACIÓN DE PRECIOS ---
 @login_required
@@ -382,13 +388,16 @@ def ai_chat_webhook(request):
 @login_required
 def nexus_advisor_view(request):
     """
-    Vista principal. Ahora busca el último plan en la DB para que 
-    la página no cargue vacía al refrescar.
+    Carga la página de NEXUS recuperando los últimos valores 
+    reales guardados por el usuario.
     """
-    # Buscamos el análisis más reciente del usuario
+    # Buscamos el registro más reciente en la base de datos
     ultimo_plan = NexusPlan.objects.filter(user=request.user).order_by('-created_at').first()
     
     context = {
+        # Si existe un plan, usamos sus valores; si no, ponemos 0 y 500
+        'last_capital': ultimo_plan.capital_extra if ultimo_plan else 0,
+        'last_aportacion': ultimo_plan.aportacion_mensual if ultimo_plan else 500,
         'last_plan': ultimo_plan.plan_json if ultimo_plan else None
     }
     return render(request, 'pages/nexus_advisor.html', context)
