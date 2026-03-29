@@ -18,7 +18,7 @@ export function initNexusAdvisor() {
 
         try {
             // 2. Llamada a la API
-            const response = await fetch('/investments/api/v1/modo-decision/', {
+            const response = await fetch('/api/v1/modo-decision/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
