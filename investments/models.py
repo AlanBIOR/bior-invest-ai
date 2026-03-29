@@ -10,6 +10,15 @@ class Category(models.Model):
     slug = models.SlugField(unique=True)
     description = models.TextField(blank=True)
     target_percentage = models.DecimalField(max_digits=5, decimal_places=2)
+    
+    # --- NUEVO CAMPO PARA LA MÁQUINA DEL TIEMPO ---
+    # Almacena el rendimiento anual esperado (ej: 0.1200 para 12%)
+    expected_yield = models.DecimalField(
+        max_digits=5, 
+        decimal_places=4, 
+        default=0.1000,
+        help_text="Rendimiento anual esperado en decimal (ej: 0.11 para 11%)"
+    )
 
     class Meta:
         verbose_name_plural = "Categories"

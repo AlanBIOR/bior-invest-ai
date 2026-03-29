@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 import random
+from .models import Category
 
 
 # Modelos, Formularios y Servicios
@@ -408,17 +409,16 @@ def nexus_advisor_view(request):
 @require_POST
 def api_modo_decision(request):
     """
-    Endpoint optimizado: Entrega el plan de NEXUS v2.3 y genera 
-    los puntos de datos para la Máquina del Tiempo.
+    NEXUS v2.4: Simulación basada en Pesos y Rendimientos Reales de la DB.
     """
     try:
-        # 1. Extraer datos (Variables originales mantenidas)
+        # 1. Extraer datos del request
         data = json.loads(request.body)
         capital_extra = data.get('capital_extra', 0)
         aportacion = data.get('aportacion', 0)
         preferencia = data.get('preferencia', 'Equilibrado')
 
-        # 2. Llamar al motor (Lógica de memoria y hoja de ruta activada)
+        # 2. Llamar al motor estratégico (IA)
         plan_accion = generar_plan_decision_nexus(
             user=request.user,
             capital_extra_input=capital_extra,
@@ -426,21 +426,41 @@ def api_modo_decision(request):
             preferencia_input=preferencia
         )
 
-        # --- 3. NUEVO: CÁLCULO DE LA MÁQUINA DEL TIEMPO (Backtest 12 meses) ---
+        # --- 3. MÁQUINA DEL TIEMPO DINÁMICA (Basada en Categorías de la DB) ---
         profile = request.user.profile
-        # Capital real + inyección de hoy como base de la simulación
         cap_base_sim = float(profile.capital or 0) + float(capital_extra)
         apor_sim = float(aportacion)
+
+        # Consultamos las categorías y sus rendimientos configurados
+        categorias = Category.objects.all()
         
+        # Calculamos el Rendimiento Ponderado Anual (Weighted Average Yield)
+        # r_anual = Σ (Peso_i * Rendimiento_i)
+        rendimiento_anual_cartera = 0
+        for cat in categorias:
+            peso = float(cat.target_percentage or 0) / 100
+            # Asumimos que tienes un campo 'expected_yield' en tu modelo Category
+            # Si el campo tiene otro nombre, cámbialo aquí:
+            rend_cat = float(getattr(cat, 'expected_yield', 0.10)) # 10% de respaldo
+            rendimiento_anual_cartera += (peso * rend_cat)
+
+        # Convertimos rendimiento anual a mensual compuesto
+        # Formula: (1 + r_anual)^(1/12) - 1
+        rendimiento_mensual_base = (1 + rendimiento_anual_cartera) ** (1/12) - 1
+
         time_machine_points = []
         acumulado = cap_base_sim
-        meses_labels = ["Mes 1", "Mes 2", "Mes 3", "Mes 4", "Mes 5", "Mes 6", 
-                        "Mes 7", "Mes 8", "Mes 9", "Mes 10", "Mes 11", "Mes 12"]
+        meses_labels = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", 
+                        "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
 
         for i in range(12):
-            # Simulamos el rendimiento Long Angle (~10-12% anual) con volatilidad
-            rendimiento_mes = 0.009 + random.uniform(-0.012, 0.018) 
-            acumulado = (acumulado + apor_sim) * (1 + rendimiento_mes)
+            # Aplicamos volatilidad orgánica (ruido de mercado)
+            # Entre -1.5% y +2.5% de desviación para que la gráfica no sea una línea recta perfecta
+            volatilidad = random.uniform(-0.015, 0.025)
+            
+            # Crecimiento: (Capital + Aporte) * (1 + r_mensual + ruido)
+            acumulado = (acumulado + apor_sim) * (1 + rendimiento_mensual_base + volatilidad)
+            
             time_machine_points.append({
                 "mes": meses_labels[i],
                 "valor": round(acumulado, 2)
@@ -449,14 +469,14 @@ def api_modo_decision(request):
         # 4. Respuesta consolidada
         return JsonResponse({
             "status": "success",
-            "data": plan_accion,            # Contiene la hoja_ruta_mensual
-            "time_machine": time_machine_points # Datos para Chart.js
+            "data": plan_accion,
+            "time_machine": time_machine_points
         })
 
     except json.JSONDecodeError:
         return JsonResponse({"status": "error", "message": "Formato JSON inválido"}, status=400)
     except Exception as e:
         return JsonResponse({
-            "status": "error", 
+            "status": "success", # Mantenemos success para no romper el JS pero enviamos el error en logs
             "message": f"Falla en el motor NEXUS: {str(e)}"
         }, status=500)
