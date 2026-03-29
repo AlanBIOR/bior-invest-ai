@@ -10,7 +10,9 @@
     </div>
 
     <div align="center" style="margin: 4rem 0;">
-        <button id="btn-decision-mode" style="background-color: #2563eb; color: white; padding: 1.5rem 3rem; font-size: 1.2rem; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4); transition: transform 0.2s ease;">
+        <button id="btn-decision-mode" 
+                data-url="{% url 'api_modo_decision' %}" 
+                style="background-color: #2563eb; color: white; padding: 1.5rem 3rem; font-size: 1.2rem; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4); transition: transform 0.2s ease;">
             ⚡ Generar Plan de Acción Inmediato
         </button>
     </div>
