@@ -13,12 +13,13 @@
         
         h1 {
             font-size: 2.5rem;
-            color: $primary-color;
+            color: $primary-color; // Azul Marino BIOR
             margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
+            font-family: $roboto-font;
         }
         
         .text-muted {
@@ -30,14 +31,14 @@
         }
     }
 
-    // --- FORMULARIO DE PARÁMETROS CON MULTI-SELECT ---
+    // --- FORMULARIO DE PARÁMETROS (Light Premium) ---
     .nexus-setup-form {
-        background: #1e222b;
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 20px;
+        background: $white;
+        border: 1px solid $border-color;
+        border-radius: 16px;
         padding: 2.5rem;
         margin-bottom: 3rem;
-        box-shadow: $shadow-lg;
+        box-shadow: $shadow-md; // Usando tu variable de elevación
         
         .input-grid {
             display: grid;
@@ -48,14 +49,13 @@
         .input-group {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             
-            // Clase para que el selector de enfoque ocupe todo el ancho
             &.full-width { grid-column: 1 / -1; }
 
             label { 
-                color: $text-muted; 
-                font-size: 0.9rem; 
+                color: $text-color; 
+                font-size: 0.85rem; 
                 font-weight: 700;
                 display: flex;
                 align-items: center;
@@ -63,36 +63,36 @@
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
                 
-                i { color: $cat-renta-variable; }
+                i { color: $primary-color; }
                 .label-hint { 
                     font-size: 0.75rem; 
                     font-weight: 400; 
-                    opacity: 0.6; 
+                    color: $text-muted;
                     text-transform: none;
                 }
             }
             
             input {
-                background: #161b22;
-                border: 1px solid #30363d;
-                color: $white;
+                background: $bg-color;
+                border: 2px solid transparent;
+                color: $text-color;
                 padding: 14px 18px;
-                border-radius: 12px;
+                border-radius: 10px;
                 font-family: $roboto-font;
                 font-size: 1.1rem;
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                transition: all 0.3s ease;
                 
                 &:focus {
-                    border-color: $cat-renta-variable;
-                    background: #1c2128;
+                    border-color: $primary-color;
+                    background: $white;
                     outline: none;
-                    box-shadow: 0 0 0 4px rgba($cat-renta-variable, 0.15);
+                    box-shadow: $shadow-sm;
                     transform: translateY(-2px);
                 }
             }
         }
 
-        // Sistema de Chips para selección múltiple
+        // --- SISTEMA DE CHIPS MULTI-SELECT ---
         .nexus-multi-select {
             display: flex;
             flex-wrap: wrap;
@@ -100,9 +100,9 @@
             margin-top: 5px;
 
             .select-chip {
-                background: #161b22;
-                border: 1px solid #30363d;
-                color: #8b949e;
+                background: $bg-color;
+                border: 1px solid $border-color;
+                color: $text-muted;
                 padding: 12px 22px;
                 border-radius: 50px;
                 cursor: pointer;
@@ -111,23 +111,30 @@
                 display: flex;
                 align-items: center;
                 gap: 10px;
-                transition: all 0.3s ease;
+                transition: all 0.2s ease;
                 user-select: none;
 
-                i { font-size: 0.9rem; opacity: 0.5; transition: opacity 0.3s; }
+                i { font-size: 0.9rem; opacity: 0.6; }
 
                 &:hover {
-                    border-color: rgba($white, 0.3);
-                    color: $white;
-                    transform: translateY(-3px);
-                    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                    border-color: $primary-color;
+                    color: $primary-color;
+                    transform: translateY(-2px);
                 }
 
+                // Estados Activos dinámicos usando tu mapa de categorías
                 &.active {
-                    background: linear-gradient(135deg, $cat-renta-variable, color.adjust($cat-renta-variable, $lightness: -10%));
-                    border-color: transparent;
                     color: $white;
-                    box-shadow: 0 8px 20px rgba($cat-renta-variable, 0.35);
+                    border-color: transparent;
+                    box-shadow: $shadow-sm;
+
+                    &[data-value="Equilibrado"] { background: $primary-color; }
+                    &[data-value="renta-variable"] { background: $cat-renta-variable; }
+                    &[data-value="inmuebles"] { background: $cat-inmuebles; }
+                    &[data-value="private-equity"] { background: $cat-private-equity; }
+                    &[data-value="inversiones-alternativas"] { background: $cat-alternativas; }
+                    &[data-value="efectivo"] { background: $cat-efectivo; }
+                    &[data-value="renta-fija"] { background: $cat-renta-fija; }
                     
                     i { opacity: 1; }
                 }
@@ -141,40 +148,40 @@
         margin-bottom: 4rem;
     }
 
-    // Botón Premium
+    // --- BOTÓN PRINCIPAL (Identidad BIOR) ---
     .btn-nexus-primary {
-        background: linear-gradient(135deg, $cat-renta-variable, color.adjust($cat-renta-variable, $lightness: -12%));
+        background: linear-gradient(135deg, $primary-color, color.adjust($primary-color, $lightness: -10%));
         color: $white;
-        padding: 1.4rem 3rem;
+        padding: 1.4rem 3.5rem;
         font-size: 1.2rem;
         border-radius: 60px;
         border: none;
         cursor: pointer;
-        font-weight: 800;
-        letter-spacing: 0.5px;
-        box-shadow: 0 10px 25px rgba($cat-renta-variable, 0.4);
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        font-weight: 700;
+        box-shadow: $shadow-md;
+        transition: all 0.3s ease;
         display: flex;
         align-items: center;
         gap: 12px;
         
         &:hover {
-            transform: translateY(-5px) scale(1.03);
-            box-shadow: 0 15px 35px rgba($cat-renta-variable, 0.5);
+            transform: translateY(-3px);
+            box-shadow: $shadow-lg;
+            filter: brightness(1.1);
         }
         
         &:active { transform: translateY(1px); }
         
         &:disabled {
-            background: $text-muted;
+            background: $border-color;
+            color: $text-muted;
             box-shadow: none;
             cursor: not-allowed;
             transform: none;
-            opacity: 0.6;
         }
     }
 
-    // Grid de Tarjetas
+    // --- GRID Y TARJETAS DE RESULTADOS ---
     .nexus-results-grid {
         display: none;
         gap: 24px;
@@ -183,32 +190,31 @@
 
         &.is-visible {
             display: grid;
-            animation: fadeIn 0.8s ease-out forwards;
+            animation: fadeIn 0.6s ease-out forwards;
         }
     }
 
-    // Estilo de las Tarjetas
     .nexus-card {
-        background: #1e222b; 
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 18px;
+        background: $white;
+        border: 1px solid $border-color;
+        border-radius: 16px;
         padding: 26px;
-        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+        box-shadow: $shadow-sm;
         position: relative;
         display: flex;
         flex-direction: column; 
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        transition: all 0.3s ease;
 
         &:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
+            box-shadow: $shadow-md;
         }
 
         .nexus-card-header {
             display: flex;
             align-items: center;
             gap: 14px;
-            margin-bottom: 22px;
+            margin-bottom: 20px;
         }
 
         .nexus-icon-wrapper {
@@ -223,8 +229,8 @@
 
         .nexus-card-title {
             margin: 0;
-            font-size: 1.2rem;
-            color: #f0f6fc;
+            font-size: 1.15rem;
+            color: $text-color;
             font-weight: 700;
         }
 
@@ -233,30 +239,30 @@
             display: flex;
             flex-direction: column;
             gap: 14px;
-            margin-bottom: 22px;
+            margin-bottom: 20px;
+            color: $text-color;
         }
 
         .nexus-card-text {
-            color: #8b949e;
-            font-size: 0.98rem;
-            line-height: 1.7;
+            color: $text-muted;
+            font-size: 0.95rem;
+            line-height: 1.6;
             margin: 0;
 
             &.mission-action {
-                color: #ffffff;
+                color: $primary-color;
                 font-size: 1.1rem;
-                font-weight: 600;
-                background: rgba(255, 255, 255, 0.04);
+                font-weight: 700;
+                background: $bg-color;
                 padding: 18px;
-                border-radius: 12px;
-                border-left: 4px solid transparent; 
+                border-radius: 10px;
+                border-left: 4px solid $primary-color; 
             }
 
             &.mission-quote {
-                font-size: 0.92rem;
+                font-size: 0.9rem;
                 font-style: italic;
-                color: rgba(#8b949e, 0.8);
-                padding: 0 5px;
+                color: $text-muted;
             }
         }
 
@@ -264,76 +270,86 @@
 
         .nexus-badge {
             display: inline-block;
-            padding: 8px 16px;
-            border-radius: 25px;
-            font-size: 0.78rem;
-            font-weight: 800;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
         }
 
-        // Variantes de Color
+        // Variantes Funcionales
         &.risk-high {
-            border-top: 5px solid $error-red;
-            .nexus-icon-wrapper { background: rgba($error-red, 0.18); color: $error-red; }
-            .nexus-badge { background: rgba($error-red, 0.15); color: #ff7b72; border: 1px solid rgba($error-red, 0.3); }
+            border-top: 4px solid $error-red;
+            .nexus-icon-wrapper { 
+                background: rgba($accent-color, 0.1); 
+                color: color.adjust($accent-color, $lightness: -15%); 
+            }
+            .nexus-badge { 
+                background: rgba($accent-color, 0.1); 
+                color: color.adjust($accent-color, $lightness: -15%); 
+            }
         }
         &.risk-medium {
-            border-top: 5px solid #f59e0b;
-            .nexus-icon-wrapper { background: rgba(#f59e0b, 0.18); color: #f59e0b; }
-            .nexus-badge { background: rgba(#f59e0b, 0.15); color: #f59e0b; border: 1px solid rgba(#f59e0b, 0.3); }
+            border-top: 4px solid $accent-color;
+            .nexus-icon-wrapper { 
+                background: rgba($accent-color, 0.1); 
+                // Cambiamos darken(...) por color.adjust(...)
+                color: color.adjust($accent-color, $lightness: -15%); 
+            }
+            .nexus-badge { 
+                background: rgba($accent-color, 0.1); 
+                // Cambiamos darken(...) por color.adjust(...)
+                color: color.adjust($accent-color, $lightness: -15%); 
+            }
         }
         &.risk-low {
-            border-top: 5px solid $success-green;
-            .nexus-icon-wrapper { background: rgba($success-green, 0.18); color: $success-green; }
-            .nexus-badge { background: rgba($success-green, 0.15); color: $success-green; border: 1px solid rgba($success-green, 0.3); }
+            border-top: 4px solid $success-green;
+            .nexus-icon-wrapper { background: rgba($success-green, 0.1); color: $success-green; }
+            .nexus-badge { background: rgba($success-green, 0.1); color: $success-green; }
         }
 
         &.card-mission {
-            border-top: 5px solid $cat-inmuebles;
-            background: linear-gradient(180deg, #1e222b 0%, #151921 100%);
-            .nexus-icon-wrapper { background: rgba($cat-inmuebles, 0.18); color: $cat-inmuebles; }
-            .mission-action { border-left-color: $cat-inmuebles; }
-            .nexus-badge { background: rgba($cat-inmuebles, 0.18); color: $cat-inmuebles; border: 1px solid rgba($cat-inmuebles, 0.3); }
+            border-top: 4px solid $cat-inmuebles;
+            .nexus-icon-wrapper { background: rgba($cat-inmuebles, 0.1); color: $cat-inmuebles; }
+            .nexus-badge { background: $cat-inmuebles; color: $white; }
         }
 
         &.card-fiscal {
-            border-top: 5px solid $cat-private-equity;
-            .nexus-icon-wrapper { background: rgba($cat-private-equity, 0.18); color: $cat-private-equity; }
+            border-top: 4px solid $cat-private-equity;
+            .nexus-icon-wrapper { background: rgba($cat-private-equity, 0.1); color: $cat-private-equity; }
         }
     }
 
     .nexus-error-alert {
         grid-column: 1 / -1;
-        background: rgba($error-red, 0.1);
-        border: 1px solid rgba($error-red, 0.3);
+        background: rgba($error-red, 0.05);
+        border: 1px solid $error-red;
         color: $error-red;
-        padding: 24px;
-        border-radius: 14px;
+        padding: 20px;
+        border-radius: 12px;
         text-align: center;
-        font-weight: 700;
+        font-weight: 600;
     }
 
     .time-machine-section {
         background: $white;
-        border-radius: 20px;
-        padding: 35px;
-        box-shadow: $shadow-md;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: $shadow-sm;
         border: 1px solid $border-color;
-        margin-top: 5rem;
+        margin-top: 4rem;
 
         h3 {
             color: $primary-color;
-            font-size: 1.5rem;
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
     }
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(30px); }
+    from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
