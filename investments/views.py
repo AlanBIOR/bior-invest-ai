@@ -10,6 +10,8 @@ from django.db.models import Sum
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+import random
+
 
 # Modelos, Formularios y Servicios
 from .models import Investment, Category, Profile, NexusPlan
@@ -406,28 +408,49 @@ def nexus_advisor_view(request):
 @require_POST
 def api_modo_decision(request):
     """
-    Endpoint que recibe el capital y aportación del usuario y 
-    se los entrega al Agente Senior de 100 años.
+    Endpoint optimizado: Entrega el plan de NEXUS v2.3 y genera 
+    los puntos de datos para la Máquina del Tiempo.
     """
     try:
-        # 1. Extraer datos del JSON enviado por el JavaScript
+        # 1. Extraer datos (Variables originales mantenidas)
         data = json.loads(request.body)
-        
         capital_extra = data.get('capital_extra', 0)
         aportacion = data.get('aportacion', 0)
         preferencia = data.get('preferencia', 'Equilibrado')
 
-        # 2. Llamar al motor con todos los parámetros
+        # 2. Llamar al motor (Lógica de memoria y hoja de ruta activada)
         plan_accion = generar_plan_decision_nexus(
             user=request.user,
             capital_extra_input=capital_extra,
             aportacion_mensual_input=aportacion,
             preferencia_input=preferencia
         )
+
+        # --- 3. NUEVO: CÁLCULO DE LA MÁQUINA DEL TIEMPO (Backtest 12 meses) ---
+        profile = request.user.profile
+        # Capital real + inyección de hoy como base de la simulación
+        cap_base_sim = float(profile.capital or 0) + float(capital_extra)
+        apor_sim = float(aportacion)
         
+        time_machine_points = []
+        acumulado = cap_base_sim
+        meses_labels = ["Mes 1", "Mes 2", "Mes 3", "Mes 4", "Mes 5", "Mes 6", 
+                        "Mes 7", "Mes 8", "Mes 9", "Mes 10", "Mes 11", "Mes 12"]
+
+        for i in range(12):
+            # Simulamos el rendimiento Long Angle (~10-12% anual) con volatilidad
+            rendimiento_mes = 0.009 + random.uniform(-0.012, 0.018) 
+            acumulado = (acumulado + apor_sim) * (1 + rendimiento_mes)
+            time_machine_points.append({
+                "mes": meses_labels[i],
+                "valor": round(acumulado, 2)
+            })
+
+        # 4. Respuesta consolidada
         return JsonResponse({
             "status": "success",
-            "data": plan_accion
+            "data": plan_accion,            # Contiene la hoja_ruta_mensual
+            "time_machine": time_machine_points # Datos para Chart.js
         })
 
     except json.JSONDecodeError:

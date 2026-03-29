@@ -9,11 +9,10 @@ export function initNexusAdvisor() {
 
     if (!btnDecision || !resultsContainer) return;
 
-    // --- 1. LÓGICA DE INTERACCIÓN DE CHIPS (Selección Múltiple) ---
+    // --- 1. LÓGICA DE INTERACCIÓN DE CHIPS ---
     chips.forEach(chip => {
         chip.addEventListener('click', () => {
             const value = chip.dataset.value;
-
             if (value === "Equilibrado") {
                 chips.forEach(c => c.classList.remove('active'));
                 chip.classList.add('active');
@@ -22,24 +21,20 @@ export function initNexusAdvisor() {
                 if (equilibradoChip) equilibradoChip.classList.remove('active');
                 chip.classList.toggle('active');
             }
-
-            // Fallback: Si nada queda seleccionado, regresamos a Equilibrado
-            const activeCount = document.querySelectorAll('.select-chip.active').length;
-            if (activeCount === 0) {
+            if (document.querySelectorAll('.select-chip.active').length === 0) {
                 const eq = document.querySelector('.select-chip[data-value="Equilibrado"]');
                 if (eq) eq.classList.add('active');
             }
         });
     });
 
-    // --- 2. LÓGICA DE PERSISTENCIA (Cargar caché al entrar) ---
+    // --- 2. LÓGICA DE PERSISTENCIA ---
     const cachedPlan = localStorage.getItem('nexus_last_plan');
     if (cachedPlan) {
         renderNexusCards(JSON.parse(cachedPlan), resultsContainer);
     }
 
     btnDecision.addEventListener('click', async () => {
-        // Obtenemos los enfoques seleccionados
         const enfoques = Array.from(document.querySelectorAll('.select-chip.active'))
                              .map(c => c.dataset.value)
                              .join(", ");
@@ -50,7 +45,6 @@ export function initNexusAdvisor() {
             preferencia: enfoques
         };
 
-        // Estado de Carga UX
         const originalText = btnDecision.innerHTML;
         btnDecision.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Consultando al Agente Senior...';
         btnDecision.disabled = true;
@@ -75,8 +69,14 @@ export function initNexusAdvisor() {
                 const data = result.data;
                 localStorage.setItem('nexus_last_plan', JSON.stringify(data));
                 
-                // Renderizado en 1 columna
+                // --- CONEXIÓN CON LAS FUNCIONES NUEVAS ---
                 renderNexusCards(data, resultsContainer);
+                
+                // Si el servidor mandó datos históricos, pintamos la gráfica
+                if (result.time_machine) {
+                    renderTimeMachine(result.time_machine);
+                }
+
                 resultsContainer.style.opacity = '1';
             } else {
                 throw new Error(result.message);
@@ -86,7 +86,7 @@ export function initNexusAdvisor() {
             console.error('Error NEXUS:', error);
             resultsContainer.innerHTML = `
                 <div class="nexus-error-alert">
-                    <i class="fas fa-times-circle"></i> Error de conexión con el Agente. Intenta de nuevo.
+                    <i class="fas fa-times-circle"></i> Error con el Agente: ${error.message}.
                 </div>
             `;
             resultsContainer.classList.add('is-visible');
@@ -99,7 +99,7 @@ export function initNexusAdvisor() {
 }
 
 /**
- * Renderizado de Tarjetas en formato de columna única (Feed) con soporte Markdown
+ * Renderizado con Checklist de Agenda Mensual
  */
 function renderNexusCards(data, container) {
     const nivelRiesgo = (data.nivel_riesgo || "").toLowerCase();
@@ -107,7 +107,21 @@ function renderNexusCards(data, container) {
     if (nivelRiesgo.includes('alto') || nivelRiesgo.includes('crítico')) riskClass = 'risk-high';
     else if (nivelRiesgo.includes('medio')) riskClass = 'risk-medium';
 
-    // Usamos marked.parse() para procesar las negritas y listas de la IA
+    // Generar el HTML de la Agenda Mensual (Checklist)
+    let agendaHtml = '';
+    if (data.hoja_ruta_mensual && Array.isArray(data.hoja_ruta_mensual)) {
+        agendaHtml = `<div class="hoja-ruta-container">
+            <h4 style="margin-bottom: 1rem; color: #1a2a6c;">📋 Tu Agenda de Aportaciones:</h4>`;
+        data.hoja_ruta_mensual.forEach(item => {
+            agendaHtml += `
+                <div class="ruta-item">
+                    <span class="mes-badge">${item.mes}</span>
+                    <span class="tarea-text">${item.tarea}</span>
+                </div>`;
+        });
+        agendaHtml += `</div>`;
+    }
+
     const htmlTarjetas = `
         <div class="nexus-card ${riskClass}">
             <div class="nexus-card-header">
@@ -129,10 +143,10 @@ function renderNexusCards(data, container) {
             </div>
             <div class="nexus-card-body markdown-content">
                 <p class="mission-action">${data.accion_inmediata}</p>
-                <div class="mission-justification" style="margin-top: 1.5rem">
+                <div style="margin-top: 1.5rem">
                     ${marked.parse(data.justificacion)}
                 </div>
-            </div>
+                ${agendaHtml} </div>
             <div class="nexus-badge-wrapper">
                 <span class="nexus-badge">Objetivo: ${data.porcentaje_objetivo}</span>
             </div>
@@ -154,6 +168,38 @@ function renderNexusCards(data, container) {
 
     container.innerHTML = htmlTarjetas;
     container.classList.add('is-visible');
+}
+
+// --- MÁQUINA DEL TIEMPO ---
+let timeChart = null;
+function renderTimeMachine(datos) {
+    const canvas = document.getElementById('timeMachineChart');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (timeChart) timeChart.destroy();
+
+    timeChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: datos.map(d => d.mes),
+            datasets: [{
+                label: 'Crecimiento Simulado',
+                data: datos.map(d => d.valor),
+                borderColor: '#1a2a6c',
+                backgroundColor: 'rgba(26, 42, 108, 0.1)',
+                fill: true,
+                tension: 0.4,
+                borderWidth: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { ticks: { callback: (v) => '$' + v.toLocaleString() } }
+            }
+        }
+    });
 }
 
 function getCookie(name) {

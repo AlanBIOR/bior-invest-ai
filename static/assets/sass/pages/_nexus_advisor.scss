@@ -217,4 +217,60 @@
     }
 }
 
+.hoja-ruta-container {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .ruta-item {
+        background: $bg-color;
+        padding: 15px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        border: 1px solid transparent;
+        transition: all 0.2s;
+
+        &:hover {
+            border-color: $cat-renta-variable;
+            transform: translateX(5px);
+        }
+
+        .mes-badge {
+            background: $primary-color;
+            color: $white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .tarea-text {
+            color: $text-color;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+    }
+}
+
+.time-machine-section {
+    background: $white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: $shadow-md;
+    border: 1px solid $border-color;
+    margin-top: 4rem;
+    width: 100%;
+    max-width: 900px; // Centrado con el resto
+
+    canvas {
+        margin-top: 20px;
+        max-height: 350px;
+    }
+}
+
 @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }

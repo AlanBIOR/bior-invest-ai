@@ -3884,6 +3884,57 @@ body.is-masked .maskable {
   border: 1px dashed #1a2a6c;
 }
 
+.hoja-ruta-container {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.hoja-ruta-container .ruta-item {
+  background: #f0f2f5;
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+.hoja-ruta-container .ruta-item:hover {
+  border-color: #2563eb;
+  transform: translateX(5px);
+}
+.hoja-ruta-container .ruta-item .mes-badge {
+  background: #1a2a6c;
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  min-width: 60px;
+  text-align: center;
+}
+.hoja-ruta-container .ruta-item .tarea-text {
+  color: #2d3436;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.time-machine-section {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  margin-top: 4rem;
+  width: 100%;
+  max-width: 900px;
+}
+.time-machine-section canvas {
+  margin-top: 20px;
+  max-height: 350px;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

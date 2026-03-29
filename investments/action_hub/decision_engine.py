@@ -46,32 +46,49 @@ def generar_plan_decision_nexus(user, capital_extra_input=0, aportacion_mensual_
         Eres NEXUS, estratega patrimonial con 1 siglo de experiencia. Guía a {user.username}.
         REGLA DE ORO: No uses asteriscos (**), ni negritas, ni lenguaje técnico complejo. Sé directo.
 
-        CONTEXTO:
-        - Capital Total: ${cap_total:,.0f} MXN.
+        ESTADO ACTUAL:
+        - Capital Total Operativo: ${cap_total:,.0f} MXN.
         - Inyección HOY: ${cap_extra:,.0f} MXN.
         - Aporte Mensual: ${aportacion:,.0f} MXN.
-        - Interés: {preferencia}.
-        - Cartera: {txt_activos if txt_activos else "Cuenta nueva."}
+        - Enfoque: {preferencia}.
+        - Cartera actual: {txt_activos if txt_activos else "Sin activos previos."}
 
-        TAREA:
-        1. Diagnóstico: Qué está mal y por qué (conciso).
-        2. Misión de Hoy: Instrucción para los ${cap_extra} disponibles ahora.
-        3. Agenda Mensual: Una lista de tareas (tasks) paso a paso para la aportación de ${aportacion}.
-        4. Hack Fiscal: Un consejo de impuestos en México explicando para qué sirve y qué ganas tú.
+        TAREAS ESPECÍFICAS:
+        1. DIAGNÓSTICO: Explica el error principal de la cartera actual (ej: falta de diversificación, dinero ocioso) y por qué es peligroso.
+        2. MISIÓN HOY: Qué hacer exactamente con los ${cap_extra} disponibles hoy.
+        3. HOJA DE RUTA (4 MESES): Crea un plan mensual para los ${aportacion} de ahorro. Sé específico (Mes 1: Comprar X, Mes 2: Rebalancear Y...).
+        4. HACK FISCAL: Un consejo legal en México para pagar menos impuestos o recuperar dinero, explicando el beneficio tangible.
 
-        RESPUESTA JSON ÚNICAMENTE:
+        RESPUESTA JSON:
         {{
-            "riesgo_detectado": "Explica qué falta o sobra y qué peligro representa en 2 oraciones.",
+            "riesgo_detectado": "Análisis del error principal en 2 frases.",
             "nivel_riesgo": "Bajo/Medio/Alto/Crítico",
-            "accion_inmediata": "Instrucción corta para el capital de hoy.",
-            "agenda_mensual": "Lista de tareas para tu ahorro mensual (ej: 1. Comprar X... 2. Revisar Y...).",
-            "porcentaje_objetivo": "Meta %.",
-            "justificacion": "Razonamiento estratégico breve (máximo 2 párrafos cortos).",
-            "hack_fiscal": "Consejo claro: Qué hacer + Qué beneficio obtienes tú (dinero de vuelta, menos cobro de ISR, etc)."
+            "accion_inmediata": "Instrucción para el capital de hoy.",
+            "hoja_ruta_mensual": [
+                {{"mes": "Mes 1", "tarea": "Instrucción específica"}},
+                {{"mes": "Mes 2", "tarea": "Instrucción específica"}},
+                {{"mes": "Mes 3", "tarea": "Instrucción específica"}},
+                {{"mes": "Mes 4", "tarea": "Instrucción específica"}}
+            ],
+            "porcentaje_objetivo": "Meta de cartera %.",
+            "justificacion": "Por qué este plan es el más inteligente según tu experiencia.",
+            "hack_fiscal": "Acción fiscal + Beneficio (dinero que ganas/ahorras)."
         }}
         """
 
-        # --- 5. EJECUCIÓN EN CASCADA Y LIMPIEZA QUIRÚRGICA ---
+        # --- 5. LÓGICA DE MEMORIA (FEEDBACK) ---
+        # Buscamos el plan anterior (el penúltimo) para darle contexto de seguimiento
+        plan_anterior = NexusPlan.objects.filter(user=user).order_by('-created_at')[1:2].first()
+        contexto_seguimiento = ""
+        if plan_anterior:
+            prev_data = plan_anterior.plan_json
+            contexto_seguimiento = f"""
+            CONTEXTO DE SEGUIMIENTO (Plan Anterior):
+            El mes pasado le recomendaste: {prev_data.get('accion_inmediata')}
+            Tu hoja de ruta era: {prev_data.get('hoja_ruta_mensual')}
+            Evalúa brevemente si su portafolio actual refleja progreso y ajusta la nueva hoja de ruta.
+            """
+        # --- 6. CONFIGURACIÓN Y LLAMADA EN CASCADA ---
         api_key = os.environ.get('GEMINI_API_KEY')
         if not api_key:
             raise ValueError("API Key no configurada.")
@@ -79,7 +96,7 @@ def generar_plan_decision_nexus(user, capital_extra_input=0, aportacion_mensual_
         genai.configure(api_key=api_key)
 
         # Jerarquía optimizada para velocidad y estabilidad
-        MODELOS_HIERARCHY = [
+        MODELOS = [
             'models/gemini-2.5-pro',
             'models/gemini-2.5-flash',
             'models/gemini-2.0-flash',
@@ -95,37 +112,31 @@ def generar_plan_decision_nexus(user, capital_extra_input=0, aportacion_mensual_
         resultado_ia = None
         ultimo_error = ""
 
-        for model_name in MODELOS_HIERARCHY:
+        # Combinamos el prompt original con el seguimiento
+        prompt_final = prompt_sistema + contexto_seguimiento
+
+        for model_name in MODELOS:
             try:
                 model = genai.GenerativeModel(model_name)
-                respuesta = model.generate_content(prompt_sistema)
+                respuesta = model.generate_content(prompt_final)
                 texto_sucio = respuesta.text.strip()
 
-                # --- 6. LIMPIEZA QUIRÚRGICA (Regex + Limpiador de Asteriscos) ---
-                # Extraemos el bloque JSON
+                # Limpieza de asteriscos y extracción de JSON
                 match = re.search(r'\{.*\}', texto_sucio, re.DOTALL)
-                
                 if match:
-                    texto_limpio = match.group(0)
-                    # Limpieza total de negritas sucias (**) que ensucian el texto en móvil
-                    texto_limpio = texto_clean = texto_limpio.replace('**', '').replace('*', '')
-                else:
-                    texto_limpio = texto_sucio.replace("```json", "").replace("```", "").strip()
-
-                # Parseo y validación
-                resultado_ia = json.loads(texto_limpio)
-                break 
-
-            except (exceptions.ResourceExhausted, exceptions.ServiceUnavailable):
-                continue # Salto por cuota agotada
+                    texto_limpio = match.group(0).replace('**', '').replace('*', '')
+                    resultado_ia = json.loads(texto_limpio)
+                    break
             except Exception as e:
                 ultimo_error = str(e)
                 continue
 
         if not resultado_ia:
-            raise ValueError(f"Falla total del motor: {ultimo_error}")
+            raise ValueError(f"Falla total: {ultimo_error}")
 
-        # --- 7. PERSISTENCIA EN BASE DE DATOS ---
+        # --- 7. PERSISTENCIA FINAL ---
+        # Guardamos el registro. Al tener el plan_json completo, 
+        # siempre podremos reconstruir la hoja de ruta en el frontend.
         NexusPlan.objects.create(
             user=user,
             capital_extra=cap_extra,
@@ -137,14 +148,12 @@ def generar_plan_decision_nexus(user, capital_extra_input=0, aportacion_mensual_
         return resultado_ia
 
     except Exception as e:
-        print(f"DEBUG NEXUS ERROR: {str(e)}")
-        # Fallback con el nuevo formato de v2.2
+        print(f"ERROR CRÍTICO NEXUS: {str(e)}")
         return {
-            "riesgo_detectado": "El sistema de análisis detectó una interrupción en los flujos de datos.",
+            "riesgo_detectado": "Error en el núcleo de memoria.",
             "nivel_riesgo": "Medio",
-            "accion_inmediata": "Refresca la página y reintenta.",
-            "agenda_mensual": "1. Mantener liquidez actual. 2. Reintentar consulta en 1 minuto.",
-            "porcentaje_objetivo": "N/A",
-            "justificacion": "Error técnico: El motor está reconectando con el núcleo financiero.",
-            "hack_fiscal": "Asegúrate de que tu información de perfil esté completa para mejorar el diagnóstico."
+            "accion_inmediata": "Reintente en 60 segundos.",
+            "hoja_ruta_mensual": [],
+            "justificacion": f"No pudimos conectar con tu historial: {str(e)[:50]}",
+            "hack_fiscal": "Consulta tu constancia de situación fiscal."
         }
