@@ -1,0 +1,163 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.action-hub-container {
+    padding: 2rem 0;
+
+    .title-container {
+        margin-bottom: 2rem;
+        .text-muted { color: $text-muted; }
+    }
+
+    .decision-action-wrapper {
+        text-align: center;
+        margin: 4rem 0;
+    }
+
+    .btn-nexus-primary {
+        background-color: $cat-renta-variable; 
+        color: $white;
+        padding: 1.5rem 3rem;
+        font-size: 1.2rem;
+        border-radius: 50px;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+        box-shadow: 0 10px 25px rgba($cat-renta-variable, 0.4);
+        transition: transform 0.2s ease, opacity 0.2s ease;
+        
+        &:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba($cat-renta-variable, 0.5);
+        }
+        
+        &:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+    }
+
+    // Grid Contenedor
+    .nexus-results-grid {
+        display: none; // Oculto por defecto
+        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        margin-bottom: 4rem;
+
+        &.is-visible {
+            display: grid;
+        }
+    }
+
+    // Diseño de las Tarjetas de IA (Mantenemos el look oscuro/tecnológico)
+    .nexus-card {
+        background: #1c2128; // Fondo dark-mode para contraste AI
+        border: 1px solid #30363d;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: $shadow-sm;
+        position: relative;
+        overflow: hidden;
+
+        .nexus-card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .nexus-icon-wrapper {
+            padding: 8px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nexus-card-title {
+            margin: 0;
+            font-size: 1.1rem;
+            color: #c9d1d9;
+        }
+
+        .nexus-card-text {
+            color: #8b949e;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+
+            &.mission-action {
+                color: $white;
+                font-size: 1.05rem;
+                font-weight: bold;
+            }
+
+            &.mission-quote {
+                font-size: 0.9rem;
+                margin-bottom: 15px;
+            }
+        }
+
+        .nexus-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: $white;
+        }
+
+        // Variantes de Riesgo (Dinámicas)
+        &.risk-high {
+            .nexus-icon-wrapper { background: rgba($error-red, 0.2); color: $error-red; }
+            .nexus-badge { background: $error-red; }
+        }
+        &.risk-medium {
+            // Un naranja para nivel medio
+            .nexus-icon-wrapper { background: rgba(#f59e0b, 0.2); color: #f59e0b; }
+            .nexus-badge { background: #f59e0b; }
+        }
+        &.risk-low {
+            .nexus-icon-wrapper { background: rgba($success-green, 0.2); color: $success-green; }
+            .nexus-badge { background: $success-green; }
+        }
+
+        // Variante Misión de Hoy
+        &.card-mission {
+            border-color: $cat-inmuebles; // Verde
+            
+            .mission-border {
+                position: absolute;
+                top: 0; left: 0;
+                width: 4px; height: 100%;
+                background: $cat-inmuebles;
+            }
+            .nexus-icon-wrapper { background: rgba($cat-inmuebles, 0.2); color: $cat-inmuebles; }
+            .nexus-badge { background: $cat-inmuebles; color: #000; }
+        }
+
+        // Variante Hack Fiscal
+        &.card-fiscal {
+            .nexus-icon-wrapper { background: rgba($cat-private-equity, 0.2); color: $cat-private-equity; } // Púrpura
+        }
+    }
+
+    // Alerta de Error
+    .nexus-error-alert {
+        grid-column: 1 / -1;
+        background: rgba($error-red, 0.1);
+        border: 1px solid $error-red;
+        color: $error-red;
+        padding: 15px;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .time-machine-section {
+        margin-top: 3rem;
+        border-top: 1px solid $border-color;
+        padding-top: 2rem;
+        
+        .text-muted { color: $text-muted; }
+    }
+}

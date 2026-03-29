@@ -151,3 +151,6 @@ CSRF_TRUSTED_ORIGINS = [
     'https://invest-ai.bior-studio.com',
     'http://157.254.174.144',
 ]
+
+# Seguramente ya tienes algo parecido para tu chatbot, solo asegúrate de que se llame así:
+GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY', 'pega_aqui_tu_api_key_directamente_si_no_usas_env')

@@ -1,6 +1,6 @@
+import os
 import json
 import google.generativeai as genai
-from django.conf import settings
 from django.db.models import Sum
 
 # Importamos tus modelos reales
@@ -75,7 +75,8 @@ def generar_plan_decision_nexus(user):
         """
 
         # --- 4. LLAMADA A GEMINI ---
-        genai.configure(api_key=settings.GEMINI_API_KEY)
+        api_key = os.environ.get('GEMINI_API_KEY') # O como se llame tu variable de entorno
+        genai.configure(api_key=api_key)
         model = genai.GenerativeModel('gemini-2.5-flash')
         
         respuesta = model.generate_content(prompt_sistema)
