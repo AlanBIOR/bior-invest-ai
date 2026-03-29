@@ -24,6 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-o5ez9j86(!n1l!zn_uchv_vkwjahxk2kvmh(jo$o0s9_=ei1yn')
+NEXUS_WEBHOOK_TOKEN = os.getenv('NEXUS_WEBHOOK_TOKEN', 'token-por-defecto-seguro')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = config('DEBUG', default=True, cast=bool)
