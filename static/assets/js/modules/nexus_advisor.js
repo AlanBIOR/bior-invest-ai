@@ -2,39 +2,69 @@ export function initNexusAdvisor() {
     const btnDecision = document.getElementById('btn-decision-mode');
     const resultsContainer = document.getElementById('nexus-results-container');
     
-    // Inputs de configuración
+    // Inputs de configuración (IDs del HTML)
     const inputCapital = document.getElementById('input-capital');
     const inputAportacion = document.getElementById('input-aportacion');
-    const inputPreferencia = document.getElementById('input-preferencia');
+    // Chips para selección múltiple
+    const chips = document.querySelectorAll('.select-chip');
 
     if (!btnDecision || !resultsContainer) return;
 
-    // --- LÓGICA DE PERSISTENCIA (Cargar último plan guardado al entrar) ---
+    // --- 1. LÓGICA DE INTERACCIÓN DE CHIPS (Selección Múltiple) ---
+    chips.forEach(chip => {
+        chip.addEventListener('click', () => {
+            const value = chip.dataset.value;
+
+            if (value === "Equilibrado") {
+                // Si elige Equilibrado, limpiamos el resto
+                chips.forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+            } else {
+                // Si elige otro, quitamos el "Equilibrado" y toggleamos el actual
+                const equilibradoChip = document.querySelector('.select-chip[data-value="Equilibrado"]');
+                if (equilibradoChip) equilibradoChip.classList.remove('active');
+                
+                chip.classList.toggle('active');
+            }
+
+            // Si nada queda seleccionado, regresamos a Equilibrado por defecto
+            const activeCount = document.querySelectorAll('.select-chip.active').length;
+            if (activeCount === 0) {
+                const eq = document.querySelector('.select-chip[data-value="Equilibrado"]');
+                if (eq) eq.classList.add('active');
+            }
+        });
+    });
+
+    // --- 2. LÓGICA DE PERSISTENCIA (Cargar caché al entrar) ---
     const cachedPlan = localStorage.getItem('nexus_last_plan');
     if (cachedPlan) {
         renderNexusCards(JSON.parse(cachedPlan), resultsContainer);
     }
 
     btnDecision.addEventListener('click', async () => {
-        // 1. Preparar datos para el Mentor Senior
+        // Obtenemos los valores de los chips activos como una lista separada por comas
+        const enfoquesSeleccionados = Array.from(document.querySelectorAll('.select-chip.active'))
+                                           .map(c => c.dataset.value)
+                                           .join(", ");
+
+        // Preparar datos para el Mentor Senior
         const params = {
             capital_extra: parseFloat(inputCapital.value) || 0,
             aportacion: parseFloat(inputAportacion.value) || 0,
-            preferencia: inputPreferencia.value
+            preferencia: enfoquesSeleccionados
         };
 
-        // 2. Estado de Carga (UX Premium)
+        // Estado de Carga (UX Premium)
         const originalText = btnDecision.innerHTML;
         btnDecision.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Consultando al Agente Senior...';
         btnDecision.disabled = true;
-        
-        // Efecto de feedback visual: ocultamos lo viejo suavemente
         resultsContainer.style.opacity = '0.5';
 
         try {
             const apiUrl = btnDecision.getAttribute('data-url');
             
-            // 3. Llamada a la API enviando los parámetros del usuario
+            // Llamada a la API enviando los parámetros
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
@@ -51,10 +81,10 @@ export function initNexusAdvisor() {
             if (result.status === 'success') {
                 const data = result.data;
                 
-                // 4. Guardar en memoria local para evitar que se pierda al salir/regresar
+                // Guardar en memoria local
                 localStorage.setItem('nexus_last_plan', JSON.stringify(data));
 
-                // 5. Renderizado
+                // Renderizado
                 renderNexusCards(data, resultsContainer);
                 resultsContainer.style.opacity = '1';
 
@@ -79,7 +109,7 @@ export function initNexusAdvisor() {
 }
 
 /**
- * Función encargada de dibujar las tarjetas con el diseño Premium
+ * Función encargada de dibujar las tarjetas (Sin cambios en clases/variables)
  */
 function renderNexusCards(data, container) {
     const nivelRiesgo = data.nivel_riesgo.toLowerCase();
