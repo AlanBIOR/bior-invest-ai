@@ -106,7 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 Calc.recalcularCards(cap); 
                 Calc.aplicarSugerencias(cap);
                 Calc.proyectarCrecimiento(cap, apor);
-                sincronizarProgreso(cap, apor); // <--- Actualizado para Django
                 
                 // Actualizar gráfica de estrategia
                 const labels = config.map(c => c.name);

@@ -3,52 +3,74 @@
 @use "sass:color";
 
 .action-hub-container {
-    max-width: 900px; // Estrechado para lectura en 1 columna
+    max-width: 900px;
     margin: 0 auto;
-    padding: 3rem 1.5rem;
+    padding: 2rem 1rem; // Padding reducido para móviles
     display: flex;
     flex-direction: column;
     align-items: center;
 
+    @include tablet {
+        padding: 3rem 1.5rem;
+    }
+
     .nexus-header {
         text-align: center;
-        margin-bottom: 3rem;
+        margin-bottom: 2rem;
         
+        @include tablet {
+            margin-bottom: 3rem;
+        }
+
         h1 {
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             color: $primary-color; 
             margin-bottom: 0.5rem;
             @include flex-center;
             gap: 12px;
             font-family: $roboto-font;
+
+            @include tablet {
+                font-size: 2.5rem;
+            }
         }
         
         .text-muted {
-            font-size: 1.1rem;
+            font-size: 1rem;
             max-width: 650px;
             margin: 0 auto;
             color: $text-muted;
-            line-height: 1.6;
+            line-height: 1.5;
+
+            @include tablet {
+                font-size: 1.1rem;
+            }
         }
     }
 
-    // --- FORMULARIO DE PARÁMETROS (Basado en tus variables) ---
+    // --- FORMULARIO DE PARÁMETROS ---
     .nexus-setup-form {
         background: $white;
         border: 1px solid $border-color;
         border-radius: 16px;
-        padding: 2.5rem;
-        margin-bottom: 3rem;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
         box-shadow: $shadow-md;
         width: 100%;
+
+        @include tablet {
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+        }
         
         .input-grid {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
+            grid-template-columns: 1fr; // 1 columna en móvil
+            gap: 1.5rem;
 
             @include tablet {
                 grid-template-columns: 1fr 1fr;
+                gap: 2rem;
             }
         }
 
@@ -61,7 +83,7 @@
 
             label { 
                 color: $text-color; 
-                font-size: 0.85rem; 
+                font-size: 0.8rem; 
                 font-weight: 700;
                 display: flex;
                 align-items: center;
@@ -70,17 +92,28 @@
                 letter-spacing: 0.5px;
                 
                 i { color: $primary-color; }
+
+                @include tablet {
+                    font-size: 0.85rem;
+                }
             }
             
             input {
                 background: $bg-color;
                 border: 2px solid transparent;
                 color: $text-color;
-                padding: 14px 18px;
+                padding: 12px 15px;
                 border-radius: 10px;
                 font-family: $roboto-font;
-                font-size: 1.1rem;
+                font-size: 1rem;
                 transition: all 0.3s ease;
+                text-align: center; // Mejor lectura en móvil
+
+                @include tablet {
+                    padding: 14px 18px;
+                    font-size: 1.1rem;
+                    text-align: left;
+                }
                 
                 &:focus {
                     border-color: $primary-color;
@@ -91,31 +124,42 @@
             }
         }
 
-        // --- SISTEMA DE CHIPS MULTI-SELECT ---
+        // --- SISTEMA DE CHIPS (Optimizado para Touch/Móvil) ---
         .nexus-multi-select {
             @include flex-center;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 8px;
             margin-top: 10px;
+
+            @include tablet {
+                gap: 12px;
+            }
 
             .select-chip {
                 background: $bg-color;
                 border: 1px solid $border-color;
                 color: $text-muted;
-                padding: 10px 22px;
+                padding: 10px 15px;
                 border-radius: 50px;
                 cursor: pointer;
-                font-size: 0.95rem;
+                font-size: 0.85rem;
                 font-weight: 600;
                 transition: all 0.2s ease;
                 display: flex;
+                flex: 1 1 calc(50% - 8px); // Dos columnas en móvil
+                justify-content: center;
                 align-items: center;
-                gap: 10px;
+                gap: 8px;
+
+                @include tablet {
+                    flex: 0 1 auto;
+                    padding: 10px 22px;
+                    font-size: 0.95rem;
+                }
 
                 &:hover {
                     border-color: $primary-color;
                     color: $primary-color;
-                    transform: translateY(-2px);
                 }
 
                 &.active {
@@ -138,20 +182,31 @@
     .decision-action-wrapper {
         @include flex-center;
         width: 100%;
-        margin-bottom: 4rem;
+        margin-bottom: 2.5rem;
+
+        @include tablet {
+            margin-bottom: 4rem;
+        }
     }
 
     .btn-nexus-primary {
         background: linear-gradient(135deg, $primary-color, color.adjust($primary-color, $lightness: -10%));
         color: $white;
-        padding: 1.2rem 3rem;
-        font-size: 1.15rem;
+        padding: 1rem 2rem;
+        font-size: 1rem;
         border-radius: 50px;
         border: none;
         cursor: pointer;
         font-weight: 700;
         box-shadow: $shadow-md;
         transition: all 0.3s ease;
+        width: 100%; // Ancho completo en móvil
+
+        @include tablet {
+            width: auto;
+            padding: 1.2rem 3rem;
+            font-size: 1.15rem;
+        }
         
         &:hover {
             transform: translateY(-3px);
@@ -160,12 +215,16 @@
         }
     }
 
-    // --- RESULTADOS EN 1 COLUMNA (FEED) ---
+    // --- RESULTADOS ---
     .nexus-results-grid {
         width: 100%;
         display: none;
         flex-direction: column;
-        gap: 2.5rem;
+        gap: 1.5rem;
+
+        @include tablet {
+            gap: 2.5rem;
+        }
 
         &.is-visible { display: flex; animation: fadeIn 0.6s ease-out forwards; }
     }
@@ -174,64 +233,96 @@
         background: $white;
         border: 1px solid $border-color;
         border-radius: 16px;
-        padding: 2.5rem;
+        padding: 1.5rem;
         box-shadow: $shadow-sm;
-        border-left: 8px solid $border-color; // Acento lateral en lugar de superior
+        border-left: 6px solid $border-color;
 
-        // Soporte para Negritas de la IA
+        @include tablet {
+            padding: 2.5rem;
+            border-left-width: 8px;
+        }
+
         strong, b { color: $text-color; font-weight: 800; }
 
-        &.risk-high { border-left-color: $error-red; .nexus-icon-wrapper { color: $error-red; } }
-        &.risk-medium { border-left-color: $accent-color; .nexus-icon-wrapper { color: $accent-color; } }
+        &.risk-high { border-left-color: $error-red; }
+        &.risk-medium { border-left-color: $accent-color; }
         &.card-mission { border-left-color: $cat-renta-variable; }
         &.card-fiscal { border-left-color: $cat-private-equity; }
 
         .nexus-card-header {
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 1.5rem;
+            gap: 12px;
+            margin-bottom: 1rem;
+
+            @include tablet {
+                gap: 15px;
+                margin-bottom: 1.5rem;
+            }
         }
 
         .nexus-card-title {
             margin: 0;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             color: $primary-color;
             font-weight: 700;
+
+            @include tablet {
+                font-size: 1.4rem;
+            }
         }
 
         .nexus-card-body {
-            font-size: 1.05rem;
-            line-height: 1.8;
+            font-size: 0.95rem;
+            line-height: 1.6;
             color: $text-color;
+
+            @include tablet {
+                font-size: 1.05rem;
+                line-height: 1.8;
+            }
 
             p.mission-action {
                 background: $bg-color;
-                padding: 20px;
+                padding: 15px;
                 border-radius: 12px;
                 font-weight: 700;
                 color: $primary-color;
                 border: 1px dashed $primary-color;
+                margin-bottom: 1rem;
+
+                @include tablet {
+                    padding: 20px;
+                }
             }
         }
     }
 }
 
+// --- HOJA DE RUTA (Checklist Táctico) ---
 .hoja-ruta-container {
     margin-top: 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 
     .ruta-item {
         background: $bg-color;
-        padding: 15px;
+        padding: 12px;
         border-radius: 10px;
         display: flex;
-        align-items: center;
-        gap: 15px;
+        flex-direction: column; // Stack vertical en móvil
+        align-items: flex-start;
+        gap: 8px;
         border: 1px solid transparent;
         transition: all 0.2s;
+
+        @include tablet {
+            flex-direction: row; // Horizontal en tablet/PC
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+        }
 
         &:hover {
             border-color: $cat-renta-variable;
@@ -243,33 +334,57 @@
             color: $white;
             padding: 4px 10px;
             border-radius: 6px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 700;
-            min-width: 60px;
+            min-width: 65px;
             text-align: center;
         }
 
         .tarea-text {
             color: $text-color;
             font-weight: 500;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
+            line-height: 1.4;
+
+            @include tablet {
+                font-size: 0.95rem;
+            }
         }
     }
 }
 
+// --- MÁQUINA DEL TIEMPO ---
 .time-machine-section {
     background: $white;
     border-radius: 20px;
-    padding: 30px;
+    padding: 20px 15px;
     box-shadow: $shadow-md;
     border: 1px solid $border-color;
-    margin-top: 4rem;
+    margin-top: 2rem;
     width: 100%;
-    max-width: 900px; // Centrado con el resto
+    max-width: 900px;
+
+    @include tablet {
+        padding: 30px;
+        margin-top: 4rem;
+    }
+
+    h3 {
+        color: $primary-color;
+        @include flex-center;
+        gap: 10px;
+        font-size: 1.2rem;
+        @include tablet { font-size: 1.5rem; }
+    }
+
+    p { text-align: center; }
 
     canvas {
         margin-top: 20px;
-        max-height: 350px;
+        width: 100% !important;
+        height: auto !important;
+        max-height: 300px;
+        @include tablet { max-height: 350px; }
     }
 }
 

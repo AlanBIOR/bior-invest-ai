@@ -1,78 +1,62 @@
-import os
-import json
-import re
-import google.generativeai as genai
+import os, json, re, google.generativeai as genai
 from google.api_core import exceptions
 from django.db.models import Sum
 from ..models import Profile, Investment, NexusPlan 
 
 def generar_plan_decision_nexus(user, capital_extra_input=0, aportacion_mensual_input=0, preferencia_input="Equilibrado"):
     """
-    NEXUS v2.2: Consultor Patrimonial Senior.
-    Optimizado para móvil: Diagnósticos con 'por qué', Agenda Mensual y Hacks Fiscales claros.
+    NEXUS v2.4: Estratega con Foco Quirúrgico.
+    Separa el capital nuevo del portafolio actual y genera una agenda de diversificación real.
     """
     try:
-        # --- 1. NORMALIZACIÓN DE DATOS ---
         cap_extra = float(capital_extra_input or 0)
         aportacion = float(aportacion_mensual_input or 0)
         preferencia = preferencia_input
 
-        # --- 2. CACHÉ DE BASE DE DATOS ---
+        # Cache
         ultimo_plan = NexusPlan.objects.filter(
-            user=user, 
-            capital_extra=cap_extra, 
-            aportacion_mensual=aportacion, 
-            preferencia_activo=preferencia
+            user=user, capital_extra=cap_extra, 
+            aportacion_mensual=aportacion, preferencia_activo=preferencia
         ).order_by('-created_at').first()
 
-        if ultimo_plan:
-            return ultimo_plan.plan_json
+        if ultimo_plan: return ultimo_plan.plan_json
 
-        # --- 3. CONTEXTO PATRIMONIAL REAL (ADN BIOR) ---
+        # Contexto Real
         profile = Profile.objects.filter(user=user).first()
         efectivo_dash = float(profile.capital) if profile and profile.capital else 0.0
-        
         activos = Investment.objects.filter(user=user).select_related('category')
         total_inv = float(activos.aggregate(total_cur=Sum('current_value'))['total_cur'] or 0.0)
-        cap_total = efectivo_dash + total_inv + cap_extra
+        cap_total_existente = efectivo_dash + total_inv
         
-        txt_activos = "\n".join([
-            f"- {a.asset_name}: ${float(a.current_value or 0):,.0f} ({a.category.name})" 
-            for a in activos
-        ])
+        txt_activos = "\n".join([f"- {a.asset_name}: ${float(a.current_value or 0):,.0f}" for a in activos])
 
-        # --- 4. PROMPT ESTRATÉGICO (DIAGNÓSTICO + AGENDA + BENEFICIO FISCAL) ---
+        # PROMPT DE ALTO NIVEL
         prompt_sistema = f"""
-        Eres NEXUS, estratega patrimonial con 1 siglo de experiencia. Guía a {user.username}.
-        REGLA DE ORO: No uses asteriscos (**), ni negritas, ni lenguaje técnico complejo. Sé directo.
+        Eres NEXUS, consultor con 100 años de experiencia. Alan te entrega ${cap_extra:,.0f} MXN nuevos HOY.
+        
+        CONTEXTO DE APOYO (Solo para saber qué ya tiene):
+        - Portafolio actual: ${cap_total_existente:,.0f} MXN.
+        - Activos actuales: {txt_activos if txt_activos else "Ninguno."}
 
-        ESTADO ACTUAL:
-        - Capital Total Operativo: ${cap_total:,.0f} MXN.
-        - Inyección HOY: ${cap_extra:,.0f} MXN.
-        - Aporte Mensual: ${aportacion:,.0f} MXN.
-        - Enfoque: {preferencia}.
-        - Cartera actual: {txt_activos if txt_activos else "Sin activos previos."}
-
-        TAREAS ESPECÍFICAS:
-        1. DIAGNÓSTICO: Explica el error principal de la cartera actual (ej: falta de diversificación, dinero ocioso) y por qué es peligroso.
-        2. MISIÓN HOY: Qué hacer exactamente con los ${cap_extra} disponibles hoy.
-        3. HOJA DE RUTA (4 MESES): Crea un plan mensual para los ${aportacion} de ahorro. Sé específico (Mes 1: Comprar X, Mes 2: Rebalancear Y...).
-        4. HACK FISCAL: Un consejo legal en México para pagar menos impuestos o recuperar dinero, explicando el beneficio tangible.
+        REGLAS DE ORO:
+        1. LA MISIÓN DE HOY: Debe enfocarse EXCLUSIVAMENTE en cómo distribuir los ${cap_extra:,.0f} nuevos. No sumes lo que ya tiene para esta instrucción.
+        2. AGENDA DE 4 MESES: Cada mes debe tener una tarea DIFERENTE para su aporte mensual de ${aportacion:,.0f}. No repitas activos. Haz una rotación lógica para diversificar (ej: Mes 1: Acciones, Mes 2: FIBRAS, Mes 3: Renta Fija, Mes 4: Oro/Alternativas).
+        3. NO USES ASTERISCOS ni negritas.
 
         RESPUESTA JSON:
         {{
-            "riesgo_detectado": "Análisis del error principal en 2 frases.",
+            "riesgo_detectado": "Análisis de riesgo del portafolio TOTAL en 1 oración.",
             "nivel_riesgo": "Bajo/Medio/Alto/Crítico",
-            "accion_inmediata": "Instrucción para el capital de hoy.",
+            "accion_inmediata": "Instrucción exacta para los ${cap_extra} de hoy.",
             "hoja_ruta_mensual": [
-                {{"mes": "Mes 1", "tarea": "Instrucción específica"}},
-                {{"mes": "Mes 2", "tarea": "Instrucción específica"}},
-                {{"mes": "Mes 3", "tarea": "Instrucción específica"}},
-                {{"mes": "Mes 4", "tarea": "Instrucción específica"}}
+                {{"mes": "Mes 1", "tarea": "Tarea única para diversificar."}},
+                {{"mes": "Mes 2", "tarea": "Tarea diferente para complementar."}},
+                {{"mes": "Mes 3", "tarea": "Tarea de estabilidad o cobertura."}},
+                {{"mes": "Mes 4", "tarea": "Tarea de rebalanceo o nuevo sector."}}
             ],
-            "porcentaje_objetivo": "Meta de cartera %.",
-            "justificacion": "Por qué este plan es el más inteligente según tu experiencia.",
-            "hack_fiscal": "Acción fiscal + Beneficio (dinero que ganas/ahorras)."
+            "porcentaje_objetivo": "Meta %.",
+            "justificacion": "Breve explicación de por qué esta rotación de aportaciones es superior a invertir siempre en lo mismo.",
+            "hack_fiscal": "Consejo fiscal: Acción + Beneficio tangible en pesos."
         }}
         """
 
@@ -88,13 +72,13 @@ def generar_plan_decision_nexus(user, capital_extra_input=0, aportacion_mensual_
             Tu hoja de ruta era: {prev_data.get('hoja_ruta_mensual')}
             Evalúa brevemente si su portafolio actual refleja progreso y ajusta la nueva hoja de ruta.
             """
+
         # --- 6. CONFIGURACIÓN Y LLAMADA EN CASCADA ---
         api_key = os.environ.get('GEMINI_API_KEY')
         if not api_key:
             raise ValueError("API Key no configurada.")
 
         genai.configure(api_key=api_key)
-
         # Jerarquía optimizada para velocidad y estabilidad
         MODELOS = [
             'models/gemini-2.5-pro',
@@ -117,11 +101,14 @@ def generar_plan_decision_nexus(user, capital_extra_input=0, aportacion_mensual_
 
         for model_name in MODELOS:
             try:
-                model = genai.GenerativeModel(model_name)
+                # Limpieza de nombre de modelo por si viene con prefijo
+                m_name = model_name.replace('models/', '')
+                model = genai.GenerativeModel(m_name)
                 respuesta = model.generate_content(prompt_final)
                 texto_sucio = respuesta.text.strip()
 
-                # Limpieza de asteriscos y extracción de JSON
+                # --- 7. EXTRACCIÓN Y LIMPIEZA QUIRÚRGICA ---
+                # Buscamos el bloque JSON y eliminamos asteriscos que ensucian el mensaje
                 match = re.search(r'\{.*\}', texto_sucio, re.DOTALL)
                 if match:
                     texto_limpio = match.group(0).replace('**', '').replace('*', '')
@@ -134,9 +121,9 @@ def generar_plan_decision_nexus(user, capital_extra_input=0, aportacion_mensual_
         if not resultado_ia:
             raise ValueError(f"Falla total: {ultimo_error}")
 
-        # --- 7. PERSISTENCIA FINAL ---
-        # Guardamos el registro. Al tener el plan_json completo, 
-        # siempre podremos reconstruir la hoja de ruta en el frontend.
+        # --- 8. PERSISTENCIA Y SINCRONIZACIÓN REAL CON DB ---
+        
+        # A. Guardamos el historial del plan
         NexusPlan.objects.create(
             user=user,
             capital_extra=cap_extra,
@@ -145,15 +132,22 @@ def generar_plan_decision_nexus(user, capital_extra_input=0, aportacion_mensual_
             plan_json=resultado_ia
         )
 
+        # B. ACTUALIZACIÓN DEL PERFIL (Lo que antes hacía el Dashboard)
+        # Esto modifica los campos 'capital' y 'aportacion' que ves en tu Admin de Django
+        if profile:
+            profile.capital = cap_extra
+            profile.aportacion = aportacion
+            profile.save()
+
         return resultado_ia
 
     except Exception as e:
         print(f"ERROR CRÍTICO NEXUS: {str(e)}")
         return {
-            "riesgo_detectado": "Error en el núcleo de memoria.",
+            "riesgo_detectado": "Error en el núcleo de memoria o sincronización.",
             "nivel_riesgo": "Medio",
             "accion_inmediata": "Reintente en 60 segundos.",
             "hoja_ruta_mensual": [],
             "justificacion": f"No pudimos conectar con tu historial: {str(e)[:50]}",
-            "hack_fiscal": "Consulta tu constancia de situación fiscal."
+            "hack_fiscal": "Consulta tu constancia de situación fiscal mientras restauramos el sistema."
         }

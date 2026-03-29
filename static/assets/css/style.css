@@ -3659,17 +3659,27 @@ body.is-masked .maskable {
 .action-hub-container {
   max-width: 900px;
   margin: 0 auto;
-  padding: 3rem 1.5rem;
+  padding: 2rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+@media (min-width: 768px) {
+  .action-hub-container {
+    padding: 3rem 1.5rem;
+  }
+}
 .action-hub-container .nexus-header {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
+}
+@media (min-width: 768px) {
+  .action-hub-container .nexus-header {
+    margin-bottom: 3rem;
+  }
 }
 .action-hub-container .nexus-header h1 {
-  font-size: 2.5rem;
+  font-size: 1.8rem;
   color: #1a2a6c;
   margin-bottom: 0.5rem;
   display: flex;
@@ -3678,30 +3688,47 @@ body.is-masked .maskable {
   gap: 12px;
   font-family: "Roboto", sans-serif;
 }
+@media (min-width: 768px) {
+  .action-hub-container .nexus-header h1 {
+    font-size: 2.5rem;
+  }
+}
 .action-hub-container .nexus-header .text-muted {
-  font-size: 1.1rem;
+  font-size: 1rem;
   max-width: 650px;
   margin: 0 auto;
   color: #64748b;
-  line-height: 1.6;
+  line-height: 1.5;
+}
+@media (min-width: 768px) {
+  .action-hub-container .nexus-header .text-muted {
+    font-size: 1.1rem;
+  }
 }
 .action-hub-container .nexus-setup-form {
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 16px;
-  padding: 2.5rem;
-  margin-bottom: 3rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   width: 100%;
+}
+@media (min-width: 768px) {
+  .action-hub-container .nexus-setup-form {
+    padding: 2.5rem;
+    margin-bottom: 3rem;
+  }
 }
 .action-hub-container .nexus-setup-form .input-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 @media (min-width: 768px) {
   .action-hub-container .nexus-setup-form .input-grid {
     grid-template-columns: 1fr 1fr;
+    gap: 2rem;
   }
 }
 .action-hub-container .nexus-setup-form .input-group {
@@ -3714,7 +3741,7 @@ body.is-masked .maskable {
 }
 .action-hub-container .nexus-setup-form .input-group label {
   color: #2d3436;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -3725,15 +3752,28 @@ body.is-masked .maskable {
 .action-hub-container .nexus-setup-form .input-group label i {
   color: #1a2a6c;
 }
+@media (min-width: 768px) {
+  .action-hub-container .nexus-setup-form .input-group label {
+    font-size: 0.85rem;
+  }
+}
 .action-hub-container .nexus-setup-form .input-group input {
   background: #f0f2f5;
   border: 2px solid transparent;
   color: #2d3436;
-  padding: 14px 18px;
+  padding: 12px 15px;
   border-radius: 10px;
   font-family: "Roboto", sans-serif;
-  font-size: 1.1rem;
+  font-size: 1rem;
   transition: all 0.3s ease;
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .action-hub-container .nexus-setup-form .input-group input {
+    padding: 14px 18px;
+    font-size: 1.1rem;
+    text-align: left;
+  }
 }
 .action-hub-container .nexus-setup-form .input-group input:focus {
   border-color: #1a2a6c;
@@ -3746,27 +3786,40 @@ body.is-masked .maskable {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 8px;
   margin-top: 10px;
+}
+@media (min-width: 768px) {
+  .action-hub-container .nexus-setup-form .nexus-multi-select {
+    gap: 12px;
+  }
 }
 .action-hub-container .nexus-setup-form .nexus-multi-select .select-chip {
   background: #f0f2f5;
   border: 1px solid #e2e8f0;
   color: #64748b;
-  padding: 10px 22px;
+  padding: 10px 15px;
   border-radius: 50px;
   cursor: pointer;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   font-weight: 600;
   transition: all 0.2s ease;
   display: flex;
+  flex: 1 1 calc(50% - 8px);
+  justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+}
+@media (min-width: 768px) {
+  .action-hub-container .nexus-setup-form .nexus-multi-select .select-chip {
+    flex: 0 1 auto;
+    padding: 10px 22px;
+    font-size: 0.95rem;
+  }
 }
 .action-hub-container .nexus-setup-form .nexus-multi-select .select-chip:hover {
   border-color: #1a2a6c;
   color: #1a2a6c;
-  transform: translateY(-2px);
 }
 .action-hub-container .nexus-setup-form .nexus-multi-select .select-chip.active {
   color: #ffffff;
@@ -3799,19 +3852,32 @@ body.is-masked .maskable {
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-bottom: 4rem;
+  margin-bottom: 2.5rem;
+}
+@media (min-width: 768px) {
+  .action-hub-container .decision-action-wrapper {
+    margin-bottom: 4rem;
+  }
 }
 .action-hub-container .btn-nexus-primary {
   background: linear-gradient(135deg, #1a2a6c, rgb(16.1044776119, 26.0149253731, 66.8955223881));
   color: #ffffff;
-  padding: 1.2rem 3rem;
-  font-size: 1.15rem;
+  padding: 1rem 2rem;
+  font-size: 1rem;
   border-radius: 50px;
   border: none;
   cursor: pointer;
   font-weight: 700;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
+  width: 100%;
+}
+@media (min-width: 768px) {
+  .action-hub-container .btn-nexus-primary {
+    width: auto;
+    padding: 1.2rem 3rem;
+    font-size: 1.15rem;
+  }
 }
 .action-hub-container .btn-nexus-primary:hover {
   transform: translateY(-3px);
@@ -3822,7 +3888,12 @@ body.is-masked .maskable {
   width: 100%;
   display: none;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 1.5rem;
+}
+@media (min-width: 768px) {
+  .action-hub-container .nexus-results-grid {
+    gap: 2.5rem;
+  }
 }
 .action-hub-container .nexus-results-grid.is-visible {
   display: flex;
@@ -3832,9 +3903,15 @@ body.is-masked .maskable {
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 16px;
-  padding: 2.5rem;
+  padding: 1.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  border-left: 8px solid #e2e8f0;
+  border-left: 6px solid #e2e8f0;
+}
+@media (min-width: 768px) {
+  .action-hub-container .nexus-card {
+    padding: 2.5rem;
+    border-left-width: 8px;
+  }
 }
 .action-hub-container .nexus-card strong, .action-hub-container .nexus-card b {
   color: #2d3436;
@@ -3843,14 +3920,8 @@ body.is-masked .maskable {
 .action-hub-container .nexus-card.risk-high {
   border-left-color: #ef4444;
 }
-.action-hub-container .nexus-card.risk-high .nexus-icon-wrapper {
-  color: #ef4444;
-}
 .action-hub-container .nexus-card.risk-medium {
   border-left-color: #fdbb2d;
-}
-.action-hub-container .nexus-card.risk-medium .nexus-icon-wrapper {
-  color: #fdbb2d;
 }
 .action-hub-container .nexus-card.card-mission {
   border-left-color: #2563eb;
@@ -3861,44 +3932,76 @@ body.is-masked .maskable {
 .action-hub-container .nexus-card .nexus-card-header {
   display: flex;
   align-items: center;
-  gap: 15px;
-  margin-bottom: 1.5rem;
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+@media (min-width: 768px) {
+  .action-hub-container .nexus-card .nexus-card-header {
+    gap: 15px;
+    margin-bottom: 1.5rem;
+  }
 }
 .action-hub-container .nexus-card .nexus-card-title {
   margin: 0;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   color: #1a2a6c;
   font-weight: 700;
 }
+@media (min-width: 768px) {
+  .action-hub-container .nexus-card .nexus-card-title {
+    font-size: 1.4rem;
+  }
+}
 .action-hub-container .nexus-card .nexus-card-body {
-  font-size: 1.05rem;
-  line-height: 1.8;
+  font-size: 0.95rem;
+  line-height: 1.6;
   color: #2d3436;
+}
+@media (min-width: 768px) {
+  .action-hub-container .nexus-card .nexus-card-body {
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
 }
 .action-hub-container .nexus-card .nexus-card-body p.mission-action {
   background: #f0f2f5;
-  padding: 20px;
+  padding: 15px;
   border-radius: 12px;
   font-weight: 700;
   color: #1a2a6c;
   border: 1px dashed #1a2a6c;
+  margin-bottom: 1rem;
+}
+@media (min-width: 768px) {
+  .action-hub-container .nexus-card .nexus-card-body p.mission-action {
+    padding: 20px;
+  }
 }
 
 .hoja-ruta-container {
   margin-top: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 .hoja-ruta-container .ruta-item {
   background: #f0f2f5;
-  padding: 15px;
+  padding: 12px;
   border-radius: 10px;
   display: flex;
-  align-items: center;
-  gap: 15px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
   border: 1px solid transparent;
   transition: all 0.2s;
+}
+@media (min-width: 768px) {
+  .hoja-ruta-container .ruta-item {
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+  }
 }
 .hoja-ruta-container .ruta-item:hover {
   border-color: #2563eb;
@@ -3909,30 +4012,65 @@ body.is-masked .maskable {
   color: #ffffff;
   padding: 4px 10px;
   border-radius: 6px;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 700;
-  min-width: 60px;
+  min-width: 65px;
   text-align: center;
 }
 .hoja-ruta-container .ruta-item .tarea-text {
   color: #2d3436;
   font-weight: 500;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+@media (min-width: 768px) {
+  .hoja-ruta-container .ruta-item .tarea-text {
+    font-size: 0.95rem;
+  }
 }
 
 .time-machine-section {
   background: #ffffff;
   border-radius: 20px;
-  padding: 30px;
+  padding: 20px 15px;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   border: 1px solid #e2e8f0;
-  margin-top: 4rem;
+  margin-top: 2rem;
   width: 100%;
   max-width: 900px;
 }
+@media (min-width: 768px) {
+  .time-machine-section {
+    padding: 30px;
+    margin-top: 4rem;
+  }
+}
+.time-machine-section h3 {
+  color: #1a2a6c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.2rem;
+}
+@media (min-width: 768px) {
+  .time-machine-section h3 {
+    font-size: 1.5rem;
+  }
+}
+.time-machine-section p {
+  text-align: center;
+}
 .time-machine-section canvas {
   margin-top: 20px;
-  max-height: 350px;
+  width: 100% !important;
+  height: auto !important;
+  max-height: 300px;
+}
+@media (min-width: 768px) {
+  .time-machine-section canvas {
+    max-height: 350px;
+  }
 }
 
 @keyframes fadeIn {
