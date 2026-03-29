@@ -2489,3 +2489,60 @@ For more information on production servers see: https://docs.djangoproject.com/e
 [22/Mar/2026 19:18:00] "POST /api/v1/n8n-webhook/ HTTP/1.0" 403 47
 [22/Mar/2026 19:22:17] code 400, message Bad HTTP/0.9 request type ('\x00\x00\x00')
 [22/Mar/2026 19:22:17] "    c                           " 400 -
+[2026-03-29 01:24:14 +0000] [144773] [INFO] Starting gunicorn 23.0.0
+[2026-03-29 01:24:14 +0000] [144773] [INFO] Listening at: http://0.0.0.0:8000 (144773)
+[2026-03-29 01:24:14 +0000] [144773] [INFO] Using worker: sync
+[2026-03-29 01:24:14 +0000] [144774] [INFO] Booting worker with pid: 144774
+[2026-03-29 01:24:14 +0000] [144775] [INFO] Booting worker with pid: 144775
+[2026-03-29 01:24:14 +0000] [144776] [INFO] Booting worker with pid: 144776
+/var/www/bior-invest/investments/action_hub/decision_engine.py:2: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+/var/www/bior-invest/investments/action_hub/decision_engine.py:2: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+Not Found: /api/v1/modo-decision/
+[2026-03-29 01:26:43 +0000] [144773] [INFO] Handling signal: term
+[2026-03-28 19:26:43 -0600] [144775] [INFO] Worker exiting (pid: 144775)
+[2026-03-28 19:26:43 -0600] [144774] [INFO] Worker exiting (pid: 144774)
+[2026-03-28 19:26:43 -0600] [144776] [INFO] Worker exiting (pid: 144776)
+[2026-03-29 01:26:43 +0000] [144801] [INFO] Starting gunicorn 23.0.0
+[2026-03-29 01:26:43 +0000] [144801] [ERROR] Connection in use: ('0.0.0.0', 8000)
+[2026-03-29 01:26:43 +0000] [144801] [ERROR] connection to ('0.0.0.0', 8000) failed: [Errno 98] Address already in use
+[2026-03-29 01:26:44 +0000] [144773] [INFO] Shutting down: Master
+[2026-03-29 01:26:44 +0000] [144801] [INFO] Listening at: http://0.0.0.0:8000 (144801)
+[2026-03-29 01:26:44 +0000] [144801] [INFO] Using worker: sync
+[2026-03-29 01:26:44 +0000] [144802] [INFO] Booting worker with pid: 144802
+[2026-03-29 01:26:44 +0000] [144803] [INFO] Booting worker with pid: 144803
+[2026-03-29 01:26:44 +0000] [144804] [INFO] Booting worker with pid: 144804
+/var/www/bior-invest/investments/action_hub/decision_engine.py:2: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+/var/www/bior-invest/investments/action_hub/decision_engine.py:2: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import google.generativeai as genai
+Not Found: /api/v1/modo-decision/
