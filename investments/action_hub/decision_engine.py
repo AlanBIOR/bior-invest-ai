@@ -78,10 +78,16 @@ def generar_plan_decision_nexus(user, capital_extra_input=0, aportacion_mensual_
 
         # Jerarquía optimizada para velocidad y estabilidad
         MODELOS_HIERARCHY = [
-            'gemini-2.0-flash',       # El más rápido y capaz hoy
-            'gemini-1.5-flash',       # Balance perfecto
-            'gemini-1.5-flash-8b',    # Ultra ligero para respuestas rápidas
-            'gemini-1.5-pro'          # Respaldo de alta inteligencia
+            'models/gemini-2.5-pro',
+            'models/gemini-2.5-flash',
+            'models/gemini-2.0-flash',
+            'models/gemini-2.0-flash-lite',
+            'models/gemini-1.5-pro',
+            'models/gemini-1.5-flash',
+            'models/gemini-flash-latest',
+            'models/gemini-pro-latest',
+            'models/gemini-2.0-flash-001',
+            'models/gemini-1.5-flash-8b'
         ]
 
         resultado_ia = None
