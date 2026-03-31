@@ -30,9 +30,7 @@ NEXUS_WEBHOOK_TOKEN = config('NEXUS_WEBHOOK_TOKEN', default='token-por-defecto-s
 #DEBUG = config('DEBUG', default=True, cast=bool)
 DEBUG = True
 
-ALLOWED_HOSTS = ['invest-ai.bior-studio.com', '157.254.174.144', 'localhost', '127.0.0.1', '0.0.0.0']
-USE_X_FORWARDED_HOST = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+ALLOWED_HOSTS = ['invest-ai.bior-studio.com', '157.254.174.144', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
