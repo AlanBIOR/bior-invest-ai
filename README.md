@@ -234,7 +234,7 @@ Además del reporte completo, dentro de la página del portafolio pusimos un cha
 
 ### 4.3. El Ecosistema Omnicanal: NEXUS en WhatsApp y Telegram
 
-Para lograr una fricción cero, integramos **NEXUS Core** con WhatsApp y **Telegram** mediante una orquestación avanzada en **n8n**, hosteado en nuestra infraestructura privada de **CubePath**. Este motor híbrido maneja dos vías de comunicación clave: **Consultas Reactivas** (Tú le hablas) y **Alertas Proactivas** (NEXUS te habla a ti).
+Para lograr una fricción cero, integramos **NEXUS Core** con WhatsApp y **Telegram** mediante una orquestación avanzada en **n8n**, hosteado en nuestra infraestructura privada de **CubePath**. Este motor híbrido maneja dos vías de comunicación clave: **Consultas Reactivas** y **Alertas Proactivas**.
 
 <div align="center" style="margin: 30px 0;">
   <table style="border-collapse: collapse; border: 1px solid #30363d; border-radius: 12px; width: 100%; overflow: hidden;">
@@ -278,7 +278,7 @@ Debido a las políticas de seguridad de la API de **Twilio**, el acceso a WhatsA
 <div align="center">
   <img src="./static/assets/img/img_readme/whatsapp_demo.jpg" width="50%" alt="Demo en WhatsApp">
   <p style="color: #64748b; font-size: 0.85rem; font-style: italic; margin-top: 10px;">
-  <b>Fig. 10:</b> NEXUS Core en WhatsApp: Diagnóstico de riesgo crítico y plan de acción táctico tras procesar consultas de voz y texto.
+  <b>Fig. 10:</b> Diagnóstico de riesgo crítico y plan de acción táctico tras procesar consultas de voz y texto.
 </p>
 </div>
 
@@ -287,8 +287,8 @@ A diferencia de WhatsApp, el **bot de Telegram (@BiorNexusBot)** opera de forma 
 <div align="center" style="margin-bottom: 40px;">
   <img src="./static/assets/img/img_readme/n8n_telegram_alerts.jpg" width="85%" alt="Ejecución de n8n para Telegram">
   <p style="color: #64748b; font-size: 0.85rem; font-style: italic; margin-top: 10px;">
-     <b>Fig. 11:</b> Orquestación en n8n para el flujo de Telegram. Se aprecia el nodo 'Cron' disparando la consulta al 'Django Bridge' y la ejecución exitosa del nodo 'Telegram' al detectar un desbalance.
-  </p>
+  <b>Fig. 11:</b> Automatización proactiva disparando el diagnóstico de Django hacia Telegram ante desbalances detectados.
+</p>
 </div>
 
 <div align="center">
@@ -319,7 +319,7 @@ El diseño de la plataforma prioriza la reducción de la carga cognitiva y la le
 
 ---
 
-## 6. 📦 Guía de Despliegue (Reproducibilidad)
+## 6. 📦 Guía de Despliegue
 
 El proyecto está diseñado para ser desplegado de manera nativa y ligera en infraestructura Linux, operando exitosamente incluso en instancias con recursos limitados (1 vCPU, 2GB RAM en Ubuntu 24.04).
 
