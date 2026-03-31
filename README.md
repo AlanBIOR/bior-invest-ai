@@ -12,7 +12,7 @@
 
 > **📌 Notas de Acceso y Evaluación:**
 > - **🖥️ Registro Web:** Para probar el dashboard interactivo, crear tu portafolio y acceder al **Action Hub**, es necesario registrarse. Puedes utilizar **cualquier número de teléfono ficticio** (el sistema no exige verificación por SMS).
-> - **💬 Asesor de WhatsApp:** Debido a las restricciones del Sandbox de Twilio, el bot de WhatsApp está en modo privado. Puedes validar su funcionamiento en la [Evidencia Técnica](#-evidencia-de-ejecución-logs--interfaz).
+> - **💬 Asesor de WhatsApp:** Debido a las restricciones del Sandbox de Twilio, el bot de WhatsApp está en modo privado. Puedes validar su funcionamiento en la [Evidencia Técnica](#-evidencia-de-ejecución).
 > - **📱 Notificaciones de Telegram:** NEXUS ahora es proactivo. Al vincular tu **Telegram ID** en el perfil, el sistema te enviará alertas automáticas de rebalanceo y rendimiento basadas en los datos reales de tu base de datos.
 
 ---
