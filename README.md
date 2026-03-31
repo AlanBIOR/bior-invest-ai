@@ -278,8 +278,8 @@ Debido a las políticas de seguridad de la API de **Twilio**, el acceso a WhatsA
 <div align="center">
   <img src="./static/assets/img/img_readme/whatsapp_demo.jpg" width="50%" alt="Demo en WhatsApp">
   <p style="color: #64748b; font-size: 0.85rem; font-style: italic; margin-top: 10px;">
-    <b>Fig. 10:</b> Interfaz recibiendo asesoría patrimonial y alertas de NEXUS en tiempo real.
-  </p>
+  <b>Fig. 10:</b> NEXUS Core en WhatsApp: Diagnóstico de riesgo crítico y plan de acción táctico tras procesar consultas de voz y texto.
+</p>
 </div>
 
 A diferencia de WhatsApp, el **bot de Telegram (@BiorNexusBot)** opera de forma nativa e híbrida. Sirve tanto para responder consultas asíncronas de voz o texto, como para despachar las **Alertas Proactivas** generadas por el motor financiero en Django.
