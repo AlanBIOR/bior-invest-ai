@@ -1,7 +1,7 @@
 # BIOR Invest AI 🚀
 
 <div align="center">
-  <img src="./static/assets/img/img_readme/header_bior.png" width="100%" alt="BIOR Invest AI Header Banner">
+  <img src="./static/assets/img/img_readme/header_bior_2.jpg" width="100%" alt="BIOR Invest AI Header Banner">
 </div>
 
 **Tracker de Inversiones y Análisis de Portafolio impulsado por IA.**
@@ -38,7 +38,7 @@ El despliegue se orquesta en su totalidad sobre Ubuntu 24.04 utilizando **Dokplo
 
 ## 1. 💡 ¿Qué problema resolvemos?
 
-En México, proteger el dinero de la inflación y navegar la complejidad fiscal (ISR, beneficios de SOFIPOS, etc.) suele ser una barrera para el inversionista promedio. Esta falta de claridad provoca que el capital se mantenga estático o subutilizado, perdiendo el impacto multiplicador del mercado.
+En México, proteger el dinero de la inflación y navegar la complejidad fiscal suele ser una barrera para el inversionista promedio. Esta falta de claridad provoca que el capital se mantenga estático o subutilizado, perdiendo el impacto multiplicador del mercado.
 
 **BIOR Invest AI** rompe esta inercia. Traducimos las estrategias de diversificación de nivel institucional (basadas en la comunidad **Long Angle**) para que cualquier persona pueda aplicarlas a su patrimonio personal.
 
@@ -49,7 +49,7 @@ $$VF = \sum_{i=1}^{n} \left[ VP_i(1 + r_i)^t + A_i \frac{(1 + r_i)^t - 1}{r_i} \
 
 *¿Qué significa esta ecuación en la práctica? Calculamos tu proyección de riqueza tomando tu capital inicial ($VP$), sumando el impacto de tus aportaciones mensuales ($A$) y el rendimiento específico de cada clase de activo ($r$) a través del tiempo ($t$).*
 
-**La Novedad:** A este modelo matemático le hemos añadido una **Capa de Vigilancia Activa**. El sistema no solo proyecta; si los datos reales de tu portafolio se desvían de los umbrales de seguridad (ej. exceso de volatilidad o falta de liquidez), NEXUS interviene automáticamente notificándote por canales omnicanal.
+A este modelo matemático le hemos añadido una **Capa de Vigilancia Activa**. El sistema no solo proyecta; si los datos reales de tu portafolio se desvían de los umbrales de seguridad (ej. exceso de volatilidad o falta de liquidez), NEXUS interviene automáticamente notificándote por canales omnicanal.
 
 <div align="center">
   <p>
@@ -64,16 +64,16 @@ $$VF = \sum_{i=1}^{n} \left[ VP_i(1 + r_i)^t + A_i \frac{(1 + r_i)^t - 1}{r_i} \
 
 ## 2. 🏗️ Arquitectura de Infraestructura
 
-Toda la infraestructura se desplegó en la nube de **CubePath**, ubicando nuestro servidor en Miami, FL. Esta elección estratégica garantiza la latencia más baja posible al interactuar con los modelos de Gemini y las APIs financieras (CoinGecko/Banxico), optimizando los tiempos de respuesta de NEXUS.
+Elegimos la nube de **CubePath** para alojar todo el proyecto, ubicando nuestro servidor en Miami, FL. Esta ubicación nos garantiza una conexión rapidísima y sin interrupciones tanto con los motores de Inteligencia Artificial como con las fuentes de datos financieros.
 
-El reto técnico principal fue ejecutar un ecosistema robusto (Web + IA + Automatización + Alertas) de manera fluida en una instancia **gp.nano** (1 vCPU, 2 GB RAM).
+Nuestro gran objetivo al usar CubePath fue demostrar la eficiencia de nuestra plataforma: logramos que un ecosistema robusto y completo (Plataforma Web + IA + Automatizaciones + Alertas a celular) corra de manera perfectamente fluida en una de sus instancias más básicas y accesibles, la **gp.nano** (1 vCPU, 2 GB RAM).
 
 ### Estrategia de Optimización de Recursos:
 
-1. **Orquestación con Dokploy (Docker):** Utilizamos Dokploy para gestionar contenedores aislados. Esto permitió segmentar el tráfico mediante un **Reverse Proxy** con SSL automatizado, asegurando que cada servicio (Django y n8n) consuma únicamente los recursos necesarios sin interferir entre sí.
+1. **Orquestación con Dokploy:** Utilizamos Dokploy para gestionar contenedores aislados. Esto permitió segmentar el tráfico mediante un **Reverse Proxy** con SSL automatizado, asegurando que cada servicio (Django y n8n) consuma únicamente los recursos necesarios sin interferir entre sí.
 
 2. **Persistencia Eficiente con SQLite:**
-   Para proteger la memoria RAM (crítica en instancias de 2 GB), sustituimos motores pesados por **SQLite**. Al ser una base de datos basada en archivos, elimina el consumo constante de procesos en segundo plano de un servidor SQL tradicional, ofreciendo una latencia de lectura/escritura casi nula para el volumen de datos de la plataforma.
+   Para proteger la memoria RAM, sustituimos motores pesados por **SQLite**. Al ser una base de datos basada en archivos, elimina el consumo constante de procesos en segundo plano de un servidor SQL tradicional, ofreciendo una latencia de lectura/escritura casi nula para el volumen de datos de la plataforma.
 
 3. **Cerebro Omnicanal (n8n):**
    Desplegamos un nodo de **n8n** que actúa como el "Communications Hub". Este contenedor no solo procesa mensajes entrantes (WhatsApp/Telegram), sino que ejecuta un **Cron Job** que consulta periódicamente la base de datos de Django para disparar las notificaciones proactivas de rebalanceo.
@@ -142,6 +142,10 @@ graph TD
     style DB fill:#f5f5f5,stroke:#595959,color:#000
     style Gemini_Cluster fill:#fff,stroke:#2f54eb,stroke-dasharray: 5 5,color:#000
   ```
+
+  <p style="color: #64748b; font-size: 0.9rem; font-style: italic; margin-top: 15px;">
+  <b>Fig. 2:</b> Topología del ecosistema omnicanal operando eficientemente desde una única instancia VPS en CubePath.
+</p>
 </div>
 
 ## 3. ⚙️ Backend y Frontend
@@ -193,22 +197,44 @@ Se adoptó un enfoque *Zero-Framework* para el core de la interfaz, estructurand
 
 ## 4. 🧠 Tu asesor de inversiones: Web, WhatsApp y Telegram
 
-La gran diferencia de este proyecto es que no necesitas estar pegado a la computadora para recibir consejos. Logramos que la Inteligencia Artificial salga del navegador, llegue directamente a tu celular y, lo más importante, **tome la iniciativa** para contactarte cuando hay movimientos críticos en tu patrimonio.
+La gran diferencia de este proyecto es que no necesitas estar pegado a la computadora para recibir consejos. Logramos que la Inteligencia Artificial opere en tres niveles distintos: generando reportes completos, chateando en vivo y enviando alertas proactivas a tu celular.
 
-### 4.1. El Asistente Inteligente del Dashboard (Python + IA)
-Dentro de la página pusimos un chat que no es un bot cualquiera. Este asistente tiene permiso para "leer" cómo tienes repartido tu dinero en tu portafolio de Django. 
-- **¿Qué hace?** Compara lo que tú tienes invertido contra el modelo ideal de *Long Angle*.
-- **¿Cuál es el resultado?** Te escribe una lista de consejos personalizados para que sepas exactamente qué activos te faltan comprar para correr menos riesgos y ganar más.
+### 4.1. NEXUS Advisor: Action Hub
+El **[Action Hub](https://invest-ai.bior-studio.com/nexus-advisor/)** transforma la inteligencia financiera en un plan de acción ejecutable. 
 
-<div align="center">
-  <img src="./static/assets/img/img_readme/bior_chat_interface.jpg" width="75%" alt="Interfaz de Chat BIOR">
+El usuario ingresa su capital y aportaciones, y el sistema "lee" su base de datos para generar un reporte que incluye:
+- **Diagnóstico de Riesgo:** Cuantifica riesgos específicos.
+- **Misión de Hoy y Guía de Ruta:** Pasos numerados para ejecutar la estrategia *Long Angle* de inmediato.
+- **Optimización Fiscal y Simulador:** Gráficas de interés compuesto y consejos para minimizar impuestos.
 
+<div align="center" style="margin-top: 20px;">
+  <img src="./static/assets/img/img_readme/nexus_divisor.jpg" width="80%" alt="Interfaz Completa del Action Hub en BIOR">
+  
   <p style="color: #64748b; font-size: 0.85rem; font-style: italic; margin-top: 10px;">
-     <b>Fig. 7:</b> Interacción en tiempo real con NEXUS Core para el diagnóstico y rebalanceo del portafolio Long Angle.
+     <b>Fig. 7:</b> El Action Hub generando una estrategia patrimonial completa, desde el diagnóstico hasta el simulador de futuro.
   </p>
 </div>
 
-### 4.2. El Ecosistema Omnicanal: NEXUS en WhatsApp y Telegram
+---
+
+### 4.2. Asistente Inteligente
+Además del reporte completo, dentro de la página del portafolio pusimos un chat dinámico. Este asistente también tiene permiso para consultar tu distribución de activos en Django en tiempo real.
+- **¿Qué hace?** Compara lo que tienes invertido contra tu perfil de riesgo de forma conversacional.
+- **¿Cuál es el resultado?** Te escribe respuestas rápidas y consejos personalizados para resolver dudas puntuales sin salir de tu panel principal.
+
+<div align="center">
+  <img src="./static/assets/img/img_readme/bior_chat_interface.jpg" width="50%" alt="Interfaz de Chat BIOR">
+
+  <p style="color: #64748b; font-size: 0.85rem; font-style: italic; margin-top: 10px;">
+     <b>Fig. 8:</b> Interacción en tiempo real mediante chat con NEXUS Core para consultas rápidas sobre el portafolio.
+  </p>
+</div>
+
+---
+
+### 4.3. El Ecosistema Omnicanal: NEXUS en WhatsApp y Telegram
+*(Aquí pegas toda la tabla de n8n y las fotos de Telegram/WhatsApp que ya teníamos, solo recuerda que sus imágenes ahora serán la Fig. 9, Fig. 10, etc.)*
+### 4.3. El Ecosistema Omnicanal: NEXUS en WhatsApp y Telegram
 
 Para lograr una fricción cero, integramos **NEXUS Core** con WhatsApp y **Telegram** mediante una orquestación avanzada en **n8n**, hosteado en nuestra infraestructura privada de **CubePath**. Este motor híbrido maneja dos vías de comunicación clave: **Consultas Reactivas** (Tú le hablas) y **Alertas Proactivas** (NEXUS te habla a ti).
 
@@ -217,7 +243,7 @@ Para lograr una fricción cero, integramos **NEXUS Core** con WhatsApp y **Teleg
     <thead>
       <tr style="border-bottom: 1px solid #30363d;">
         <th style="padding: 15px; color: #58a6ff; font-size: 1.1rem;">
-          ⚙️ Arquitectura del Flujo Multimodal (NEXUS Engine)
+          ⚙️ Arquitectura del Flujo Multimodal
         </th>
       </tr>
     </thead>
@@ -225,7 +251,7 @@ Para lograr una fricción cero, integramos **NEXUS Core** con WhatsApp y **Teleg
       <tr>
         <td style="padding: 25px; text-align: left; line-height: 1.6;">
           <h4 style="color: #26A5E4; margin-top: 0; margin-bottom: 10px;">Flujo 1: Consultas Reactivas (Voz y Texto)</h4>
-          <b>1. Ingesta Inteligente:</b> Captura de eventos vía Webhook seguro. Un nodo <code>Switch</code> discrimina instantáneamente entre <i>Plain Text</i> y archivos binarios <code>.ogg</code> (soporta flujos de WhatsApp y Telegram).<br><br>
+          <b>1. Ingesta Inteligente:</b> Captura de eventos vía Webhook seguro. Un nodo <code>Switch</code> discrimina instantáneamente entre <i>Plain Text</i> y archivos binarios <code>.ogg</code>.<br><br>
           <b>2. Speech-to-Text (Whisper):</b> Descarga asíncrona de audios y procesamiento mediante el servidor de <b>Whisper AI</b> para una transcripción financiera de alta fidelidad.<br><br>
           <b>3. Contexto Dinámico (Django Bridge):</b> Petición <code>POST</code> autenticada hacia el backend de <b>Django</b>. El sistema procesa el número telefónico o ID de Telegram para realizar un cruce de datos exacto con el portafolio real del usuario.<br><br>
           <b>4. Cierre del Bucle:</b> Generación de respuesta estratégica vía IA y entrega al chat del usuario en &lt; 2 segundos.
@@ -247,14 +273,14 @@ Debido a las políticas de seguridad de la API de **Twilio**, el acceso a WhatsA
 <div align="center" style="margin-bottom: 40px;">
   <img src="./static/assets/img/img_readme/n8n_execution.jpg" width="85%" alt="Ejecución de n8n">
   <p style="color: #64748b; font-size: 0.85rem; font-style: italic; margin-top: 10px;">
-    <b>Fig. 8:</b> Grafo de ejecución en n8n mostrando la bifurcación lógica, flujos híbridos y el éxito del proceso.
+    <b>Fig. 9:</b> Grafo de ejecución en n8n mostrando la bifurcación lógica, flujos híbridos y el éxito del proceso.
   </p>
 </div>
 
 <div align="center">
   <img src="./static/assets/img/img_readme/whatsapp_demo.jpg" width="50%" alt="Demo en WhatsApp">
   <p style="color: #64748b; font-size: 0.85rem; font-style: italic; margin-top: 10px;">
-    <b>Fig. 9:</b> Interfaz recibiendo asesoría patrimonial y alertas de NEXUS en tiempo real.
+    <b>Fig. 10:</b> Interfaz recibiendo asesoría patrimonial y alertas de NEXUS en tiempo real.
   </p>
 </div>
 
@@ -263,14 +289,14 @@ A diferencia de WhatsApp, el **bot de Telegram (@BiorNexusBot)** opera de forma 
 <div align="center" style="margin-bottom: 40px;">
   <img src="./static/assets/img/img_readme/n8n_telegram_alerts.jpg" width="85%" alt="Ejecución de n8n para Telegram">
   <p style="color: #64748b; font-size: 0.85rem; font-style: italic; margin-top: 10px;">
-     <b>Fig. 10:</b> Orquestación en n8n para el flujo de Telegram. Se aprecia el nodo 'Cron' disparando la consulta al 'Django Bridge' y la ejecución exitosa del nodo 'Telegram' al detectar un desbalance.
+     <b>Fig. 11:</b> Orquestación en n8n para el flujo de Telegram. Se aprecia el nodo 'Cron' disparando la consulta al 'Django Bridge' y la ejecución exitosa del nodo 'Telegram' al detectar un desbalance.
   </p>
 </div>
 
 <div align="center">
   <img src="./static/assets/img/img_readme/telegram_notification.jpg" width="50%" alt="Notificaciones de Telegram de BIOR">
   <p style="color: #64748b; font-size: 0.85rem; font-style: italic; margin-top: 10px;">
-    <b>Fig. 11:</b> Interfaz nativa de Telegram recibiendo una alerta automatizada de NEXUS al detectar un 97% de efectivo en el portafolio real del usuario.
+    <b>Fig. 12:</b> Interfaz nativa de Telegram recibiendo una alerta automatizada de NEXUS al detectar un 97% de efectivo en el portafolio real del usuario.
   </p>
 </div>
 
@@ -289,7 +315,7 @@ El diseño de la plataforma prioriza la reducción de la carga cognitiva y la le
   <img src="./static/assets/img/img_readme/imagen_de_la_grafica.jpg" width="60%" alt="Visualización de Gráficas">
   
   <p style="color: #64748b; font-size: 0.85rem; font-style: italic; margin-top: 10px;">
-    <b>Fig. 12:</b> Componente de visualización estratégica reflejando la distribución de activos.
+    <b>Fig. 13:</b> Componente de visualización estratégica reflejando la distribución de activos.
   </p>
 </div>
 
