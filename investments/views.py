@@ -266,14 +266,21 @@ def n8n_webhook(request):
             # --- 2. LEER DATOS (JSON) ---
             data = json.loads(request.body)
             phone = data.get('phone')
+            telegram_id = data.get('telegram_id')  # <--- NUEVO: Capturamos el ID de Telegram
             user_question = data.get('pregunta') or data.get('text') or data.get('Body')
 
-            if not phone:
-                return JsonResponse({"status": "error", "message": "Falta el teléfono"}, status=400)
+            # Validación: Tiene que llegar por lo menos uno de los dos
+            if not phone and not telegram_id:
+                return JsonResponse({"status": "error", "message": "Falta identificador (WhatsApp o Telegram)"}, status=400)
 
             # --- 3. BUSCAR PERFIL Y DATOS ---
             try:
-                profile = Profile.objects.get(whatsapp_number=phone)
+                # Búsqueda segura: Prioriza WhatsApp, si no está, usa Telegram
+                if phone:
+                    profile = Profile.objects.get(whatsapp_number=phone)
+                else:
+                    profile = Profile.objects.get(telegram_id=telegram_id)
+                    
                 user = profile.user
                 investments = Investment.objects.filter(user=user)
 
@@ -289,7 +296,7 @@ def n8n_webhook(request):
                 {lista_formateada}
                 
                 INSTRUCCIÓN: Responde de forma breve y profesional por WhatsApp. 
-                Usa los datos de arriba para contestar la pregunta del usuario.
+                Uusa los datos de arriba para contestar la pregunta del usuario.
                 """
                 # --- 5. LLAMAR A GEMINI (Inyección de Datos Directa) ---
                 if user_question:
@@ -332,15 +339,13 @@ def n8n_webhook(request):
             except Profile.DoesNotExist:
                 return JsonResponse({
                     "status": "success", 
-                    "response": "Hola! No encontré tu número vinculado a BIOR Invest. Regístrate en la web para ayudarte."
+                    "response": "Hola! No encontré tu número ni tu ID de Telegram vinculados a BIOR Invest. Regístrate en la web para ayudarte."
                 })
 
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)}, status=500)
 
     return JsonResponse({"status": "error", "message": "Método no permitido"}, status=405)
-
-
 @login_required # Quitamos csrf_exempt para usar la seguridad de la sesión de la web
 def ai_chat_webhook(request):
     """Webhook para el chat web: Seguro, privado y conectado a Gemini 2.5"""
