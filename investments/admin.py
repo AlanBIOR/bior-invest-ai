@@ -9,9 +9,9 @@ from decimal import Decimal
 class ProfileInline(admin.StackedInline):
     model = Profile
     can_delete = False
-    verbose_name_plural = 'Información del Perfil (WhatsApp / Capital)'
-    # Aquí defines qué campos del Profile quieres editar desde el User
-    fields = ('whatsapp_number', 'capital', 'aportacion')
+    verbose_name_plural = 'Información del Perfil (WhatsApp / Telegram / Capital)'
+    # ✅ AÑADIDO 'telegram_id' AQUÍ
+    fields = ('whatsapp_number', 'telegram_id', 'capital', 'aportacion')
     fk_name = 'user'
 
 # --- 1. SEGURIDAD DE USUARIOS (Con Profile integrado) ---
@@ -47,14 +47,35 @@ class MyUserAdmin(UserAdmin):
 # --- 2. GESTIÓN DE PERFIL (Opcional: Mantenerlo también como sección independiente) ---
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'whatsapp_number', 'capital', 'aportacion')
-    search_fields = ('user__username', 'whatsapp_number')
+    # ✅ AÑADIDO 'telegram_id' EN ESTAS 3 LÍNEAS
+    list_display = ('user', 'whatsapp_number', 'telegram_id', 'capital', 'aportacion')
+    search_fields = ('user__username', 'whatsapp_number', 'telegram_id')
+    fields = ('whatsapp_number', 'telegram_id', 'capital', 'aportacion')
 
+    # 1. ESTO HACE QUE SOLO VEAN SU PROPIO PERFIL EN LA LISTA
     def get_queryset(self, request):
         qs = super().get_queryset(request)
+        # Si es el superusuario (tú, Alan), ve a todos
         if request.user.is_superuser:
             return qs
+        # Si es un inversionista, la base de datos se filtra a su usuario
         return qs.filter(user=request.user)
+
+    # 2. ESTO EVITA QUE HACKEEN LA URL PARA EDITAR A OTRO USUARIO
+    def has_change_permission(self, request, obj=None):
+        if not obj:
+            return True
+        if request.user.is_superuser:
+            return True
+        # Solo permite guardar si el perfil pertenece al usuario logueado
+        return obj.user == request.user
+        
+    # 3. QUITAR PERMISO DE CREAR/BORRAR (Para que no dupliquen su perfil)
+    def has_add_permission(self, request):
+        return request.user.is_superuser
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.is_superuser
 
 # --- 3. CATEGORÍAS (Estrategia Sugerida) ---
 @admin.register(Category)
