@@ -65,6 +65,7 @@ class Investment(models.Model):
 # --- 4. PERFIL DE USUARIO ---
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    telegram_id = models.CharField(max_length=20, blank=True, null=True)
     capital = models.DecimalField(max_digits=15, decimal_places=2, default=Decimal('10000.00'))
     aportacion = models.DecimalField(max_digits=15, decimal_places=2, default=Decimal('500.00'))
     whatsapp_number = models.CharField(

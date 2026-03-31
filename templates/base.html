@@ -97,6 +97,19 @@
         {% include 'components/ai_chat/chat_button.html' %}
     {% endif %}
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const logoutForms = document.querySelectorAll('form[action*="logout"]');
+            logoutForms.forEach(form => {
+                form.addEventListener('submit', () => {
+                    localStorage.clear();
+                    sessionStorage.clear();
+                    console.log('Caché local de NEXUS limpiada.');
+                });
+            });
+        });
+    </script>
+
     <script src="{% static 'assets/js/main.js' %}?v=1.2" type="module"></script>
 </body>
 </html>

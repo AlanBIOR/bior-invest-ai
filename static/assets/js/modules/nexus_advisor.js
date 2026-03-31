@@ -7,6 +7,12 @@ export function initNexusAdvisor() {
 
     if (!btnDecision || !resultsContainer) return;
 
+    // --- LLAVES DINÁMICAS (Blindaje por Usuario) ---
+    // Usamos el username de BIOR_CONFIG para que cada usuario tenga su propio espacio
+    const userPrefix = window.BIOR_CONFIG ? window.BIOR_CONFIG.username : 'guest';
+    const keyPlan = `nexus_last_plan_${userPrefix}`;
+    const keyGraph = `nexus_last_graph_${userPrefix}`;
+
     // --- 1. LÓGICA DE INTERACCIÓN DE CHIPS (Mantenida) ---
     chips.forEach(chip => {
         chip.addEventListener('click', () => {
@@ -25,9 +31,9 @@ export function initNexusAdvisor() {
         });
     });
 
-    // --- 2. NUEVA LÓGICA DE PERSISTENCIA TOTAL ---
-    const cachedPlan = localStorage.getItem('nexus_last_plan');
-    const cachedGraph = localStorage.getItem('nexus_last_graph');
+    // --- 2. NUEVA LÓGICA DE PERSISTENCIA TOTAL (Actualizada con llaves dinámicas) ---
+    const cachedPlan = localStorage.getItem(keyPlan);
+    const cachedGraph = localStorage.getItem(keyGraph);
 
     if (cachedPlan) {
         renderNexusCards(JSON.parse(cachedPlan), resultsContainer);
@@ -38,7 +44,7 @@ export function initNexusAdvisor() {
 
     btnDecision.addEventListener('click', async () => {
         const enfoques = Array.from(document.querySelectorAll('.select-chip.active'))
-                             .map(c => c.dataset.value).join(", ");
+                                .map(c => c.dataset.value).join(", ");
 
         const params = {
             capital_extra: parseFloat(inputCapital.value) || 0,
@@ -58,7 +64,6 @@ export function initNexusAdvisor() {
                 body: JSON.stringify(params)
             });
 
-            // --- VALIDACIÓN DE RESPUESTA (Evita el error del token '<') ---
             const contentType = response.headers.get("content-type");
             
             if (!response.ok || !contentType || !contentType.includes("application/json")) {
@@ -68,8 +73,9 @@ export function initNexusAdvisor() {
             const result = await response.json();
 
             if (result.status === 'success') {
-                localStorage.setItem('nexus_last_plan', JSON.stringify(result.data));
-                localStorage.setItem('nexus_last_graph', JSON.stringify(result.time_machine));
+                // Guardamos usando las llaves específicas del usuario
+                localStorage.setItem(keyPlan, JSON.stringify(result.data));
+                localStorage.setItem(keyGraph, JSON.stringify(result.time_machine));
                 
                 renderNexusCards(result.data, resultsContainer);
                 
@@ -100,6 +106,7 @@ export function initNexusAdvisor() {
     });
 }
 
+// ... Resto de funciones (renderNexusCards, renderTimeMachine, getCookie) se mantienen igual ...
 // --- FUNCIONES DE RENDERIZADO CON SEMÁFORO DE RIESGO ---
 
 function renderNexusCards(data, container) {

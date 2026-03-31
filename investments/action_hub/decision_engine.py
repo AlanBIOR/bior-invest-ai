@@ -1,21 +1,20 @@
 import os, json, re, google.generativeai as genai
 from django.db.models import Sum
-from ..models import Profile, Investment, NexusPlan, Category
+# IMPORTANTE: Asegúrate de importar GlobalAsset aquí
+from ..models import Profile, Investment, NexusPlan, Category, GlobalAsset 
 
 def generar_plan_decision_nexus(user, capital_extra_input=0, aportacion_mensual_input=0, preferencia_input="Equilibrado"):
     """
-    NEXUS v2.8: Arquitectura de Rebalanceo Táctico.
-    Python provee los límites de la DB y la IA aplica ingeniería financiera 
-    para decidir la ruta más segura y eficiente.
+    NEXUS v3.0: Arquitectura de Rebalanceo Táctico Dinámico.
+    La IA lee los activos disponibles en tiempo real desde la Base de Datos.
     """
     try:
         # --- 1. NORMALIZACIÓN DE DATOS DE ENTRADA ---
         cap_extra = float(capital_extra_input or 0)
         aportacion = float(aportacion_mensual_input or 0)
         
-        # --- 2. MODELO IDEAL (Configuración dinámica desde Admin Django) ---
+        # --- 2. MODELO IDEAL Y CATÁLOGO DINÁMICO ---
         categorias_db = Category.objects.all()
-        # Mapa: { 'slug': { 'nombre': '...', 'target': % } }
         modelo_objetivo = {
             cat.slug: {
                 "nombre": cat.name,
@@ -23,57 +22,69 @@ def generar_plan_decision_nexus(user, capital_extra_input=0, aportacion_mensual_
             } for cat in categorias_db
         }
 
-        # --- 3. REALIDAD PATRIMONIAL (Análisis de activos actuales del usuario) ---
+        # ¡LA MAGIA AQUÍ! Construimos el catálogo leyendo los activos activos en la DB
+        activos_globales = GlobalAsset.objects.filter(is_active=True)
+        catalogo_dinamico = "CATÁLOGO DE ACTIVOS PERMITIDOS (Elige opciones variadas de aquí):\n"
+        
+        for cat in categorias_db:
+            activos_de_esta_cat = activos_globales.filter(category=cat)
+            if activos_de_esta_cat.exists():
+                # Asumimos que tu GlobalAsset tiene campos 'name' y 'platform'. Ajústalo si se llaman diferente.
+                nombres_activos = [f"{a.name} (vía {a.platform})" for a in activos_de_esta_cat]
+                catalogo_dinamico += f"- {cat.name.upper()}: {', '.join(nombres_activos)}\n"
+
+        # Si por alguna razón la DB está vacía, ponemos un salvavidas
+        if activos_globales.count() == 0:
+            catalogo_dinamico = "CATÁLOGO DE ACTIVOS: Usa ETFs como VOO, VT, Cetes, FIBRAS y Nu México."
+
+        # --- 3. REALIDAD PATRIMONIAL ---
         profile = Profile.objects.filter(user=user).first()
         activos_reales = Investment.objects.filter(user=user).select_related('category')
         total_invertido = float(activos_reales.aggregate(total_cur=Sum('current_value'))['total_cur'] or 0.0)
         
-        # Agrupamos lo invertido por categoría para detectar "huecos"
         resumen_actual = {}
         for a in activos_reales:
             slug = a.category.slug
             resumen_actual[slug] = resumen_actual.get(slug, 0) + float(a.current_value)
 
-        # --- 4. CONFIGURACIÓN DEL PROMPT (Ingeniería de Instrucciones) ---
-        # --- 4. CONFIGURACIÓN DEL PROMPT (Ingeniería de Instrucciones) ---
+        # --- 4. CONFIGURACIÓN DEL PROMPT ---
         prompt_sistema = f"""
-        Eres NEXUS, un estratega senior con 100 años de experiencia en gestión de patrimonios institucionales. 
-        TU MISIÓN: Aplicar REBALANCEO TÁCTICO con un tono ejecutivo, profesional y sin el uso de emojis. 
+        Eres NEXUS, un estratega senior institucional. 
+        TU MISIÓN: Aplicar REBALANCEO TÁCTICO con un tono ejecutivo, profesional y sin emojis. 
+
+        {catalogo_dinamico}
 
         CONTEXTO TÉCNICO:
         - MODELO OBJETIVO (LONG ANGLE): {json.dumps(modelo_objetivo)}
         - REALIDAD PATRIMONIAL DE {user.username.upper()}:
           * Total Invertido: ${total_invertido:,.2f} MXN.
           * Composición Actual: {json.dumps(resumen_actual)}
-        - ENFOQUES SELECCIONADOS: {preferencia_input}
-
-        RECURSOS DISPONIBLES:
-        - Inyección Inmediata (Hoy): ${cap_extra:,.2f} MXN.
+        - ENFOQUES: {preferencia_input}
+        - Inyección Inmediata: ${cap_extra:,.2f} MXN.
         - Aportación Mensual: ${aportacion:,.2f} MXN.
 
-        REGLAS DE EJECUCIÓN FINANCIERA:
-        1. PRIORIDAD DE REBALANCEO: Si una categoría tiene un déficit respecto al 'target_percentage', asigna los ${cap_extra} prioritariamente ahí para cerrar la brecha.
-        2. ESTRUCTURA DE RESPUESTA: Usa Markdown (### para títulos, listas con guiones y negritas) para jerarquizar la información.
-        3. HOJA DE RUTA ESPECÍFICA: En 'hoja_ruta_mensual', detalla el desglose exacto de los ${aportacion}. Menciona activos específicos (ETFs, FIBRAS, CETES) y montos.
-        4. TONO: Profesional, analítico y sobrio. Prohibido el uso de emojis.
+        REGLAS DE EJECUCIÓN:
+        1. DINAMISMO MENSUAL: Obligatorio rotar los activos en la hoja de ruta. No repitas la misma instrucción los 4 meses. Diversifica entre los activos del catálogo.
+        2. PRIORIDAD: Cubre los déficits del modelo objetivo primero.
+        3. ESPECIFICIDAD: Divide la aportación de ${aportacion} en al menos 2 activos distintos por mes, mencionando montos exactos.
 
         RESPUESTA JSON REQUERIDA:
         {{
-            "riesgo_detectado": "### Análisis de Desviación Patrimonial\\n- **Estado Actual**: [Describir distribución actual]\\n- **Déficit Identificado**: [Mencionar qué categorías faltan vs el objetivo]\\n- **Impacto**: [Riesgo técnico de no rebalancear]",
+            "riesgo_detectado": "### Análisis de Desviación\\n- **Estado Actual**: ...\\n- **Déficit**: ...\\n- **Impacto**: ...",
             "nivel_riesgo": "Crítico/Alto/Medio/Bajo",
-            "accion_inmediata": "Instrucción de ejecución inmediata para los ${cap_extra}: Dividir $X en [Activo A] y $Y en [Activo B].",
+            "accion_inmediata": "Instrucción para los ${cap_extra}: Dividir $X en [Activo 1] y $Y en [Activo 2].",
             "hoja_ruta_mensual": [
-                {{"mes": "Mes 1", "tarea": "Invertir ${aportacion}: $X en [Activo], $Y en [Activo]..."}},
-                {{"mes": "Mes 2", "tarea": "Invertir ${aportacion}: $X en [Activo], $Y en [Activo]..."}},
-                {{"mes": "Mes 3", "tarea": "Invertir ${aportacion}: $X en [Activo], $Y en [Activo]..."}},
-                {{"mes": "Mes 4", "tarea": "Invertir ${aportacion}: $X en [Activo], $Y en [Activo]..."}}
+                {{"mes": "Mes 1", "tarea": "Asignar ${aportacion}: $X en [Activo A] y $Y en [Activo B]"}},
+                {{"mes": "Mes 2", "tarea": "Asignar ${aportacion}: $X en [Activo C] y $Y en [Activo D]"}},
+                {{"mes": "Mes 3", "tarea": "Asignar ${aportacion}: $X en [Activo E] y $Y en [Activo F]"}},
+                {{"mes": "Mes 4", "tarea": "Asignar ${aportacion}: $X en [Activo G] y $Y en [Activo H]"}}
             ],
-            "porcentaje_objetivo": "Meta de composición para este ciclo.",
-            "justificacion": "Análisis técnico de por qué esta distribución optimiza la relación riesgo-retorno según la teoría de carteras moderna.",
-            "hack_fiscal": "### Estrategia de Optimización Fiscal\\n- **Mecánica**: [Explicación técnica del beneficio]\\n- **Ventaja Real**: [Ahorro porcentual o beneficio en flujo de efectivo neto]"
+            "porcentaje_objetivo": "Composición proyectada.",
+            "justificacion": "Análisis de optimización de la cartera.",
+            "hack_fiscal": "### Optimización Fiscal\\n- **Mecánica**: ...\\n- **Ventaja**: ..."
         }}
         """
-
+        
         # --- 5. LÓGICA DE MEMORIA (Continuidad Táctica) ---
         # Buscamos el plan anterior para que la IA no sea un "disco rayado"
         plan_anterior = NexusPlan.objects.filter(user=user).order_by('-created_at')[1:2].first()
