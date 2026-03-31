@@ -233,8 +233,6 @@ Además del reporte completo, dentro de la página del portafolio pusimos un cha
 ---
 
 ### 4.3. El Ecosistema Omnicanal: NEXUS en WhatsApp y Telegram
-*(Aquí pegas toda la tabla de n8n y las fotos de Telegram/WhatsApp que ya teníamos, solo recuerda que sus imágenes ahora serán la Fig. 9, Fig. 10, etc.)*
-### 4.3. El Ecosistema Omnicanal: NEXUS en WhatsApp y Telegram
 
 Para lograr una fricción cero, integramos **NEXUS Core** con WhatsApp y **Telegram** mediante una orquestación avanzada en **n8n**, hosteado en nuestra infraestructura privada de **CubePath**. Este motor híbrido maneja dos vías de comunicación clave: **Consultas Reactivas** (Tú le hablas) y **Alertas Proactivas** (NEXUS te habla a ti).
 
