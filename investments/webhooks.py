@@ -34,6 +34,7 @@ def check_alerts_api(request):
                     if porcentaje_actual > (cat.target_percentage + Decimal('5.0')):
                         alertas.append({
                             "telegram_id": chat_id,
+                            "titulo": f"⚖️ Rebalanceo: {cat.name}", # <--- ASEGÚRATE DE QUE ESTO ESTÉ AHÍ
                             "mensaje": f"{nombre_usuario}, rebalanceo necesario en {cat.name} ({porcentaje_actual:.1f}%).",
                             "url": "https://invest-ai.bior-studio.com/nexus-advisor/"
                         })
