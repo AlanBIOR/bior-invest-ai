@@ -266,7 +266,8 @@ def n8n_webhook(request):
             # --- 2. LEER DATOS (JSON) ---
             data = json.loads(request.body)
             phone = data.get('phone')
-            telegram_id = data.get('telegram_id')  # <--- NUEVO: Capturamos el ID de Telegram
+            telegram_id = str(data.get('telegram_id')) if data.get('telegram_id') else None
+
             user_question = data.get('pregunta') or data.get('text') or data.get('Body')
 
             # Validación: Tiene que llegar por lo menos uno de los dos
@@ -346,6 +347,8 @@ def n8n_webhook(request):
             return JsonResponse({"status": "error", "message": str(e)}, status=500)
 
     return JsonResponse({"status": "error", "message": "Método no permitido"}, status=405)
+
+
 @login_required # Quitamos csrf_exempt para usar la seguridad de la sesión de la web
 def ai_chat_webhook(request):
     """Webhook para el chat web: Seguro, privado y conectado a Gemini 2.5"""
