@@ -262,17 +262,18 @@ def n8n_webhook(request):
         return JsonResponse({"status": "error", "message": "No autorizado"}, status=403)
 
     if request.method == 'POST':
+        # --- 2. LEER DATOS (JSON) ---
         try:
-            # --- 2. LEER DATOS (JSON) ---
             data = json.loads(request.body)
             phone = data.get('phone')
-            telegram_id = str(data.get('telegram_id')) if data.get('telegram_id') else None
+            telegram_id = data.get('telegram_id')
+            user_question = data.get('pregunta')
+            
+            # DEBUG TEMPORAL: Esto saldrá en tu consola del VPS
+            print(f"DATOS RECIBIDOS -> ID: {telegram_id}, PREGUNTA: {user_question}")
 
-            user_question = data.get('pregunta') or data.get('text') or data.get('Body')
-
-            # Validación: Tiene que llegar por lo menos uno de los dos
             if not phone and not telegram_id:
-                return JsonResponse({"status": "error", "message": "Falta identificador (WhatsApp o Telegram)"}, status=400)
+                return JsonResponse({"status": "error", "message": f"Falta identificador. Recibí: {list(data.keys())}"}, status=400)
 
             # --- 3. BUSCAR PERFIL Y DATOS ---
             try:
