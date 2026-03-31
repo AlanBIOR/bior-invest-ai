@@ -19,7 +19,6 @@ admin.site.unregister(User)
 
 @admin.register(User)
 class MyUserAdmin(UserAdmin):
-    # Agregamos el inline aquí para que aparezca al final de la ficha del usuario
     inlines = (ProfileInline,)
 
     def get_queryset(self, request):
@@ -29,18 +28,26 @@ class MyUserAdmin(UserAdmin):
         return qs.filter(id=request.user.id)
 
     def get_fieldsets(self, request, obj=None):
-        fieldsets = super().get_fieldsets(request, obj)
+        # Si es superusuario, dejamos los fieldsets originales (todos)
+        if request.user.is_superuser:
+            return super().get_fieldsets(request, obj)
         
-        if not request.user.is_superuser:
-            # Para el usuario Alan/Staff: Ocultamos permisos y grupos
-            fieldsets = (
-                (None, {'fields': ('username', 'password')}),
-                ('Información personal', {'fields': ('first_name', 'last_name', 'email')}),
-            )
-        return fieldsets
+        # Si es Staff (Inversionista), definimos qué bloques de la ficha de USUARIO verá
+        # IMPORTANTE: No incluimos permisos ni grupos aquí por seguridad
+        return (
+            (None, {'fields': ('username', 'password')}),
+            ('Información personal', {'fields': ('first_name', 'last_name', 'email')}),
+        )
+
+    # ESTA ES LA FUNCIÓN CLAVE QUE FALTA:
+    def get_inline_instances(self, request, obj=None):
+        # Esto asegura que el Inline (Profile) aparezca siempre, 
+        # incluso si modificamos los fieldsets arriba.
+        return super().get_inline_instances(request, obj)
 
     def get_readonly_fields(self, request, obj=None):
         if not request.user.is_superuser:
+            # Bloqueamos el username para que no se lo cambien ellos mismos
             return ('username',)
         return super().get_readonly_fields(request, obj)
 
