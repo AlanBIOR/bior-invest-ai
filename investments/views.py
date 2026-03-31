@@ -256,6 +256,10 @@ from investments.models import Profile, Investment  # <--- IMPORTANTE
 
 @csrf_exempt
 def n8n_webhook(request):
+    print("--- ¡PETICIÓN ENTRANDO! ---")
+    print(f"Metodo: {request.method}")
+    print(f"Headers: {request.headers}")
+    print(f"Body crudo: {request.body}")
     # --- 1. VALIDACIÓN DE SEGURIDAD ---
     auth_header = request.headers.get('X-Api-Key')
     if auth_header != settings.N8N_WEBHOOK_KEY:
